@@ -1,8 +1,10 @@
 from django.db import models
 
 class Student(models.Model):
+    id = models.IntegerField(max_length=10)
     name = models.CharField(max_length=100)
-    student_id = models.CharField(max_length=10, unique=True)
+    group_id = models.IntegerField(max_length=10)
+    unique_number = models.IntegerField(max_length=10, unique=True)
     email = models.EmailField()
 
     def __str__(self):

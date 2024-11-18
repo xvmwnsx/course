@@ -1,0 +1,7 @@
+<h2>Список студентов</h2>
+<ul>
+    {% for student in students %}
+        <li>{{ student.name }} - {{ student.email }}</li>
+    {% endfor %}
+</ul>
+<a href="{% url 'add_student' %}">Добавить студента</a>
