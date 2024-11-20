@@ -77,7 +77,7 @@ WSGI_APPLICATION = 'student_infobase.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'D:/sqlite_3/raspisanie.db',
+        'NAME': BASE_DIR / 'D:/sqlite_3/students.db',
     }
 }
 
