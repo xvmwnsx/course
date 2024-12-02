@@ -32,3 +32,5 @@ def add_schedule(request):
 
 def home(request):
     return render(request, 'schedule/home.html')
+def login(request):
+    return render(request, 'schedule/login.html')

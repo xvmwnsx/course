@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -32,12 +32,63 @@
             </ul>
         </div>
     </div>
-</nav>
+</nav> -->
     <!-- <section class="search-container">
         <p class="search-text">Поиск по системе</p>
         <img src="templates/schedule/css/search.svg" alt="Search icon" class="search-icon">
     </section> -->
-<a href="{% url 'student_list' %}">Перейти к списку студентов</a>
+<!-- <a href="{% url 'student_list' %}">Перейти к списку студентов</a>
 
+</body>
+</html> -->
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Информационная система студентов</title>
+    <link rel="stylesheet" href="static/style.css">
+</head>
+<body>
+    <header>
+        <div>
+            <h1>Информационная система студентов</h1>
+        </div>
+        <nav class="nav">
+            <a href="#">Главная</a>
+            <a href="#">Личный кабинет</a>
+            <a href="#">Расписание</a>
+            <a href="#">Оценки</a>
+            <a href="#">Контакты</a>
+            <a href="#">О системе</a>
+        </nav>
+        <button class="login-button">Вход</button>
+    </header>
+
+    <div class="search-bar">
+        <input type="text" placeholder="Поиск по системе">
+        <button><img src="static\search.svg"></button>
+    </div>
+
+    <div class="features">
+        <div class="feature-item">
+            <h3>Анализ оценок</h3>
+            <p>Преподаватели могут редактировать оценки, загружать и выгружать отчёты</p>
+        </div>
+
+        <div class="feature-item">
+            <h3>Отображение расписания</h3>
+            <p>Отображение расписания в реальном времени</p>
+        </div>
+
+        <div class="feature-item">
+            <h3>Уведомления</h3>
+            <p>Студенты получают уведомления об экзаменах и зачётах</p>
+        </div>
+    </div>
+
+    <footer>
+        © 2024, ИС успеваемости студентов
+    </footer>
 </body>
 </html>
