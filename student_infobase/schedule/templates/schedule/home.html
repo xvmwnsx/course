@@ -1,53 +1,12 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Информационная система успеваемости студентов</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</head>
-<body>
-  <h1>Информационная система успеваемости студентов</h1>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#">Brand</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Главная</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Личный кабинет</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Расписание</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">Оценки</a>
-              </li>
-            </ul>
-        </div>
-    </div>
-</nav> -->
-    <!-- <section class="search-container">
-        <p class="search-text">Поиск по системе</p>
-        <img src="templates/schedule/css/search.svg" alt="Search icon" class="search-icon">
-    </section> -->
-<!-- <a href="{% url 'student_list' %}">Перейти к списку студентов</a>
-
-</body>
-</html> -->
+<!-- <a href="{% url 'student_list' %}">Перейти к списку студентов</a> -->
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Информационная система студентов</title>
-    <link rel="stylesheet" href="static/style.css">
+    <title>Главная</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'schedule/staticfiles/schedule/styles.css' %}">
 </head>
 <body>
     <header>
@@ -55,21 +14,17 @@
             <h1>Информационная система студентов</h1>
         </div>
         <nav class="nav">
-            <a href="#">Главная</a>
-            <a href="#">Личный кабинет</a>
-            <a href="#">Расписание</a>
-            <a href="#">Оценки</a>
-            <a href="#">Контакты</a>
-            <a href="#">О системе</a>
+            <a href="{% url 'home' %}">Главная</a>
+            <a href="{% url 'office' %}">Личный кабинет</a>
+            <a href="{% url 'login' %}">Расписание</a>
+            <a href="{% url 'login' %}">Оценки</a>
         </nav>
-        <button class="login-button">Вход</button>
+        <button class="login-button" href="{% url 'login' %}">Вход</button>
     </header>
 
     <div class="search-bar">
-        <input type="text" placeholder="Поиск по системе">
-        <button><img src="static\search.svg"></button>
+        <input type="text" placeholder="Поиск по системе"><button><img src="{% static 'schedule/staticfiles/schedule/search.svg' %}"></button>
     </div>
-
     <div class="features">
         <div class="feature-item">
             <h3>Анализ оценок</h3>
