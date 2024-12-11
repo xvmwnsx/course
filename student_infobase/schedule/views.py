@@ -8,22 +8,23 @@ from django.contrib import messages
 from .forms import UserRegistrationForm
 
 class CustomLoginView(LoginView):
-    template_name = 'schedule/static/schedule/schedule/login.html'
+    template_name = 'schedule/login.html'
     form_class = LoginForm
     
 class CustomLogoutView(LogoutView):
-    next_page = 'schedule/static/schedule/schedule/home.html'  # Страница после выхода
+    next_page = 'schedule/home.html'  # Страница после выхода
 
 def home(request):
-    return render(request, 'schedule/static/schedule/schedule/home.html')
+    return render(request, 'schedule/home.html')
 
 def student_list(request):
     students = Student.objects.all()
-    return render(request, 'schedule/static/schedule/schedule/student_list.html', {'students': students})
+    return render(request, 'schedule/student_list.html', {'students': students})
 
 def schedule_list(request):
     schedules = Schedule.objects.all()
-    return render(request, 'schedule/static/schedule/schedule/schedule_list.html', {'schedules': schedules})
+    return render(request, 'schedule/schedule_list.html', {'schedules': schedules})
+
 
 def add_student(request):
     if request.method == "POST":
@@ -33,7 +34,7 @@ def add_student(request):
             return redirect('student_list')
     else:
         form = StudentForm()
-    return render(request, 'schedule/static/schedule/schedule/add_student.html', {'form': form})
+    return render(request, 'schedule/add_student.html', {'form': form})
 
 def add_schedule(request):
     if request.method == "POST":
@@ -43,15 +44,15 @@ def add_schedule(request):
             return redirect('schedule_list')
     else:
         form = ScheduleForm()
-    return render(request, 'schedule/static/schedule/schedule/add_schedule.html', {'form': form})
+    return render(request, 'schedule/add_schedule.html', {'form': form})
 
 
 def login(request):
-    return render(request, 'schedule/static/schedule/schedule/login.html')
+    return render(request, 'schedule/login.html')
 def office(request):
-    return render(request, 'schedule/static/schedule/schedule/office.html')
+    return render(request, 'schedule/office.html')
 def forgot_pass(request):
-    return render(request, 'schedule/static/schedule/schedule/forgot_pass.html')
+    return render(request, 'schedule/forgot_pass.html')
 
 
 def role_required(allowed_roles):
@@ -66,7 +67,7 @@ def role_required(allowed_roles):
 @role_required(['admin', 'teacher'])
 def manage_schedule(request):
     # Only admins and teachers can access
-    return render(request, 'schedule/static/schedule/schedule/add_schedule.html', 'schedule/static/schedule/schedule/add_student.html')
+    return render(request, 'schedule/add_schedule.html', 'schedule/add_student.html')
 
 
 @login_required
@@ -86,7 +87,7 @@ def register_user(request):
     else:
         form = UserRegistrationForm()
 
-    return render(request, 'schedule/static/schedule/schedule/register_user.html', {'form': form})
+    return render(request, 'schedule/register_user.html', {'form': form})
 
 
 

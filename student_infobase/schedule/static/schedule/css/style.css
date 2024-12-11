@@ -1,6 +1,7 @@
 * {
     box-sizing: border-box;
     font-family: Arial, sans-serif;
+    margin-top: 30px;
 }
 
 body {
@@ -12,10 +13,32 @@ header {
     background-color: white;
     margin-bottom: 20px;
     padding: 20px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     display: flex;
     justify-content: space-between;
     align-items: center;
+    width: 100%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+header nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header nav a {
+    text-decoration: none;
+    color: #333;
+    margin: 0 15px;
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
 }
 
 .nav {
@@ -170,3 +193,52 @@ header {
     margin-bottom: 10px;
 }
 
+
+/* с файла office
+body {
+    background-color: #f5f5f5;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+} */
+
+
+.profile {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.profile img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-right: 20px;
+}
+
+.profile-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.profile-info div {
+    margin-bottom: 5px;
+}
+
+.charts {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px; /* Дополнительное пространство между графиками */
+    margin-top: 30px;
+}
+
+.chart canvas {
+    flex: 1; /* Каждый график занимает равное пространство */
+    max-width: 48%; /* Ограничиваем максимальную ширину */
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}

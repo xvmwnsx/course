@@ -1,4 +1,25 @@
-<h2>Расписание</h2>
+{% extends 'schedule/base.html' %}
+{% block title %}Список занятий{% endblock %}
+{% block content %}
+<h2>Список занятий</h2>
+<table>
+    <tr>
+        <th>Название</th>
+        <th>Дата</th>
+        <th>Время</th>
+        <th>Кабинет</th>
+    </tr>
+    {% for schedule in schedules %}
+    <tr>
+        <td>{{ schedule.subject }}</td>
+        <td>{{ schedule.date }}</td>
+        <td>{{ schedule.time }}</td>
+        <td>{{ schedule.cabinet }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}
+
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}

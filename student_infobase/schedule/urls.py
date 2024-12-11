@@ -7,6 +7,7 @@ from .views import register_user
 urlpatterns = [
     path('home/', views.home, name='home'),
     path('students/', views.student_list, name='student_list'),
+    path('schedule_list/', views.schedule_list, name='schedule_list'),
     path('add_student/', views.add_student, name='add_student'),
     path('add_schedule/', views.add_schedule, name='add_schedule'),
     path('login/', views.login, name='login'),

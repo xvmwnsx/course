@@ -1,49 +1,26 @@
-<!-- <a href="{% url 'student_list' %}">Перейти к списку студентов</a> -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Главная</title>
+{% extends 'schedule/base.html' %}
+
+{% block title %}Главная{% endblock %}
+
+{% block content %}
+<div class="search-bar">
     {% load static %}
-    <link rel="stylesheet" href="{% static 'schedule/staticfiles/schedule/styles.css' %}">
-</head>
-<body>
-    <header>
-        <div>
-            <h1>Информационная система студентов</h1>
-        </div>
-        <nav class="nav">
-            <a href="{% url 'home' %}">Главная</a>
-            <a href="{% url 'office' %}">Личный кабинет</a>
-            <a href="{% url 'login' %}">Расписание</a>
-            <a href="{% url 'login' %}">Оценки</a>
-        </nav>
-        <button class="login-button" href="{% url 'login' %}">Вход</button>
-    </header>
-
-    <div class="search-bar">
-        <input type="text" placeholder="Поиск по системе"><button><img src="{% static 'schedule/staticfiles/schedule/search.svg' %}"></button>
-    </div>
-    <div class="features">
-        <div class="feature-item">
-            <h3>Анализ оценок</h3>
-            <p>Преподаватели могут редактировать оценки, загружать и выгружать отчёты</p>
-        </div>
-
-        <div class="feature-item">
-            <h3>Отображение расписания</h3>
-            <p>Отображение расписания в реальном времени</p>
-        </div>
-
-        <div class="feature-item">
-            <h3>Уведомления</h3>
-            <p>Студенты получают уведомления об экзаменах и зачётах</p>
-        </div>
+    <input type="text" placeholder="Поиск по системе"><button><img src="{% static 'schedule/css/search.svg' %}"></button>
+</div>
+<div class="features">
+    <div class="feature-item">
+        <h3>Анализ оценок</h3>
+        <p>Преподаватели могут редактировать оценки, загружать и выгружать отчёты</p>
     </div>
 
-    <footer>
-        © 2024, ИС успеваемости студентов
-    </footer>
-</body>
-</html>
+    <div class="feature-item">
+        <h3>Отображение расписания</h3>
+        <p>Отображение расписания в реальном времени</p>
+    </div>
+
+    <div class="feature-item">
+        <h3>Уведомления</h3>
+        <p>Студенты получают уведомления об экзаменах и зачётах</p>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Главная{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'schedule/css/style.css' %}">
+</head>
+<body>
+    <header>
+        <div>
+            <h1>Информационная система студентов</h1>
+        </div>
+        <nav class="nav">
+            <a href="{% url 'home' %}">Главная</a>
+            <a href="{% url 'office' %}">Личный кабинет</a>
+            <a href="{% url 'login' %}">Расписание</a>
+        </nav>
+        
+    </header>
+    <main>
+<!--         <button class="login-button" href="{% url 'login' %}">Вход</button> -->
+        {% block content %}
+
+        {% endblock %}
+    </main>
+    <footer>
+        <p>© 2024, ИС успеваемости студентов</p>
+    </footer>
+</body>
+</html>
