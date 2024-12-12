@@ -7,7 +7,9 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <div class="container">
     <div class="profile">
-        <img src="avatar-placeholder.png" alt="Фото профиля">
+        {% load static %}
+<!--         <link rel="stylesheet" href="{% static 'schedule/css/office.css' %}"> -->
+        <img src="{% static 'schedule/img/search.svg' %}" alt="Фото профиля">
         <div class="profile-info">
             <div><strong>ФИО:</strong> Иванов Иван Иванович</div>
             <div><strong>Группа:</strong> ИсиВп-4</div>

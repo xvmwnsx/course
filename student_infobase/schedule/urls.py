@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from .views import register_user
 
 urlpatterns = [
-    path('home/', views.home, name='home'),
+    path('', views.home, name='home'),
     path('students/', views.student_list, name='student_list'),
     path('schedule_list/', views.schedule_list, name='schedule_list'),
     path('add_student/', views.add_student, name='add_student'),
@@ -17,5 +17,6 @@ urlpatterns = [
     path('logout/', CustomLogoutView.as_view(), name='logout'),
     path('student-schedule/', login_required(views.schedule_list), name='student_schedule'),
     path('register-user/', register_user, name='register_user'),
+    path('schedule_search/', views.schedule_search, name='schedule_search'),
 ]
 

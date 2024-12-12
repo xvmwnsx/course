@@ -22,7 +22,7 @@ from schedule import views as schedule_views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('schedule.urls')),
-    path('', lambda request: redirect('student_list')),
+    path('', lambda request: redirect('home')),
     path('', schedule_views.home, name='home'),
 ]
 

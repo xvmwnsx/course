@@ -1,0 +1,35 @@
+{% extends 'schedule/base.html' %}
+
+{% block title %}Результаты поиска{% endblock %}
+
+{% block content %}
+<h1>Результаты поиска</h1>
+<p>Вы искали: <strong>{{ query }}</strong></p>
+
+{% if results %}
+    <table>
+        <thead>
+            <tr>
+                <th>Дата</th>
+                <th>Время</th>
+                <th>Предмет</th>
+                <th>Преподаватель</th>
+                <th>Кабинет</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for schedule in results %}
+            <tr>
+                <td>{{ schedule.date }}</td>
+                <td>{{ schedule.time }}</td>
+                <td>{{ schedule.subject.name }}</td>
+                <td>{{ schedule.subject.teacher.name }}</td>
+                <td>{{ schedule.cabinet }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>Ничего не найдено для группы "{{ query }}".</p>
+{% endif %}
+{% endblock %}

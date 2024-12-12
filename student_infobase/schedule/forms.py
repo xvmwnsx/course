@@ -33,3 +33,11 @@ class UserRegistrationForm(forms.ModelForm):
         if password and password_confirm and password != password_confirm:
             self.add_error('password_confirm', "Passwords do not match.")
         return cleaned_data
+
+class GroupSearchForm(forms.Form):
+    group_name = forms.CharField(
+        max_length=50,
+        label='Название группы',
+        widget=forms.TextInput(attrs={'placeholder': 'Введите название группы'}),
+    )
+    

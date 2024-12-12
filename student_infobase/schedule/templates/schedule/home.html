@@ -3,23 +3,30 @@
 {% block title %}Главная{% endblock %}
 
 {% block content %}
+
 <div class="search-bar">
-    {% load static %}
-    <input type="text" placeholder="Поиск по системе"><button><img src="{% static 'schedule/css/search.svg' %}"></button>
+    <form class="search_form" id="search_form" action="{% url 'schedule_search' %}" method="get">
+        <input type="text" id="search_input" name="query" placeholder="Поиск по системе">
+    </form>
+</div>
+<div class="login">
+    <button class="login-button" href="{% url 'login' %}">Вход</button>
 </div>
 <div class="features">
+    
+    <h1>Функции системы</h1>
     <div class="feature-item">
-        <h3>Анализ оценок</h3>
+        <h2>Анализ оценок</h2>
         <p>Преподаватели могут редактировать оценки, загружать и выгружать отчёты</p>
     </div>
 
     <div class="feature-item">
-        <h3>Отображение расписания</h3>
+        <h2>Отображение расписания</h2>
         <p>Отображение расписания в реальном времени</p>
     </div>
 
     <div class="feature-item">
-        <h3>Уведомления</h3>
+        <h2>Уведомления</h2>
         <p>Студенты получают уведомления об экзаменах и зачётах</p>
     </div>
 </div>

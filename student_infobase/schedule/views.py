@@ -1,18 +1,17 @@
 from django.shortcuts import render, redirect
-from .models import Student, Schedule
-from .forms import StudentForm, ScheduleForm, LoginForm
+from .models import Student, Schedule, Classes
+from .forms import StudentForm, ScheduleForm, LoginForm, UserRegistrationForm, GroupSearchForm
 from django.contrib.auth.views import LoginView, LogoutView
 from django.http import HttpResponseForbidden
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .forms import UserRegistrationForm
 
 class CustomLoginView(LoginView):
     template_name = 'schedule/login.html'
     form_class = LoginForm
     
 class CustomLogoutView(LogoutView):
-    next_page = 'schedule/home.html'  # Страница после выхода
+    next_page = 'schedule/home.html'
 
 def home(request):
     return render(request, 'schedule/home.html')
@@ -89,6 +88,14 @@ def register_user(request):
 
     return render(request, 'schedule/register_user.html', {'form': form})
 
+def schedule_search(request):
+    results = []
+    form = GroupSearchForm(request.GET or None)  
+    if form.is_valid(): 
+        group_name = form.cleaned_data['group_name']
+        results = Schedule.objects.filter(subject__group__name__icontains=group_name)
+
+    return render(request, 'schedule/schedule_search.html', {'form': form, 'results': results})
 
 
 
