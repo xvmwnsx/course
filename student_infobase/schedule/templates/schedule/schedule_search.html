@@ -3,33 +3,28 @@
 {% block title %}Результаты поиска{% endblock %}
 
 {% block content %}
-<h1>Результаты поиска</h1>
-<p>Вы искали: <strong>{{ query }}</strong></p>
+<div class="search-results">
+    <h1>Результаты поиска</h1>
 
-{% if results %}
-    <table>
-        <thead>
-            <tr>
-                <th>Дата</th>
-                <th>Время</th>
-                <th>Предмет</th>
-                <th>Преподаватель</th>
-                <th>Кабинет</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for schedule in results %}
-            <tr>
-                <td>{{ schedule.date }}</td>
-                <td>{{ schedule.time }}</td>
-                <td>{{ schedule.subject.name }}</td>
-                <td>{{ schedule.subject.teacher.name }}</td>
-                <td>{{ schedule.cabinet }}</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-{% else %}
-    <p>Ничего не найдено для группы "{{ query }}".</p>
-{% endif %}
+    {% if query %}
+        <p>Результаты по запросу: "{{ query }}"</p>
+        {% if results %}
+            <ul>
+                {% for schedule in results %}
+                    <li>
+                        <strong>Предмет:</strong> {{ schedule.subject.name }} <br>
+                        <strong>Группа:</strong> {{ schedule.subject.group.name }} <br>
+                        <strong>Дата:</strong> {{ schedule.date }} <br>
+                        <strong>Время:</strong> {{ schedule.time }} <br>
+                        <strong>Кабинет:</strong> {{ schedule.cabinet }}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>Ничего не найдено.</p>
+        {% endif %}
+    {% else %}
+        <p>Введите параметр поиска в адресной строке, например: <code>?q=название</code></p>
+    {% endif %}
+</div>
 {% endblock %}

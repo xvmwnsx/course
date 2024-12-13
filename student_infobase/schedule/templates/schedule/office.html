@@ -1,112 +1,32 @@
-{% extends 'schedule/base.html' %}
+{% extends "schedule/base.html" %}
 
 {% block title %}Личный кабинет{% endblock %}
 
 {% block content %}
-<h1>Личный кабинет</h1>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<div class="container">
-    <div class="profile">
-        {% load static %}
-<!--         <link rel="stylesheet" href="{% static 'schedule/css/office.css' %}"> -->
-        <img src="{% static 'schedule/img/search.svg' %}" alt="Фото профиля">
-        <div class="profile-info">
-            <div><strong>ФИО:</strong> Иванов Иван Иванович</div>
-            <div><strong>Группа:</strong> ИсиВп-4</div>
-            <div><strong>Email:</strong> ex@gmail.com</div>
-            <div><strong>Номер зачетной книжки:</strong> 210233</div>
-            <div><strong>Факультет:</strong> Физико-математический</div>
-        </div>
-    </div>
+<h1>Добро пожаловать, {{ user.first_name }}!</h1>
 
-    <div class="charts">
-        <div class="chart">
-            <h3>Количество оценок в %</h3>
-            <br>
-            <canvas id="chart1" width="400" height="400"></canvas>
-            <script>
-
-                const ctx1 = document.getElementById('chart1').getContext('2d');
-
-                const chart1 = new Chart(ctx1, {
-                  type: 'pie', 
-                  data: {
-                    labels: ['Хорошо', 'Удовлетворительно', 'Зачет', 'Отлично'], 
-                    datasets: [{
-                      label: 'Количество оценок в %',
-                      data: [25, 5, 30, 40], 
-                      backgroundColor: [
-                        'rgba(75, 192, 192, 0.2)', 
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 99, 132, 0.2)'
-                      ],
-                      borderColor: [
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 99, 132, 1)'
-                      ],
-                      borderWidth: 1 
-                    }]
-                  },
-                  options: {
-                    responsive: true,
-                    plugins: {
-                      legend: {
-                        position: 'top', 
-                      }
-                    }
-                  }
-                });
-            </script>
-              
-        </div>
-        <div class="chart">
-            <h3>Средняя оценка по курсам</h3>
-            <br>
-            <canvas id="chart2" width="400" height="400"></canvas>
-            <script>
-                
-                const ctx2 = document.getElementById('chart2').getContext('2d');
-                const chart2 = new Chart(ctx2, {
-                type: 'line',
-                data: {
-                    labels: ['1 курс', '2 курс', '3 курс'],
-                    datasets: [{
-                    label: 'Средняя оценка группы',
-                    data: [3.8, 4.2, 4.5], 
-                    borderColor: 'rgba(54, 162, 235, 1)',
-                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                    borderWidth: 2
-                }, {
-                    label: 'Средняя оценка по студенту',
-                    data: [3.6, 4.0, 4.3],
-                    borderColor: 'rgba(255, 99, 132, 1)',
-                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                    borderWidth: 2
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                    legend: {
-                    position: 'top',
-                    }
-                },
-                scales: {
-                    y: {
-                    beginAtZero: false
-                }
-            }
-        }
-    });
-            </script>
-        </div>
-    </div>
+<div class="profile-info">
+    <p><strong>Имя:</strong> {{ user.first_name }}</p>
+    <p><strong>Фамилия:</strong> {{ user.last_name }}</p>
+    <p><strong>Email:</strong> {{ user.email }}</p>
 </div>
 
+<h2>Другая информация</h2>
 <ul>
-    <li><a href="{% url 'logout' %}">Выйти</a></li>
+    <li>Ваш ID: {{ user.id }}</li>
+    <li>Дата регистрации: {{ user.date_joined }}</li>
 </ul>
+
+<h2>Ваше расписание:</h2>
+<ul>
+    {% for item in schedule %}
+        <li>{{ item.date }} - {{ item.time }} - {{ item.subject.name }} ({{ item.cabinet }})</li>
+    {% empty %}
+        <li>Расписание отсутствует.</li>
+    {% endfor %}
+</ul>
+<form method="post" action="{% url 'logout' %}">
+    {% csrf_token %}
+    <button type="submit">Выйти</button>
+</form>
 {% endblock %}

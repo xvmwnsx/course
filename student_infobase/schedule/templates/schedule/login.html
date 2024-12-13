@@ -1,12 +1,9 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% extends 'schedule/base.html' %}
+
+{% block title %}Вход{% endblock %}
+
+{% block content %}
     <title>Вход</title>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'templates/static/schedule/style.css' %}">
-</head>
 <body>
     <div class="login-container">
         <h2>Вход в систему</h2>
@@ -14,20 +11,11 @@
         <form method="post">
             {% csrf_token %}
             {{ form.as_p }}
-            <label for="login">Введите логин:</label>
-            <input type="text" id="login" name="login" required>
-    
-            <label for="password">Введите пароль:</label>
-            <input type="password" id="password" name="password" required>
-    
-            <a href="{% url 'forgot_pass' %}">Восстановить пароль</a>
-            <br><br>
             <button type="submit">Войти</button>
+            <br><br>
+            <a href="{% url 'register' %}">Зарегистрироваться</a>
+            <br><br>
         </form>
     </div>
-    <footer>
-        © 2024, ИС успеваемости студентов
-    </footer>
 </body>
-</html>
-
+{% endblock %}

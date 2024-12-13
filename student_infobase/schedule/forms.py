@@ -1,6 +1,6 @@
 from django import forms
 from .models import Student, Schedule
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.models import User
 
 class StudentForm(forms.ModelForm):
@@ -18,26 +18,19 @@ class LoginForm(AuthenticationForm):
     password = forms.CharField(label="Password", widget=forms.PasswordInput(attrs={'class': 'form-control'}))
     
 
-class UserRegistrationForm(forms.ModelForm):
-    password = forms.CharField(widget=forms.PasswordInput, label="Password")
-    password_confirm = forms.CharField(widget=forms.PasswordInput, label="Confirm Password")
+class UserRegistrationForm(UserCreationForm):
+    username = forms.CharField(required=True, widget=forms.TextInput(attrs={'placeholder': 'Введите ваш login'}))
+    email = forms.EmailField(required=True, widget=forms.EmailInput(attrs={'placeholder': 'Введите ваш email'}))
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'first_name', 'last_name', 'password']
+        fields = ['username', 'email', 'password1', 'password2']
 
-    def clean(self):
-        cleaned_data = super().clean()
-        password = cleaned_data.get("password")
-        password_confirm = cleaned_data.get("password_confirm")
-        if password and password_confirm and password != password_confirm:
-            self.add_error('password_confirm', "Passwords do not match.")
-        return cleaned_data
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if User.objects.filter(email=email).exists():
+            raise forms.ValidationError('Этот email уже используется.')
+        return email
 
-class GroupSearchForm(forms.Form):
-    group_name = forms.CharField(
-        max_length=50,
-        label='Название группы',
-        widget=forms.TextInput(attrs={'placeholder': 'Введите название группы'}),
-    )
+
     

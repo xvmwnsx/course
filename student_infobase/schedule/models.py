@@ -12,11 +12,11 @@ class Group(models.Model):
 class Student(models.Model):
     id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=50)
-    group = models.CharField(max_length=50, null=True)
+    group = models.ForeignKey(Group, null=True, on_delete=models.CASCADE)
     email = models.EmailField(unique=True)
 
     def __str__(self):
-        return self.group
+        return self.group.name
 
 class Teacher(models.Model):
     id = models.IntegerField(primary_key=True)
@@ -28,13 +28,12 @@ class Teacher(models.Model):
 
 class Classes(models.Model):
     id = models.IntegerField(primary_key=True)
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=100)
     group = models.ForeignKey(Group, on_delete=models.CASCADE)
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
     
-
     def __str__(self):
-        return f"{self.name} - {self.group.name} - {self.teacher.name}"
+        return f"{self.name} - {self.teacher.name}"
 
 class Schedule(models.Model):
     id = models.IntegerField(primary_key=True)
@@ -42,18 +41,8 @@ class Schedule(models.Model):
     time = models.TimeField()
     subject = models.ForeignKey(Classes, on_delete=models.CASCADE)
     cabinet = models.IntegerField(null=True, blank=True)
+    teacher = models.ForeignKey(Teacher, null=True, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.subject.name} - {self.date} - {self.time} - {self.cabinet}"
+        return f"{self.subject.name} - {self.date} - {self.time} - {self.cabinet} - {self.teacher}"
 
-
-class CustomUser(AbstractUser):
-    ROLE_CHOICES = [
-        ('student', 'Student'),
-        ('teacher', 'Teacher'),
-        ('admin', 'Admin'),
-    ]
-    role = models.CharField(max_length=10, choices=ROLE_CHOICES, default='student')
-
-    def __str__(self):
-        return f"{self.username} ({self.role})"

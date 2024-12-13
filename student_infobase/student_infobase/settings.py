@@ -112,13 +112,22 @@ USE_I18N = True
 
 USE_TZ = True
 
-# Auth
+DEFAULT_CHARSET = 'utf-8'
 
-AUTH_USER_MODEL = 'schedule.CustomUser'
+LOGIN_REDIRECT_URL = '/office/'  # Перенаправление после входа
 
-LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 LOGIN_URL = '/login/'
+
+#Registration by email
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.example.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'umeqmt@gmail.com'
+EMAIL_HOST_PASSWORD = 'newgmailnewlife134A'
+
 
 
 # Static files (CSS, JavaScript, Images)

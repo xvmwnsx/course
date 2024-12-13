@@ -45,9 +45,22 @@ header nav a {
     color: #007BFF;
 }
 .login {
-    display: flex;
+    text-align: center;
+    gap: 20px;
 }
-.login-button {
+.reg-button {
+    background-color: #ffffff;
+    color:rgb(0, 0, 0);
+    border: 1px solid #000000;
+    padding: 12px 22px;
+    border-radius: 20px;
+    font-size: 20px;
+    cursor: pointer;
+    font-weight: bold;
+    width: 20%;
+    margin-left: 20px;
+}
+.login.login-button {
     
     background-color: #d81b60;
     color:white;
@@ -57,7 +70,8 @@ header nav a {
     font-size: 20px;
     cursor: pointer;
     font-weight: bold;
-    width: 10%;
+    width: 20%;
+    margin-right: 100px;
 }
 
 .login-button:hover {

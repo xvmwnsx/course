@@ -1,12 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Регистрация</title>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'templates/static/schedule/style.css' %}">
-</head>
+{% extends 'schedule/base.html' %}
+{% block title %}Регистрация{% endblock %}
+{% block content %}
+<title>Регистрация</title>
 <body>
     <div class="login-container">
         <h2>Регистрация</h2>
@@ -14,19 +9,10 @@
         <form method="post">
             {% csrf_token %}
             {{ form.as_p }}
-            <label for="reg_login">Введите логин:</label>
-            <input type="text" id="reg_login" name="reg_login" required>
-    
-            <label for="password">Введите пароль:</label>
-            <input type="password" id="password" name="password" required>
-    
-
-            <br><br>
+            
             <button type="submit">Зарегистрировать</button>
         </form>
     </div>
-    <footer>
-        © 2024, ИС успеваемости студентов
-    </footer>
 </body>
 </html>
+{% endblock %}

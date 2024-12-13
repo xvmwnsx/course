@@ -1,17 +1,17 @@
 from django.shortcuts import render, redirect
-from .models import Student, Schedule, Classes
-from .forms import StudentForm, ScheduleForm, LoginForm, UserRegistrationForm, GroupSearchForm
-from django.contrib.auth.views import LoginView, LogoutView
-from django.http import HttpResponseForbidden
+from .models import Student, Schedule
+from .forms import StudentForm, ScheduleForm, LoginForm, UserRegistrationForm
+from django.contrib.auth.views import LoginView
+from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
-from django.contrib import messages
 
-class CustomLoginView(LoginView):
+from .tokens import email_verification_token
+from django.db.models import Q
+
+
+class UserLoginView(LoginView):
     template_name = 'schedule/login.html'
     form_class = LoginForm
-    
-class CustomLogoutView(LogoutView):
-    next_page = 'schedule/home.html'
 
 def home(request):
     return render(request, 'schedule/home.html')
@@ -46,57 +46,41 @@ def add_schedule(request):
     return render(request, 'schedule/add_schedule.html', {'form': form})
 
 
-def login(request):
+def login_page(request):
     return render(request, 'schedule/login.html')
-def office(request):
-    return render(request, 'schedule/office.html')
 def forgot_pass(request):
     return render(request, 'schedule/forgot_pass.html')
 
 
-def role_required(allowed_roles):
-    def decorator(view_func):
-        def _wrapped_view(request, *args, **kwargs):
-            if request.user.role in allowed_roles:
-                return view_func(request, *args, **kwargs)
-            return HttpResponseForbidden("Access denied")
-        return _wrapped_view
-    return decorator
+def schedule_search(request):
+    query = request.GET.get('q', '')  # Получить параметр из URL (например, ?q=поиск)
+    results = None
 
-@role_required(['admin', 'teacher'])
-def manage_schedule(request):
-    # Only admins and teachers can access
-    return render(request, 'schedule/add_schedule.html', 'schedule/add_student.html')
+    if query:
+        results = Schedule.objects.filter(
+            Q(subject__name__icontains=query) |  # Поиск по названию предмета
+            Q(subject__group__name__icontains=query)  # Поиск по названию группы
+        ).select_related('subject')  # Оптимизация для связанных объектов
 
+    return render(request, 'schedule/schedule_search.html', {'query': query, 'results': results})
 
-@login_required
-def register_user(request):
-    if not request.user.is_staff:  # Проверка, что пользователь - администратор
-        messages.error(request, "You do not have permission to register users.")
-        return redirect('home')
-
+def register(request):
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
-            user = form.save(commit=False)
-            user.set_password(form.cleaned_data['password'])  # Установить пароль
-            user.save()
-            messages.success(request, f"User {user.username} was successfully created.")
-            return redirect('home')
+            user = form.save()  # Сохраняем пользователя в БД
+            login(request, user)  # Логиним пользователя после регистрации
+            return redirect('home')  # Перенаправляем на главную страницу (или другую)
     else:
         form = UserRegistrationForm()
-
     return render(request, 'schedule/register_user.html', {'form': form})
 
-def schedule_search(request):
-    results = []
-    form = GroupSearchForm(request.GET or None)  
-    if form.is_valid(): 
-        group_name = form.cleaned_data['group_name']
-        results = Schedule.objects.filter(subject__group__name__icontains=group_name)
 
-    return render(request, 'schedule/schedule_search.html', {'form': form, 'results': results})
-
+@login_required  # Требует авторизации пользователя
+def office(request):
+    user_groups = request.user.groups.all()  # Получаем группы пользователя
+    schedule = Schedule.objects.filter(subject__group__name__in=[group.name for group in user_groups])
+    return render(request, 'schedule/office.html', {'user': request.user, 'schedule': schedule})
 
 
 
