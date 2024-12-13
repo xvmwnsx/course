@@ -16,7 +16,7 @@ class Student(models.Model):
     email = models.EmailField(unique=True)
 
     def __str__(self):
-        return self.group.name
+        return self.name
 
 class Teacher(models.Model):
     id = models.IntegerField(primary_key=True)
@@ -44,5 +44,10 @@ class Schedule(models.Model):
     teacher = models.ForeignKey(Teacher, null=True, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.subject.name} - {self.date} - {self.time} - {self.cabinet} - {self.teacher}"
+        return f"{self.subject.name} - {self.date} - {self.time} - {self.cabinet} - {self.teacher.name}"
 
+class CustomUser(AbstractUser):
+    group = models.ForeignKey(Group, on_delete=models.CASCADE, null=True, blank=True)
+
+    def __str__(self):
+        return self.username

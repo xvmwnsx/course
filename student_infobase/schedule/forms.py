@@ -1,7 +1,6 @@
 from django import forms
-from .models import Student, Schedule
+from .models import Student, Schedule, Group, CustomUser
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
-from django.contrib.auth.models import User
 
 class StudentForm(forms.ModelForm):
     class Meta:
@@ -21,14 +20,15 @@ class LoginForm(AuthenticationForm):
 class UserRegistrationForm(UserCreationForm):
     username = forms.CharField(required=True, widget=forms.TextInput(attrs={'placeholder': 'Введите ваш login'}))
     email = forms.EmailField(required=True, widget=forms.EmailInput(attrs={'placeholder': 'Введите ваш email'}))
-
+    group = forms.ModelChoiceField(queryset=Group.objects.all(), required=True)
+    
     class Meta:
-        model = User
-        fields = ['username', 'email', 'password1', 'password2']
+        model = CustomUser
+        fields = ['username', 'email', 'group', 'password1', 'password2']
 
     def clean_email(self):
         email = self.cleaned_data.get('email')
-        if User.objects.filter(email=email).exists():
+        if CustomUser.objects.filter(email=email).exists():
             raise forms.ValidationError('Этот email уже используется.')
         return email
 

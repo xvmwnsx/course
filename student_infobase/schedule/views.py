@@ -3,6 +3,7 @@ from .models import Student, Schedule
 from .forms import StudentForm, ScheduleForm, LoginForm, UserRegistrationForm
 from django.contrib.auth.views import LoginView
 from django.contrib.auth import login
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
 from .tokens import email_verification_token
@@ -70,6 +71,7 @@ def register(request):
         if form.is_valid():
             user = form.save()  # Сохраняем пользователя в БД
             login(request, user)  # Логиним пользователя после регистрации
+            messages.success(request, 'Регистрация успешна!')
             return redirect('home')  # Перенаправляем на главную страницу (или другую)
     else:
         form = UserRegistrationForm()
