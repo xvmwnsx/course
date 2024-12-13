@@ -5,8 +5,6 @@ from django.contrib.auth.views import LoginView
 from django.contrib.auth import login
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-
-from .tokens import email_verification_token
 from django.db.models import Q
 
 
@@ -54,14 +52,14 @@ def forgot_pass(request):
 
 
 def schedule_search(request):
-    query = request.GET.get('q', '')  # Получить параметр из URL (например, ?q=поиск)
+    query = request.GET.get('q', '')
     results = None
 
     if query:
         results = Schedule.objects.filter(
-            Q(subject__name__icontains=query) |  # Поиск по названию предмета
-            Q(subject__group__name__icontains=query)  # Поиск по названию группы
-        ).select_related('subject')  # Оптимизация для связанных объектов
+            Q(subject__name__icontains=query) | 
+            Q(subject__group__name__icontains=query) 
+        ).select_related('subject')  
 
     return render(request, 'schedule/schedule_search.html', {'query': query, 'results': results})
 
@@ -69,18 +67,18 @@ def register(request):
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
-            user = form.save()  # Сохраняем пользователя в БД
-            login(request, user)  # Логиним пользователя после регистрации
+            user = form.save() 
+            login(request, user) 
             messages.success(request, 'Регистрация успешна!')
-            return redirect('home')  # Перенаправляем на главную страницу (или другую)
+            return redirect('home')  
     else:
         form = UserRegistrationForm()
     return render(request, 'schedule/register_user.html', {'form': form})
 
 
-@login_required  # Требует авторизации пользователя
+@login_required  
 def office(request):
-    user_groups = request.user.groups.all()  # Получаем группы пользователя
+    user_groups = request.user.groups.all()
     schedule = Schedule.objects.filter(subject__group__name__in=[group.name for group in user_groups])
     return render(request, 'schedule/office.html', {'user': request.user, 'schedule': schedule})
 
