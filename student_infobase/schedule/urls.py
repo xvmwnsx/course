@@ -14,6 +14,7 @@ urlpatterns = [
     path('schedule_list/', login_required(views.schedule_list), name='schedule_list'),
     path('register/', views.register, name='register'),
     path('schedule_search/', login_required(views.schedule_search), name='schedule_search'),
+    path('download-schedule/', views.download_schedule, name='download_schedule'),
 
 ]
 

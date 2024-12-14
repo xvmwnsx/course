@@ -6,6 +6,8 @@ from django.contrib.auth import login
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
+from django.http import HttpResponse
+from openpyxl import Workbook
 
 
 class UserLoginView(LoginView):
@@ -64,3 +66,32 @@ def office(request):
 
 
 
+def download_schedule(request):
+
+    workbook = Workbook()
+    sheet = workbook.active
+    sheet.title = "Расписание"
+
+
+    sheet.append(["Название предмета", "Дата", "Время", "Кабинет"])
+
+
+    schedules = Schedule.objects.all()
+
+
+    for schedule in schedules:
+        sheet.append([
+            schedule.subject.name,
+            schedule.date.strftime("%d-%m-%Y"),
+            schedule.time.strftime("%H:%M"),
+            schedule.cabinet or "—"
+        ])
+
+
+    response = HttpResponse(
+        content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    )
+    response['Content-Disposition'] = 'attachment; filename="schedule.xlsx"'
+    workbook.save(response)
+
+    return response

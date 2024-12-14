@@ -47,27 +47,27 @@ header nav a {
 .login {
     text-align: center;
     gap: 20px;
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
 }
 
-
-/* Общие стили для контейнеров */
 .search-bar {
     display: flex;
     justify-content: center;
     margin: 20px 0;
 }
 
-.login {
-    display: flex;
-    justify-content: center;
-    margin-top: 10px;
-    gap: 10px; /* Расстояние между кнопками */
+.form-control {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Стили для формы поиска */
+
 .search_form {
     width: 100%;
-    max-width: 500px; /* Ширина всей формы */
+    max-width: 500px; 
     display: flex;
     justify-content: center;
 }
@@ -88,7 +88,7 @@ header nav a {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
-/* Стили для кнопок входа и регистрации */
+
 .login a {
     display: inline-block;
     padding: 10px 20px;
@@ -117,8 +117,6 @@ header nav a {
     background-color: #0056b3;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
-
-
 
 .login-container {
     max-width: 400px;
@@ -318,4 +316,40 @@ button {
 
 button:hover {
     background-color: #d81b60;
+}
+
+
+a.btn-download {
+    display: inline-block;          
+    padding: 12px 25px;           
+    background-color: #007bff;     
+    color: white;                 
+    text-decoration: none;        
+    font-size: 16px;           
+    font-weight: bold;              
+    border-radius: 5px;           
+    border: none;                   
+    cursor: pointer;               
+    margin-left: 20px; 
+    transition: background-color 0.3s ease, transform 0.2s ease; 
+}
+
+
+.btn-download:hover {
+    background-color: #0056b3;     
+    transform: scale(1.05);         
+}
+
+
+.btn-download:active {
+    background-color: #003d80;   
+    transform: scale(0.95);      
+}
+
+
+@media (max-width: 768px) {
+    .btn-download {
+        padding: 10px 20px;
+        font-size: 14px;
+    }
 }
