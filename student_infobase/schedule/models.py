@@ -9,31 +9,30 @@ class Group(models.Model):
     def __str__(self):
         return self.name
 
-class Student(models.Model):
+class CustomUser(AbstractUser):
     id = models.IntegerField(primary_key=True)
-    name = models.CharField(max_length=50)
-    group = models.ForeignKey(Group, null=True, on_delete=models.CASCADE)
+    group = models.ForeignKey(Group, null=True, blank=True, on_delete=models.CASCADE)
     email = models.EmailField(unique=True)
 
-    def __str__(self):
-        return self.name
+    ROLE_CHOICES = [
+        ('student', 'Student'),
+        ('teacher', 'Teacher'),
+        ('admin', 'Admin'),
+    ]
+    
+    role = models.CharField(max_length=20, choices=ROLE_CHOICES, null=True, blank=True)
 
-class Teacher(models.Model):
-    id = models.IntegerField(primary_key=True)
-    name = models.CharField(max_length=50)
-    email = models.EmailField(unique=True)
-
     def __str__(self):
-        return self.name
+        return f"{self.first_name} - {self.last_name} - {self.group} "
 
 class Classes(models.Model):
     id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=100)
     group = models.ForeignKey(Group, on_delete=models.CASCADE)
-    teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
+    teacher = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     
     def __str__(self):
-        return f"{self.name} - {self.teacher.name}"
+        return f"{self.name} - {self.group} - {self.teacher}"
 
 class Schedule(models.Model):
     id = models.IntegerField(primary_key=True)
@@ -41,13 +40,8 @@ class Schedule(models.Model):
     time = models.TimeField()
     subject = models.ForeignKey(Classes, on_delete=models.CASCADE)
     cabinet = models.IntegerField(null=True, blank=True)
-    teacher = models.ForeignKey(Teacher, null=True, on_delete=models.CASCADE)
+    teacher = models.ForeignKey(CustomUser, null=True, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.subject.name} - {self.date} - {self.time} - {self.cabinet} - {self.teacher.name}"
+        return f"{self.subject} - {self.date} - {self.time} - {self.cabinet} - {self.teacher}"
 
-class CustomUser(AbstractUser):
-    group = models.ForeignKey(Group, on_delete=models.CASCADE, null=True, blank=True)
-
-    def __str__(self):
-        return self.username

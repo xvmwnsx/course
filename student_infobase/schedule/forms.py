@@ -1,11 +1,6 @@
 from django import forms
-from .models import Student, Schedule, Group, CustomUser
+from .models import Schedule, Group, CustomUser
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
-
-class StudentForm(forms.ModelForm):
-    class Meta:
-        model = Student
-        fields = ['id', 'name', 'group', 'email']
 
 class ScheduleForm(forms.ModelForm):
     class Meta:

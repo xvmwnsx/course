@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
-from .models import Student, Schedule
-from .forms import StudentForm, ScheduleForm, LoginForm, UserRegistrationForm
+from .models import Schedule
+from .forms import ScheduleForm, LoginForm, UserRegistrationForm
 from django.contrib.auth.views import LoginView
 from django.contrib.auth import login
 from django.contrib import messages
@@ -15,24 +15,10 @@ class UserLoginView(LoginView):
 def home(request):
     return render(request, 'schedule/home.html')
 
-def student_list(request):
-    students = Student.objects.all()
-    return render(request, 'schedule/student_list.html', {'students': students})
-
 def schedule_list(request):
     schedules = Schedule.objects.all()
     return render(request, 'schedule/schedule_list.html', {'schedules': schedules})
 
-
-def add_student(request):
-    if request.method == "POST":
-        form = StudentForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('student_list')
-    else:
-        form = StudentForm()
-    return render(request, 'schedule/add_student.html', {'form': form})
 
 def add_schedule(request):
     if request.method == "POST":
@@ -43,12 +29,6 @@ def add_schedule(request):
     else:
         form = ScheduleForm()
     return render(request, 'schedule/add_schedule.html', {'form': form})
-
-
-def login_page(request):
-    return render(request, 'schedule/login.html')
-def forgot_pass(request):
-    return render(request, 'schedule/forgot_pass.html')
 
 
 def schedule_search(request):

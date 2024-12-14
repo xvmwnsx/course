@@ -3,28 +3,17 @@
 {% block title %}Личный кабинет{% endblock %}
 
 {% block content %}
-<h1>Добро пожаловать, {{ user.first_name }}!</h1>
+<h1>Добро пожаловать, {{ user.username }}!</h1>
 
 <div class="profile-info">
-    <p><strong>Имя:</strong> {{ user.first_name }}</p>
-    <p><strong>Фамилия:</strong> {{ user.last_name }}</p>
     <p><strong>Email:</strong> {{ user.email }}</p>
-    <p>Группа: {{ user.group.name }}</p>
+    <p><strong>Группа: </strong>{{ user.group }}</p>
 </div>
 
 <h2>Другая информация</h2>
 <ul>
     <li>Ваш ID: {{ user.id }}</li>
     <li>Дата регистрации: {{ user.date_joined }}</li>
-</ul>
-
-<h2>Ваше расписание:</h2>
-<ul>
-    {% for item in schedule %}
-        <li>{{ item.date }} - {{ item.time }} - {{ item.subject.name }} ({{ item.cabinet }})</li>
-    {% empty %}
-        <li>Расписание отсутствует.</li>
-    {% endfor %}
 </ul>
 <form method="post" action="{% url 'logout' %}">
     {% csrf_token %}
