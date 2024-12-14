@@ -4,10 +4,8 @@
 
 {% block content %}
 <div class="search-results">
-    <h1>Результаты поиска</h1>
-
     {% if query %}
-        <p>Результаты по запросу: "{{ query }}"</p>
+        <h2>Результаты по запросу: "{{ query }}"</h2>
         {% if results %}
             <ul>
                 {% for schedule in results %}

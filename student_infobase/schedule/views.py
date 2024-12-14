@@ -30,7 +30,7 @@ def add_schedule(request):
         form = ScheduleForm()
     return render(request, 'schedule/add_schedule.html', {'form': form})
 
-
+@login_required
 def schedule_search(request):
     query = request.GET.get('q', '')
     results = None

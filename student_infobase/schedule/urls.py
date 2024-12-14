@@ -13,7 +13,7 @@ urlpatterns = [
     path('office/', views.office, name='office'),
     path('schedule_list/', login_required(views.schedule_list), name='schedule_list'),
     path('register/', views.register, name='register'),
-    path('schedule_search/', views.schedule_search, name='schedule_search'),
+    path('schedule_search/', login_required(views.schedule_search), name='schedule_search'),
 
 ]
 

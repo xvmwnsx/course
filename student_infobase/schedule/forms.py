@@ -15,7 +15,7 @@ class LoginForm(AuthenticationForm):
 class UserRegistrationForm(UserCreationForm):
     username = forms.CharField(required=True, widget=forms.TextInput(attrs={'placeholder': 'Введите ваш login'}))
     email = forms.EmailField(required=True, widget=forms.EmailInput(attrs={'placeholder': 'Введите ваш email'}))
-    group = forms.ModelChoiceField(queryset=Group.objects.all(), required=True)
+    group = forms.ModelChoiceField(queryset=Group.objects.all(), required=True, label="Группа", widget=forms.Select(attrs={'class': 'form-control'}))
     
     class Meta:
         model = CustomUser

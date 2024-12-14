@@ -48,37 +48,77 @@ header nav a {
     text-align: center;
     gap: 20px;
 }
-.reg-button {
-    background-color: #ffffff;
-    color:rgb(0, 0, 0);
-    border: 1px solid #000000;
-    padding: 12px 22px;
-    border-radius: 20px;
-    font-size: 20px;
-    cursor: pointer;
-    font-weight: bold;
-    width: 20%;
-    margin-left: 20px;
+
+
+/* Общие стили для контейнеров */
+.search-bar {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
 }
-.login.login-button {
-    
-    background-color: #d81b60;
-    color:white;
-    border: 1px solid #d81b60;
-    padding: 12px 22px;
-    border-radius: 20px;
-    font-size: 20px;
-    cursor: pointer;
-    font-weight: bold;
-    width: 20%;
-    margin-right: 100px;
+
+.login {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    gap: 10px; /* Расстояние между кнопками */
+}
+
+/* Стили для формы поиска */
+.search_form {
+    width: 100%;
+    max-width: 500px; /* Ширина всей формы */
+    display: flex;
+    justify-content: center;
+}
+
+#search_input {
+    width: 100%;
+    padding: 10px 15px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+#search_input:focus {
+    border-color: #4CAF50;
+    outline: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Стили для кнопок входа и регистрации */
+.login a {
+    display: inline-block;
+    padding: 10px 20px;
+    text-align: center;
+    font-size: 16px;
+    text-decoration: none;
+    color: white;
+    border-radius: 5px;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.login-button {
+    background-color: #4CAF50;
+}
+
+.reg-button {
+    background-color: #007BFF;
 }
 
 .login-button:hover {
-    background-color: white;
-    color: #d81b60;
-    border: 1px solid #d81b60;
+    background-color: #45a049;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
+
+.reg-button:hover {
+    background-color: #0056b3;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+
 
 .login-container {
     max-width: 400px;
@@ -138,17 +178,6 @@ footer {
     font-size: 14px;
 }
 
-.search-bar {
-    margin: 40px 500px;
-
-}
-
-.search-bar input {
-    width: 100%;
-    padding: 15px 40px;
-    border: 1px solid #ccc;
-    border-radius: 25px;
-}
 .features {
     margin: 30px;
     border-radius: 20px;
@@ -174,3 +203,119 @@ footer {
     font-size: 20px;
 }
 
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 18px;
+    text-align: left;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+th, td {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+}
+
+th {
+    background-color: #45a049;
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+tr:hover {
+    background-color: #f1f7fd;
+}
+
+td {
+    color: #333;
+}
+
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+
+
+h1 {
+    font-size: 2rem;
+    color: #4CAF50;
+    text-align: center;
+    margin-top: 20px;
+}
+
+h2 {
+    font-size: 1.5rem;
+    color: #333;
+    margin-top: 20px;
+    border-bottom: 2px solid #d81b60;
+    padding-bottom: 5px;
+    margin-left: 20px;
+}
+
+
+.profile-info {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 15px;
+    margin: 20px auto;
+    max-width: 400px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.profile-info p {
+    font-size: 1rem;
+    margin: 10px 0;
+}
+
+.profile-info strong {
+    color: #4CAF50;
+}
+
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 20px auto;
+    max-width: 400px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+ul li {
+    font-size: 1rem;
+    margin: 10px 0;
+}
+
+
+button {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    font-size: 1rem;
+    color: white;
+    background-color: #45a049; 
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #d81b60;
+}
