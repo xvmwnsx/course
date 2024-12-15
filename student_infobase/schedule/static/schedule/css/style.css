@@ -23,6 +23,8 @@ header {
     font-size: 30px;
 }
 
+
+
 header nav {
     display: flex;
     justify-content: space-between;
@@ -181,7 +183,7 @@ footer {
     border-radius: 20px;
 }
 
-.features h1 {
+.features h2 {
     margin-left: 90px;
     font-size: 30px;
 }
@@ -194,12 +196,10 @@ footer {
     margin-bottom: 20px;
     margin-left: 50px;
     margin-right: 50px;
-}
-
-.feature-item h2 {
     margin-bottom: 10px;
     font-size: 20px;
 }
+
 
 table {
     width: 100%;
@@ -353,3 +353,4 @@ a.btn-download {
         font-size: 14px;
     }
 }
+
