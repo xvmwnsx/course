@@ -109,7 +109,7 @@ header nav a {
 }
 
 .login-button:hover {
-    background-color: #45a049;
+    background-color: #4CAF50;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
@@ -217,7 +217,7 @@ th, td {
 }
 
 th {
-    background-color: #45a049;
+    background-color: #4CAF50;
     color: white;
     font-weight: bold;
     text-transform: uppercase;
@@ -307,7 +307,7 @@ button {
     padding: 10px 20px;
     font-size: 1rem;
     color: white;
-    background-color: #45a049; 
+    background-color: #4CAF50; 
     border: none;
     border-radius: 5px;
     cursor: pointer;

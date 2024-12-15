@@ -8,6 +8,7 @@
         <th>Дата</th>
         <th>Время</th>
         <th>Кабинет</th>
+        <th>Преподаватель</th>
     </tr>
     {% for schedule in schedules %}
     <tr>
@@ -15,6 +16,7 @@
         <td>{{ schedule.date }}</td>
         <td>{{ schedule.time }}</td>
         <td>{{ schedule.cabinet }}</td>
+        <td>{{ schedule.teacher }}</td>
     </tr>
     {% endfor %}
 </table>

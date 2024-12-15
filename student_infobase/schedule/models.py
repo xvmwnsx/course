@@ -23,7 +23,7 @@ class CustomUser(AbstractUser):
     role = models.CharField(max_length=20, choices=ROLE_CHOICES, null=True, blank=True)
 
     def __str__(self):
-        return f"{self.first_name} - {self.last_name} - {self.group} "
+        return f"{self.first_name} {self.last_name} "
 
 class Classes(models.Model):
     id = models.IntegerField(primary_key=True)
@@ -32,7 +32,7 @@ class Classes(models.Model):
     teacher = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     
     def __str__(self):
-        return f"{self.name} - {self.group} - {self.teacher}"
+        return f"{self.name} - {'Группа'} {self.group} "
 
 class Schedule(models.Model):
     id = models.IntegerField(primary_key=True)

@@ -3,11 +3,13 @@
 {% block title %}Личный кабинет{% endblock %}
 
 {% block content %}
-<h2>Добро пожаловать, {{ user.username }}!</h2>
+<h2>Добро пожаловать, {{ user.first_name }}!</h2>
 
 <div class="profile-info">
+    <p><strong>ФИО:</strong> {{ user.first_name }} {{ user.last_name }}</p>
+    <p><strong>Login:</strong> {{ user.username }}</p>
     <p><strong>Email:</strong> {{ user.email }}</p>
-    <p><strong>Группа: </strong>{{ user.group }}</p>
+    <p><strong>Группа: </strong>{{ user.group }} - {{user.group.name}} </p>
     <p><strong>Ваш ID:</strong> {{ user.id }}</p>
     <p><strong>Дата регистрации:</strong> {{ user.date_joined }}</p> 
 </div>
