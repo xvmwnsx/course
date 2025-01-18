@@ -1,17 +1,20 @@
 * {
     box-sizing: border-box;
-    font-size: 18px;
+    font-size: 16px;
     font-family: Arial, sans-serif;
 }
 
 body {
     background-color: #f5f5f5;
     color: #000000;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
 }
 
 header {
     background-color: white;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     padding: 20px;
     display: flex;
     justify-content: space-between;
@@ -19,39 +22,26 @@ header {
     width: 100%;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
-.header h1 {
-    font-size: 30px;
-}
 
 
 
-header nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-header nav a {
-    text-decoration: none;
-    color: #333;
-    margin: 0 15px;
-    font-size: 18px;
-}
 
 .nav {
     display: flex;
-    gap: 20px;
+    justify-content: space-between;
+    align-items: center;
+
 }
 
 .nav a:hover {
     color: #007BFF;
 }
 .login {
-    text-align: center;
-    gap: 20px;
-    display: flex;
-    justify-content: center;
+    display: flex; 
+    justify-content: center; 
+    gap: 20px; 
     margin-top: 10px;
+    flex-wrap: wrap; 
 }
 
 .search-bar {
@@ -69,7 +59,7 @@ header nav a {
 
 .search_form {
     width: 100%;
-    max-width: 500px; 
+    max-width: 600px;
     display: flex;
     justify-content: center;
 }
@@ -95,23 +85,27 @@ header nav a {
     display: inline-block;
     padding: 10px 20px;
     text-align: center;
-    font-size: 16px;
+    font-size: 14px;
     text-decoration: none;
     color: white;
     border-radius: 5px;
     transition: background-color 0.3s, box-shadow 0.3s;
+    flex: 1; 
+    max-width: 100px; 
+    box-sizing: content-box;
 }
 
 .login-button {
     background-color: #4CAF50;
 }
 
+
 .reg-button {
     background-color: #007BFF;
 }
 
 .login-button:hover {
-    background-color: #4CAF50;
+    background-color: #367a38;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
@@ -121,7 +115,7 @@ header nav a {
 }
 
 .login-container {
-    max-width: 400px;
+    max-width: 100%;
     margin: 50px auto;
     background-color: white;
     padding: 30px;
@@ -157,7 +151,7 @@ header nav a {
 .login-container button {
     background-color: #d81b60;
     color: white;
-    border: 1px #d81b60;
+    border: 1px #ffffff;
     padding: 10px 20px;
     border-radius:15px;
     cursor: pointer;
@@ -173,31 +167,37 @@ header nav a {
 
 footer {
     text-align: center;
-    margin: 20px 0;
+    margin: 20px 10px;
     color: #666;
     font-size: 14px;
 }
 
 .features {
-    margin: 30px;
-    border-radius: 20px;
+    display: flex;
+    flex-direction: column; /* Stack elements vertically */
+    align-items: center; /* Center horizontally */
+
+    margin: 10px auto; /* Center the container */
+    padding: 5px; /* Add padding around the container */
+
+    box-sizing: border-box;
 }
 
 .features h2 {
-    margin-left: 90px;
+
     font-size: 30px;
 }
 
 .feature-item {
-    background-color: white;
-    padding: 35px;
-    border-radius: 50px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
-    margin-left: 50px;
-    margin-right: 50px;
-    margin-bottom: 10px;
-    font-size: 20px;
+    width: 100%; /* Set width relative to screen */
+    max-width: 900px; /* Limit max width */
+    margin-bottom: 20px; /* Add space between items */
+    background-color: #f9f9f9; /* Optional: Light background for better appearance */
+    border: 1px solid #ddd; /* Optional: Subtle border */
+    border-radius: 20px; /* Rounded corners */
+    padding: 25px; /* Inner spacing */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Shadow for depth */
+    transition: transform 0.3s ease; /* Smooth hover effect */
 }
 
 
@@ -236,30 +236,21 @@ td {
 }
 
 
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f9;
-    color: #333;
-    margin: 0;
-    padding: 0;
-    line-height: 1.6;
-}
-
 
 h1 {
-    font-size: 2rem;
+    font-size: 1rem;
     color: #4CAF50;
-    text-align: center;
+    text-align: left;
     margin-top: 20px;
 }
 
 h2 {
+    
     font-size: 1.5rem;
     color: #333;
     margin-top: 20px;
     border-bottom: 2px solid #d81b60;
     padding-bottom: 5px;
-    margin-left: 20px;
 }
 
 
@@ -301,22 +292,6 @@ ul li {
 }
 
 
-button {
-    display: block;
-    margin: 20px auto;
-    padding: 10px 20px;
-    font-size: 1rem;
-    color: white;
-    background-color: #4CAF50; 
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-button:hover {
-    background-color: #d81b60;
-}
 
 
 a.btn-download {
@@ -347,10 +322,130 @@ a.btn-download {
 }
 
 
+.nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.nav-links {
+    display: flex;
+    gap: 15px;
+}
+
+.nav-links a {
+    color: black;
+    text-decoration: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+}
+
+.menu-toggle {
+    display: none;
+    background: none;
+    color: black;
+    font-size: 24px;
+    border: none;
+    cursor: pointer;
+}
+
+button {
+    padding: 5px;
+    font-size: 16px;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+h1, h2, h3 {
+    font-size: 1.5rem; 
+}
+
 @media (max-width: 768px) {
-    .btn-download {
-        padding: 10px 20px;
-        font-size: 14px;
+
+    * {
+        box-sizing: border-box;
+        font-size: 16px;
+        font-family: Arial, sans-serif;
+    }
+
+    button {
+        width: 100%;
+
+    }
+    /* Show hamburger button */
+    .menu-toggle {
+        display: inline-block;
+    }
+
+    .nav-links {
+        display: none; /* Hide navigation links by default */
+        flex-direction: column; /* Stack the links vertically */
+        position: absolute;
+        top: 50px; /* Position the menu below the navbar */
+        left: 0;
+        right: 0;
+        background-color: white;
+        padding: 0;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .nav-links.active {
+        display: flex; /* Show menu when 'active' class is added */
+    }
+
+    .nav-links a {
+        padding: 12px 15px;
+        border-bottom: 1px solid #ddd;
+        text-align: center;
+    }
+
+    .nav-links a:last-child {
+        border-bottom: none; /* Remove bottom border on last item */
+    }
+    .search_form {
+        max-width: 100%; /* Allow full width on smaller screens */
+        padding: 0 20px; /* Add some padding to avoid hitting the edges */
+    }
+
+    #search_input {
+        padding: 8px 12px; /* Reduce padding for smaller screens */
+        font-size: 14px; /* Smaller font size */
+    }
+    .login {
+        padding: 10px 20px; /* Add some padding to avoid hitting the edges */
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        max-width: 100%; /* Buttons take full width */
+        
+    }
+
+    h1 {
+        font-size: 1.4rem;
+    }
+
+    h2 {
+        font-size: 1.3rem;
+        padding: 20px; /* Reduce padding */
+    }
+
+    p {
+        font-size: 16px;
+    }
+    .features {
+        padding: 10px; /* Reduce padding */
+    }
+
+    .feature-item {
+        width: 100%; /* Feature items take full width on smaller screens */
+        margin-bottom: 15px; /* Adjust spacing */
     }
 }
 

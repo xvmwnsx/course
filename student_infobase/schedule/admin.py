@@ -5,12 +5,12 @@ from .models import Classes, Schedule, Group, CustomUser
 class CustomUserAdmin(UserAdmin):
     model = CustomUser
     fieldsets = UserAdmin.fieldsets + (
-        ('Дополнительные поля', {'fields': ('role',)}),
-        ('Дополнительные поля', {'fields': ('group',)}),
+        ('Другое', {'fields': ('role',)}),
+        ('Другое', {'fields': ('group',)}),
     )
     add_fieldsets = UserAdmin.add_fieldsets + (
-        ('Дополнительные поля', {'fields': ('role',)}),
-        ('Дополнительные поля', {'fields': ('group',)}),
+        ('Другое', {'fields': ('role',)}),
+        ('Другое', {'fields': ('group',)}),
     )
     list_display = ['username', 'email', 'group', 'role', 'is_staff', 'is_active']
     list_filter = ['role', 'is_staff', 'is_active']

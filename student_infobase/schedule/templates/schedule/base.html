@@ -4,22 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% load static %}
-    <link rel="icon" href="{% static 'schedule/css/favicon.ico' %}" type="image/x-icon">
+    <link rel="icon" href="{% static 'css/favicon.ico' %}" type="image/x-icon">
     <title>{% block title %}Главная{% endblock %}</title>
     {% load static %}
-    <link rel="stylesheet" href="{% static 'schedule/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
     
 </head>
 <body>
     <header>
         <div class="header">
-            <h1>Информационная система студентов</h1>
+            <h1>Информационная система</h1>
         </div>
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+                const toggleButton = document.querySelector('.menu-toggle');
+                const navLinks = document.querySelector('.nav-links');
+        
+                toggleButton.addEventListener('click', () => {
+                    navLinks.classList.toggle('active');
+                });
+            });
+        </script>
         <nav class="nav">
-            <a href="{% url 'home' %}">Главная</a>
-            <a href="{% url 'office' %}">Личный кабинет</a>
-            <a href="{% url 'schedule_list' %}">Расписание</a>
+            <button class="menu-toggle" aria-label="Открыть меню">☰</button>
+            <div class="nav-links">
+                <a href="{% url 'home' %}">Главная</a>
+                <a href="{% url 'office' %}">Личный кабинет</a>
+                <a href="{% url 'schedule_list' %}">Расписание</a>
+            </div>
         </nav>
+        
         
     </header>
     <main>
