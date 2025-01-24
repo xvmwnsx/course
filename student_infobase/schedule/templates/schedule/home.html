@@ -4,19 +4,19 @@
 
 {% block content %}
 
-<div class="search-bar">
+{% load static %}
+<head>
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+</head>
+
+<div class="search">
     <form class="search_form" id="search_form" action="{% url 'schedule_search' %}" method="get">
         <input type="text" id="search_input" name="q" placeholder="Поиск по системе">
     </form>
 </div>
-<div class="login">
-    <a class="login-button" href="{% url 'login' %}">Вход</a>
 
-    <a class="reg-button" href="{% url 'register' %}">Регистрация</a>
-</div>
+<h2>Функции системы</h2>
 <div class="features">
-    
-    <h2>Функции системы</h2>
     <div class="feature-item">
         <h3>Регистрация и вход</h3>
         <p>Студенты и преподаватели имеют возможность зарегистрироваться и войти в систему</p>

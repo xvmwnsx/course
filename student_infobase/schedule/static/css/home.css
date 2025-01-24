@@ -1,0 +1,90 @@
+.search {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 10vh; /* Центрирование по вертикали на всю высоту */
+}
+
+.search_form {
+    width: 100%; /* Займет всю ширину контейнера */
+    max-width: 800px; /* Ограничиваем максимальную ширину строки */
+}
+
+#search_input {
+    width: 100%; /* Растягиваем input до ширины формы */
+    padding: 15px 30px; /* Увеличиваем внутренние отступы для лучшего внешнего вида */
+    font-size: 18px; /* Увеличиваем текст */
+    border: 1px solid #ddd;
+    border-radius: 25px; /* Округляем углы */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Легкая тень для глубины */
+    transition: border-color 0.3s, box-shadow 0.3s; /* Эффект при фокусе */
+}
+
+#search_input:focus {
+    border-color: #4CAF50;
+    outline: none;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+
+/* Заголовки */
+h2 {
+    margin-top: 20px;
+    font-size: 1.6rem;
+    color: #4CAF50;
+    text-align: center;
+}
+
+h3 {
+    font-size: 1.2rem;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+/* Секция "Функции системы" */
+.features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    margin: 20px auto;
+    padding: 10px;
+    max-width: 1200px;
+}
+
+.feature-item {
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    text-align: center;
+}
+
+.feature-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.feature-item p {
+    font-size: 1rem;
+    color: #666;
+    margin-top: 10px;
+    line-height: 1.4;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .features {
+        grid-template-columns: 1fr;
+        padding: 0;
+    }
+
+    .search_form {
+        padding: 0 10px;
+    }
+
+    h2 {
+        font-size: 1.4rem;
+    }
+}

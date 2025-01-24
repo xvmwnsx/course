@@ -44,9 +44,12 @@ def schedule_search(request):
     query = request.GET.get('q', '')
     results = None
     if query:
-        results = Schedule.objects.filter(Q(subject__name__icontains=query) | Q(subject__group__name__icontains=query) ).select_related('subject')  
+        results = Schedule.objects.filter
+        (Q(subject__name__icontains=query) | 
+         Q(subject__group__name__icontains=query) ).select_related('subject')  
 
-    return render(request, 'schedule/schedule_search.html', {'query': query, 'results': results})
+    return render(request, 'schedule/schedule_search.html', 
+                  {'query': query, 'results': results})
 
 def register(request):
     if request.method == 'POST':
