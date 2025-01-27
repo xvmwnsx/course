@@ -3,6 +3,12 @@
 {% block title %}Результаты поиска{% endblock %}
 
 {% block content %}
+
+{% load static %}
+<head>
+    <link rel="stylesheet" href="{% static 'css/schedule_search.css' %}">
+</head>
+
 <div class="search-results">
     {% if query %}
         <h2>Результаты по запросу: "{{ query }}"</h2>
@@ -20,6 +26,7 @@
             </ul>
         {% else %}
             <p>Ничего не найдено.</p>
+
         {% endif %}
     {% else %}
         <p>Введите параметр поиска в адресной строке, например: <code>?q=название</code></p>

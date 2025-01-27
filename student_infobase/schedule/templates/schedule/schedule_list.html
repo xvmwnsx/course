@@ -1,6 +1,12 @@
 {% extends 'schedule/base.html' %}
 {% block title %}Список занятий{% endblock %}
 {% block content %}
+
+{% load static %}
+<head>
+    <link rel="stylesheet" href="{% static 'css/schedule_list.css' %}">
+</head>
+
 <h2>Список занятий</h2>
 <table>
     <tr>

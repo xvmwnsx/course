@@ -3,8 +3,12 @@
 {% block title %}Вход{% endblock %}
 
 {% block content %}
-    <title>Вход</title>
-<body>
+
+{% load static %}
+<head>
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+</head>
+<div class="log">
     <div class="login-container">
         <h2>Вход в систему</h2>
         <br>
@@ -12,10 +16,10 @@
             {% csrf_token %}
             {{ form.as_p }}
             <button type="submit">Войти</button>
-            <br><br>
-            <a href="{% url 'register' %}">Зарегистрироваться</a>
-            <br><br>
         </form>
+    <br>
+        <a href="{% url 'register' %}">Зарегистрироваться</a>
     </div>
-</body>
+</div>
+
 {% endblock %}

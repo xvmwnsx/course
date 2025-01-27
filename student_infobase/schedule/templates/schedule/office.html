@@ -3,6 +3,11 @@
 {% block title %}Личный кабинет{% endblock %}
 
 {% block content %}
+
+{% load static %}
+<head>
+    <link rel="stylesheet" href="{% static 'css/office.css' %}">
+</head>
 <h2>Добро пожаловать, {{ user.first_name }}!</h2>
 
 <div class="profile-info">

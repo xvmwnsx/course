@@ -1,9 +1,13 @@
 {% extends 'schedule/base.html' %}
 {% block title %}Регистрация{% endblock %}
 {% block content %}
-<title>Регистрация</title>
-<body>
-    <div class="login-container">
+
+{% load static %}
+<head>
+    <link rel="stylesheet" href="{% static 'css/register.css' %}">
+</head>
+<div class="reg">
+    <div class="reg-container">
         <h2>Регистрация</h2>
         <br>
         <form method="post">
@@ -13,6 +17,6 @@
             <button type="submit">Зарегистрировать</button>
         </form>
     </div>
-</body>
+</div>
 </html>
 {% endblock %}

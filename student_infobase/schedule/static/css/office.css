@@ -1,0 +1,57 @@
+/* Основные стили для контейнера профиля */
+.profile-info {
+    margin: 20px auto;
+    padding: 20px;
+    max-width: 600px;
+    background-color: #ffffff; /* Белый фон для читаемости */
+    border: 1px solid #ddd; /* Лёгкая граница */
+    border-radius: 10px; /* Скруглённые края */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Небольшая тень */
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+}
+
+/* Заголовок */
+h2 {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 24px;
+    color: #4CAF50; /* Зеленый акцент */
+}
+
+/* Стили для текста */
+.profile-info p {
+    font-size: 16px;
+    color: #333;
+    margin: 10px 0;
+}
+
+.profile-info strong {
+    color: #4CAF50;
+}
+
+/* Кнопка выхода */
+button {
+    display: block;
+    margin: 20px auto 0;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+/* Адаптация для мобильных устройств */
+@media (max-width: 768px) {
+    .profile-info {
+        width: 90%; /* Занимает почти весь экран на маленьких устройствах */
+    }
+}

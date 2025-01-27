@@ -1,0 +1,69 @@
+/* Основной заголовок */
+h2 {
+    text-align: center;
+    margin: 20px 0;
+    font-size: 28px;
+    color: #4CAF50;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Контейнер результатов */
+.search-results {
+    width: 90%;
+    margin: 20px auto;
+    font-family: 'Arial', sans-serif;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Результаты списка */
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    padding: 15px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #ddd;
+    font-size: 16px;
+}
+
+li:last-child {
+    border-bottom: none;
+}
+
+strong {
+    color: #333;
+    font-weight: bold;
+}
+
+/* Сообщение о пустых результатах */
+p {
+    text-align: center;
+    font-size: 16px;
+    color: #666;
+}
+
+code {
+    background-color: #f4f4f4;
+    color: #d6336c;
+    padding: 2px 5px;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+/* Адаптация для мобильных устройств */
+@media (max-width: 768px) {
+    .search-results {
+        width: 100%;
+        font-size: 14px;
+        padding: 15px;
+    }
+
+    li {
+        font-size: 14px;
+    }
+}
