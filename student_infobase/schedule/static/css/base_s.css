@@ -6,6 +6,12 @@
     font-family: Arial, sans-serif;
 }
 
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
 body {
 
     color: #333;
@@ -60,7 +66,6 @@ main {
     border-radius: 10px;
 
 }
-
 /* Футер */
 footer {
     text-align: center;

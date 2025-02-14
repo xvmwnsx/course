@@ -1,14 +1,10 @@
 {% extends 'schedule/base.html' %}
-
 {% block title %}Главная{% endblock %}
-
 {% block content %}
-
 {% load static %}
 <head>
     <link rel="stylesheet" href="{% static 'css/home.css' %}">
 </head>
-
 <div class="search">
     <form class="search_form" id="search_form" action="{% url 'schedule_search' %}" method="get">
         <input type="text" id="search_input" name="q" placeholder="Поиск по системе">
@@ -18,7 +14,7 @@
 <h2>Функции системы</h2>
 <div class="features">
     <div class="feature-item">
-        <h3>Регистрация и вход</h3>
+        <h3>Аутентификация</h3>
         <p>Студенты и преподаватели имеют возможность зарегистрироваться и войти в систему</p>
     </div>
 
@@ -33,8 +29,8 @@
     </div>
 
     <div class="feature-item">
-        <h3>Панель админитратора</h3>
-        <p>Для добавления пользователей и изменения расписания присутствует удобная панель админитратора</p>
+        <h3>Управление оценками</h3>
+        <p>Учет успеваемости</p>
     </div>
 </div>
 {% endblock %}

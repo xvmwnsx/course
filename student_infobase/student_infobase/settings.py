@@ -31,13 +31,14 @@ ALLOWED_HOSTS = ['10.0.2.2', '127.0.0.1', 'localhost']
 # Application definition
 
 INSTALLED_APPS = [
+    'schedule.apps.ScheduleConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'schedule',
+    
 ]
 
 MIDDLEWARE = [
@@ -116,13 +117,20 @@ USE_TZ = True
 
 DEFAULT_CHARSET = 'utf-8'
 
-LOGIN_REDIRECT_URL = '/office/'  # Перенаправление после входа
-
 LOGOUT_REDIRECT_URL = '/'
-LOGIN_URL = '/login/'
+
+LOGIN_REDIRECT_URL = '/office/'
 
 AUTH_USER_MODEL = 'schedule.CustomUser'
+# Логин редирект
 
+LOGIN_URL = 'login'
+
+LOGOUT_URL = 'logout'
+
+MEDIA_URL = 'media/'
+
+MEDIA_ROOT = BASE_DIR / 'media'
 
 
 # Static files (CSS, JavaScript, Images)

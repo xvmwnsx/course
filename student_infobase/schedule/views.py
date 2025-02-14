@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from .models import Schedule
 from .forms import ScheduleForm, LoginForm, UserRegistrationForm
 from django.contrib.auth.views import LoginView
-from django.contrib.auth import login
+from django.contrib.auth import login, authenticate
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
@@ -12,9 +12,30 @@ from openpyxl.styles import Font, Alignment, Border, Side, PatternFill
 from urllib.parse import quote
 
 
-class UserLoginView(LoginView):
+def user_login(request):
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            cd = form.cleaned_data
+            user = authenticate(request,
+                                username=cd['username'],
+                                password=cd['password'])
+            if user is not None:
+                if user.is_active:
+                    login(request, user)
+                    return HttpResponse('Успешная аутентификация')
+                else:
+                    return HttpResponse('Аккаунт отключен')
+            else:
+                return HttpResponse('Неверный логин')
+    else:
+        form = LoginForm()
+
+    return render(request, 'schedule/login.html', {'form': form})
+
+""" class UserLoginView(LoginView):
     template_name = 'schedule/login.html'
-    form_class = LoginForm
+    form_class = LoginForm """
 
 def home(request):
     return render(request, 'schedule/home.html')

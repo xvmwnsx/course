@@ -1,9 +1,6 @@
 {% extends "schedule/base.html" %}
-
 {% block title %}Личный кабинет{% endblock %}
-
 {% block content %}
-
 {% load static %}
 <head>
     <link rel="stylesheet" href="{% static 'css/office.css' %}">
@@ -18,10 +15,13 @@
     <p><strong>Группа: </strong>{{ user.group }} - {{user.group.name}} </p>
     <p><strong>Ваш ID:</strong> {{ user.id }}</p>
     <p><strong>Дата регистрации:</strong> {{ user.date_joined }}</p> 
+    <p><a href="{% url 'password_change' %}">Сменить пароль</a></p>
 </div>
     
 <form method="post" action="{% url 'logout' %}">
     {% csrf_token %}
     <button type="submit">Выйти</button>
+    
 </form>
+
 {% endblock %}

@@ -30,21 +30,6 @@ form {
     gap: 15px;
 }
 
-/* Стили для кнопки */
-button {
-    background-color: #28a745;
-    color: white;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
-}
-
-button:hover {
-    background-color: #218838;
-}
 
 /* Стили для полей ввода */
 input {
@@ -60,4 +45,19 @@ input {
 input:focus {
     border-color: #28a745;
     box-shadow: 0 0 4px rgba(40, 167, 69, 0.5);
+}
+input[type="submit"] {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    display: block;
+    width: 100%;
+}
+
+input[type="submit"]:hover {
+    background-color: #0056b3;
 }

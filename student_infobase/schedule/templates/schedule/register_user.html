@@ -1,7 +1,6 @@
 {% extends 'schedule/base.html' %}
 {% block title %}Регистрация{% endblock %}
 {% block content %}
-
 {% load static %}
 <head>
     <link rel="stylesheet" href="{% static 'css/register.css' %}">
@@ -13,8 +12,8 @@
         <form method="post">
             {% csrf_token %}
             {{ form.as_p }}
-            
-            <button type="submit">Зарегистрировать</button>
+            <p><input type="submit" value="Зарегистрироваться"></p>
+<!--             <button type="submit">Зарегистрировать</button> -->
         </form>
     </div>
 </div>

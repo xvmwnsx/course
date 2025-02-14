@@ -5,7 +5,11 @@
 
 
 }
-
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
 .login-container {
 
     padding: 30px;
@@ -23,43 +27,34 @@
     color: #333;
 }
 
-/* Поля ввода */
-.login-container input[type="text"],
-.login-container input[type="password"] {
+input {
     width: 100%;
     padding: 10px;
-    margin: 10px 0;
     border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 14px;
-    box-sizing: border-box;
-    background-color: #f9f9f9;
-    transition: border-color 0.3s, box-shadow 0.3s;
-}
-
-/* Поля ввода при фокусе */
-.login-container input[type="text"]:focus,
-.login-container input[type="password"]:focus {
-    border-color: #4CAF50; /* Зеленая рамка */
-    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
     outline: none;
+    box-sizing: border-box;
 }
 
-/* Кнопка входа */
-.login-container button {
-    width: 100%;
-    padding: 10px;
-    font-size: 16px;
-    background-color: #4CAF50;
+input:focus {
+    border-color: #28a745;
+    box-shadow: 0 0 4px rgba(40, 167, 69, 0.5);
+}
+input[type="submit"] {
+    background-color: #007BFF;
     color: white;
     border: none;
+    padding: 10px 20px;
+    font-size: 16px;
     border-radius: 5px;
     cursor: pointer;
-    margin-top: 10px;
+    display: block;
+    width: 100%;
 }
 
-.login-container button:hover {
-    background-color: #367a38;
+input[type="submit"]:hover {
+    background-color: #0056b3;
 }
 
 /* Ссылка на регистрацию */
@@ -73,3 +68,6 @@
     color: #0056b3;
     text-decoration: underline;
 }
+
+
+
