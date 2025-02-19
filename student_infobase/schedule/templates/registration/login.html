@@ -1,23 +1,24 @@
-{% extends 'schedule/base.html' %}
-{% load static %}
+{% extends 'base.html' %}
 {% block title %}Вход{% endblock %}
 {% block content %}
+{% load static %}
 <head>
-    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+ <link rel="stylesheet" href="{% static 'css/login_s.css' %}">
 </head>
+{% if form.errors %}
+    <p>Неверный логин или пароль</p>
+{% else %}
+    <p>Пожалуйста, воспользуйтесь формой для входа:</p>
+{% endif %}
 <div class="log">
     <div class="login-container">
         <h2>Вход в систему</h2>
-        <br>
         <form action="{% url 'login' %}" method="post">
             {% csrf_token %}
             {{ form.as_p }}
             <p><input type="submit" value="Войти"></p>
-            <!-- <button type="submit">Войти</button> -->
+            <a href="{% url 'register' %}">Зарегистрироваться</a>
         </form>
-
-    <br>
-        <a href="{% url 'register' %}">Зарегистрироваться</a>
     </div>
 </div>
 {% endblock %}

@@ -3,7 +3,14 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    transition: 0.3s;
 }
+
+label {
+    font-size: 16px; /* Увеличивает размер текста */
+
+}
+
 
 /* Стили для контейнера регистрации */
 .reg-container {
@@ -27,12 +34,15 @@
 form {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 5px;
+    transition: 0.3s;
 }
 
 
 /* Стили для полей ввода */
 input {
+    padding: 12px;
+    margin: 10px 0;
     width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
@@ -43,11 +53,11 @@ input {
 }
 
 input:focus {
-    border-color: #28a745;
+    border-color: #667eea;
     box-shadow: 0 0 4px rgba(40, 167, 69, 0.5);
 }
 input[type="submit"] {
-    background-color: #007BFF;
+    background-color: #667eea;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -56,8 +66,9 @@ input[type="submit"] {
     cursor: pointer;
     display: block;
     width: 100%;
+    transition: 0.3s;
 }
 
 input[type="submit"]:hover {
-    background-color: #0056b3;
+    background-color: #764ba2;
 }

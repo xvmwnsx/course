@@ -3,7 +3,7 @@ h2 {
     text-align: center;
     margin: 20px 0;
     font-size: 28px;
-    color: #4CAF50; /* Зеленый акцент */
+    color: #667eea; 
     font-family: 'Arial', sans-serif;
 }
 
@@ -15,20 +15,23 @@ table {
     font-family: 'Arial', sans-serif;
     background-color: #ffffff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Небольшая тень */
+    transition: 0.3s;
 }
 
-th, td {
-    border: 1px solid #ddd;
-    text-align: center;
+td {
+    border: 1px solid #ffffff;
     padding: 12px;
+    text-align: center;
     font-size: 16px;
+    background-color: #ffffff;
 }
 
 th {
-    background-color: #4CAF50;
+    background-color: #667eea;
     color: white;
     text-transform: uppercase;
     font-weight: bold;
+    padding: 10px;
 }
 
 td {
@@ -36,11 +39,13 @@ td {
 }
 
 tr:nth-child(even) {
-    background-color: #f9f9f9;
+    background-color: #ffffff;
+    transition: 0.3s;
 }
 
 tr:hover {
-    background-color: #f1f1f1;
+    background-color: #ffffff;
+    transition: 0.3s;
 }
 
 /* Кнопка загрузки */
@@ -50,7 +55,7 @@ tr:hover {
     margin: 20px auto;
     text-align: center;
     padding: 10px 20px;
-    background-color: #4CAF50;
+    background-color: #667eea;
     color: white;
     text-decoration: none;
     font-size: 16px;
@@ -60,9 +65,15 @@ tr:hover {
 }
 
 .btn-download:hover {
-    background-color: #45a049;
+    background-color: #764ba2;
     transform: scale(1.05);
 }
+
+label {
+    font-size: 16px; /* Увеличивает размер текста */
+    font-weight: bold; /* Делаем текст жирным */
+}
+
 
 /* Адаптация для мобильных устройств */
 @media (max-width: 768px) {

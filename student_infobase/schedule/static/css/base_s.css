@@ -1,92 +1,72 @@
-/* СТИЛИ ДЛЯ БАЗЫ */
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-}
-
-form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
+/* Общие стили */
 body {
-
-    color: #333;
-    line-height: 1.6;
-    margin: 0;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
-/* Заголовок страницы */
-header {
-    background-color: #4CAF50;
-    color: white;
-    padding: 20px 10px;
-    text-align: center;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+/* Шапка */
+.header {
+  background: #ffffff;
+  color: #4960c6;
+  text-align: center;
+  padding: 20px 0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-header h1 {
-    font-size: 1.8rem;
-    margin-bottom: 10px;
-}
-
-/* Навигация */
+/* Навигационное меню */
 .nav {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    padding: 10px;
-    background-color: #ffffff;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: center;
+  background: #ffffff;
+  box-shadow: 4px 2px 8px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px 0;
+  margin: 20px;
+  border-radius: 10px;
 }
 
 .nav a {
-    text-decoration: none;
-    color: #333;
-    padding: 8px 15px;
-    border-radius: 4px;
-    font-weight: bold;
-    transition: background-color 0.3s, color 0.3s;
+  color: #000000;
+  text-decoration: none;
+  font-size: 16px;
+  border-radius: 5px;
+  background: none;
+  margin-left: 20px;
+
+  padding: 12px 20px;
+  transition: background 0.3s, color 0.3s;
 }
 
 .nav a:hover {
-    background-color: #4CAF50;
-    color: white;
+  background: #ffffff;
+  color: #4960c6;
+  border-radius: 5px;
+
+  transition: 0.3s;
 }
 
+h1 {
+
+  margin: 5px;
+  color: #4960c6;
+}
 /* Основной контент */
 main {
-    padding: 20px;
-
-    margin: 20px auto;
-    background-color: white;
-    border-radius: 10px;
-
+  flex: 1;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
+
 /* Футер */
 footer {
-    text-align: center;
-    padding: 10px;
-    margin-top: 20px;
-    color: rgb(92, 92, 92);
-    font-size: 14px;
-}
-
-/* Отзывчивость */
-@media (max-width: 768px) {
-    .nav {
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    header h1 {
-        font-size: 1.5rem;
-    }
-
-    main {
-        padding: 15px;
-    }
+  text-align: center;
+  padding: 15px 0;
+  background: #f4f4f9;
+  color: #333;
+  font-size: 14px;
+  margin-top: auto;
 }

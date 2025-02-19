@@ -1,4 +1,4 @@
-{% extends 'schedule/base.html' %}
+{% extends 'base.html' %}
 
 {% block title %}Результаты поиска{% endblock %}
 
@@ -17,6 +17,7 @@
                 {% for schedule in results %}
                     <li>
                         <strong>Предмет:</strong> {{ schedule.subject.name }} <br>
+                        <strong>Номер группы:</strong> {{ schedule.subject.group.id }} <br>
                         <strong>Группа:</strong> {{ schedule.subject.group.name }} <br>
                         <strong>Дата:</strong> {{ schedule.date }} <br>
                         <strong>Время:</strong> {{ schedule.time }} <br>
@@ -25,8 +26,12 @@
                 {% endfor %}
             </ul>
         {% else %}
-            <p>Ничего не найдено.</p>
-
+            <p>
+                Ничего не найдено.
+                <br><br>
+                <a href="{% url 'home' %}">Искать снова</a>
+            </p>
+            
         {% endif %}
     {% else %}
         <p>Введите параметр поиска в адресной строке, например: <code>?q=название</code></p>

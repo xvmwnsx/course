@@ -32,7 +32,7 @@ class Classes(models.Model):
     teacher = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     
     def __str__(self):
-        return f"{self.name} - {'Группа'} {self.group} "
+        return f"{self.name}"
 
 class Schedule(models.Model):
     id = models.IntegerField(primary_key=True)
@@ -43,5 +43,5 @@ class Schedule(models.Model):
     teacher = models.ForeignKey(CustomUser, null=True, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.subject} - {self.date} - {self.time} - {self.cabinet} - {self.teacher}"
+        return f"{self.subject} {self.date} {self.time} {self.cabinet} {self.teacher}"
 

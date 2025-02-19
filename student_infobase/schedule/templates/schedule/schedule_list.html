@@ -1,4 +1,4 @@
-{% extends 'schedule/base.html' %}
+{% extends 'base.html' %}
 {% block title %}Список занятий{% endblock %}
 {% block content %}
 
@@ -10,7 +10,9 @@
 <h2>Список занятий</h2>
 <table>
     <tr>
-        <th>Название</th>
+        <th>Предмет</th>
+        <th>Номер группы</th>
+        <th>Группа</th>
         <th>Дата</th>
         <th>Время</th>
         <th>Кабинет</th>
@@ -19,6 +21,8 @@
     {% for schedule in schedules %}
     <tr>
         <td>{{ schedule.subject }}</td>
+        <td>{{ schedule.subject.group.id }}</td>
+        <td>{{ schedule.subject.group.name }}</td>
         <td>{{ schedule.date }}</td>
         <td>{{ schedule.time }}</td>
         <td>{{ schedule.cabinet }}</td>

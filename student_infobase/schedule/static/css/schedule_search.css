@@ -3,7 +3,7 @@ h2 {
     text-align: center;
     margin: 20px 0;
     font-size: 28px;
-    color: #4CAF50;
+    color: #667eea;
     font-family: 'Arial', sans-serif;
 }
 
@@ -54,6 +54,12 @@ code {
     border-radius: 5px;
     font-size: 14px;
 }
+
+label {
+    font-size: 16px; /* Увеличивает размер текста */
+    font-weight: bold; /* Делаем текст жирным */
+}
+
 
 /* Адаптация для мобильных устройств */
 @media (max-width: 768px) {

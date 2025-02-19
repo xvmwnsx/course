@@ -1,57 +1,78 @@
-/* Основные стили для контейнера профиля */
-.profile-info {
-    margin: 20px auto;
-    padding: 20px;
-    max-width: 600px;
-    background-color: #ffffff; /* Белый фон для читаемости */
-    border: 1px solid #ddd; /* Лёгкая граница */
-    border-radius: 10px; /* Скруглённые края */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Небольшая тень */
-    font-family: 'Arial', sans-serif;
-    line-height: 1.6;
-}
-
 /* Заголовок */
 h2 {
     text-align: center;
-    margin-top: 10px;
-    font-size: 24px;
-    color: #4CAF50; /* Зеленый акцент */
-}
-
-/* Стили для текста */
-.profile-info p {
-    font-size: 16px;
     color: #333;
+    margin-top: 20px;
+}
+
+/* Карточка профиля */
+.profile-info {
+    max-width: 500px;
+    background: white;
+    padding: 20px;
+    margin: 20px auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: 0.3s;
+}
+
+/* Текст в карточке */
+.profile-info p {
+    color: #555;
     margin: 10px 0;
+    line-height: 1.5;
 }
 
+/* Выделение заголовков полей */
 .profile-info strong {
-    color: #4CAF50;
+    color: #222;
 }
 
-/* Кнопка выхода */
+/* Ссылка "Сменить пароль" */
+.profile-info a {
+    display: inline-block;
+    text-decoration: none;
+    color: #667eea;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.profile-info a:hover {
+    color: #5b74e3;
+    text-decoration: underline;
+}
+
+/* Кнопка "Выйти" */
 button {
     display: block;
-    margin: 20px auto 0;
-    padding: 10px 20px;
-    background-color: #4CAF50;
-    color: #ffffff;
+    width: 100%;
+    padding: 12px;
+    margin: 20px auto;
+    background: #667eea;
+    color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 16px;
-    font-weight: bold;
-    transition: background-color 0.3s;
+    transition: 0.3s;
 }
 
 button:hover {
-    background-color: #45a049;
+    background: #d32f2f;
 }
 
-/* Адаптация для мобильных устройств */
-@media (max-width: 768px) {
+
+/* Адаптивность */
+@media (max-width: 600px) {
     .profile-info {
-        width: 90%; /* Занимает почти весь экран на маленьких устройствах */
+        width: 90%;
+        padding: 15px;
+    }
+
+    h2 {
+        font-size: 20px;
+    }
+
+    button {
+        font-size: 14px;
     }
 }

@@ -107,7 +107,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru'
 
 TIME_ZONE = 'UTC'
 
@@ -117,16 +117,16 @@ USE_TZ = True
 
 DEFAULT_CHARSET = 'utf-8'
 
-LOGOUT_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/logout/'
 
-LOGIN_REDIRECT_URL = '/office/'
+LOGIN_REDIRECT_URL = 'office'
 
 AUTH_USER_MODEL = 'schedule.CustomUser'
 # Логин редирект
 
 LOGIN_URL = 'login'
 
-LOGOUT_URL = 'logout'
+LOGOUT_URL = '/logout/'
 
 MEDIA_URL = 'media/'
 

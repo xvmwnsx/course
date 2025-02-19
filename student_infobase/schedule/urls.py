@@ -6,12 +6,12 @@ from django.contrib.auth import views as auth_views
 urlpatterns = [
     path('', views.home, name='home'),
     path('add_schedule/', views.add_schedule, name='add_schedule'),
-    path('login/', auth_views.LoginView.as_view(template_name='schedule/login.html'), name='login'),
+    path('login/', auth_views.LoginView.as_view(), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('office/', views.office, name='office'),
-    path('schedule_list/', login_required(views.schedule_list), name='schedule_list'),
+    path('schedule-list/', login_required(views.schedule_list), name='schedule_list'),
     path('register/', views.register, name='register'),
-    path('schedule_search/', login_required(views.schedule_search), name='schedule_search'),
+    path('schedule-search/', login_required(views.schedule_search), name='schedule_search'),
     path('download-schedule/', views.download_schedule, name='download_schedule'),
 
     path('password-change/',
