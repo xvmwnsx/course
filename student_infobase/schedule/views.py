@@ -1,6 +1,7 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect,get_object_or_404
 from .models import Schedule
 from .forms import ScheduleForm, UserRegistrationForm
+from django.http import HttpResponseForbidden
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth import login, authenticate
 from django.contrib import messages
@@ -38,23 +39,46 @@ def home(request):
 
 @login_required
 def schedule_list(request):
-    user = request.user 
-    if hasattr(user, 'group') and user.group:
-        schedules = Schedule.objects.filter(subject__group=user.group)
+    user = request.user
+
+    if user.role == 'admin':
+        # Админ видит всё расписание
+        schedules = Schedule.objects.all()
+    elif user.role == 'teacher':
+        # Учитель видит только своё расписание
+        schedules = Schedule.objects.filter(teacher=user)
     else:
-        schedules = []
-    return render(request, 'schedule/schedule_list.html', {'schedules': schedules})
+        # Студент видит расписание своей группы (если у него есть группа)
+        user_groups = user.groups.all()
+        if user_groups.exists():
+            schedules = Schedule.objects.filter(subject__group__name__in=[group.name for group in user_groups])
+        else:
+            schedules = []
+
+    # Определяем, можно ли редактировать расписание (только учителям и админам)
+    can_edit = user.role in ['teacher', 'admin']
+
+    return render(request, 'schedule/schedule_list.html', {'user': user, 'schedules': schedules, 'can_edit': can_edit})
 
 
-def add_schedule(request):
+
+@login_required
+def schedule_edit(request, pk):
+    schedule = get_object_or_404(Schedule, pk=pk)
+
+    # Только учителя и админы могут редактировать расписание
+    if request.user.role not in ['teacher', 'admin']:
+        return HttpResponseForbidden("У вас нет прав на редактирование расписания.")
+
     if request.method == "POST":
-        form = ScheduleForm(request.POST)
+        form = ScheduleForm(request.POST, instance=schedule)
         if form.is_valid():
             form.save()
-            return redirect('schedule_list')
+            return redirect('schedule_list')  # Перенаправление после сохранения
     else:
-        form = ScheduleForm()
-    return render(request, 'schedule/add_schedule.html', {'form': form})
+        form = ScheduleForm(instance=schedule)
+
+    return render(request, 'schedule/schedule_edit.html', {'form': form})
 
 @login_required
 def schedule_search(request):
@@ -94,9 +118,7 @@ def office(request):
 def download_schedule(request):
     user_group = request.user.group  # Используем именно модель Group, а не auth.Group
     schedule = Schedule.objects.filter(subject__group=user_group)
-
-    
-    
+  
     if not schedule:
         return HttpResponse("Нет данных для выгрузки", status=404)
 

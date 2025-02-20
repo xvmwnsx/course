@@ -126,6 +126,8 @@ AUTH_USER_MODEL = 'schedule.CustomUser'
 
 LOGIN_URL = 'login'
 
+USE_L10N = True
+
 LOGOUT_URL = '/logout/'
 
 MEDIA_URL = 'media/'

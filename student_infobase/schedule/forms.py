@@ -58,3 +58,14 @@ class CustomPasswordChangeForm(PasswordChangeForm):
         widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Подтвердите новый пароль'}),
         label="Подтверждение пароля"
     )    
+    
+class ScheduleForm(forms.ModelForm):
+    
+    class Meta:
+        model = Schedule
+        fields = ['subject', 'date', 'time', 'cabinet', 'teacher']
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+    
+        self.fields['teacher'].queryset = CustomUser.objects.filter(role='teacher')

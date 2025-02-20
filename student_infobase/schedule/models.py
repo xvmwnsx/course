@@ -41,6 +41,9 @@ class Schedule(models.Model):
     subject = models.ForeignKey(Classes, on_delete=models.CASCADE)
     cabinet = models.IntegerField(null=True, blank=True)
     teacher = models.ForeignKey(CustomUser, null=True, on_delete=models.CASCADE)
+    
+    def get_weekday(self):
+        return self.date.strftime('%A')  # Возвращает полное название дня недели (например, "Monday")
 
     def __str__(self):
         return f"{self.subject} {self.date} {self.time} {self.cabinet} {self.teacher}"

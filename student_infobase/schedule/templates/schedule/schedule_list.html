@@ -1,15 +1,14 @@
 {% extends 'base.html' %}
 {% block title %}Список занятий{% endblock %}
 {% block content %}
-
 {% load static %}
 <head>
     <link rel="stylesheet" href="{% static 'css/schedule_list.css' %}">
 </head>
-
 <h2>Список занятий</h2>
 <table>
     <tr>
+        <th>День недели</th>
         <th>Предмет</th>
         <th>Номер группы</th>
         <th>Группа</th>
@@ -17,9 +16,13 @@
         <th>Время</th>
         <th>Кабинет</th>
         <th>Преподаватель</th>
+        {% if can_edit %}
+            <th>Изменение</th>
+        {% endif %}
     </tr>
     {% for schedule in schedules %}
     <tr>
+        <td>{{ schedule.date|date:"l" }}</td>
         <td>{{ schedule.subject }}</td>
         <td>{{ schedule.subject.group.id }}</td>
         <td>{{ schedule.subject.group.name }}</td>
@@ -27,11 +30,11 @@
         <td>{{ schedule.time }}</td>
         <td>{{ schedule.cabinet }}</td>
         <td>{{ schedule.teacher }}</td>
+        {% if can_edit %}
+        <td><a href="{% url 'schedule_edit' pk=schedule.id %}">✏️ Редактировать</a></td>
+    {% endif %}
     </tr>
     {% endfor %}
 </table>
-
 <a href="{% url 'download_schedule' %}" class="btn-download">Скачать расписание</a>
-
-
 {% endblock %}
