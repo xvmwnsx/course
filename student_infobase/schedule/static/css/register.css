@@ -1,4 +1,4 @@
-/* Центрирование reg-container */
+
 .reg {
     display: flex;
     justify-content: center;
@@ -7,12 +7,10 @@
 }
 
 label {
-    font-size: 16px; /* Увеличивает размер текста */
+    font-size: 16px;
 
 }
 
-
-/* Стили для контейнера регистрации */
 .reg-container {
     background-color: white;
     padding: 30px;
@@ -30,7 +28,6 @@ label {
     color: #333;
 }
 
-/* Стили для формы */
 form {
     display: flex;
     flex-direction: column;
@@ -38,8 +35,6 @@ form {
     transition: 0.3s;
 }
 
-
-/* Стили для полей ввода */
 input {
     padding: 12px;
     margin: 10px 0;
@@ -54,7 +49,7 @@ input {
 
 input:focus {
     border-color: #667eea;
-    box-shadow: 0 0 4px rgba(40, 167, 69, 0.5);
+    box-shadow: 0 0 4px #764ba2;
 }
 input[type="submit"] {
     background-color: #667eea;
@@ -71,4 +66,13 @@ input[type="submit"] {
 
 input[type="submit"]:hover {
     background-color: #764ba2;
+}
+
+select.form-control {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #667eea;
+    border-radius: 5px;
+    background-color: white;
+    font-size: 16px;
 }

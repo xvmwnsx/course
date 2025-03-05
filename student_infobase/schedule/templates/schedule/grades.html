@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/grades.css' %}">
+<div class="container">
+    <h2>Оценки</h2>
+    <form method="GET">
+        <label for="subject">Предмет:</label>
+        <select name="subject" id="subject">
+            <option value="">Все предметы</option>
+            {% for subj in subjects %}
+                <option value="{{ subj.id }}" {% if request.GET.subject == subj.id|stringformat:"s" %}selected{% endif %}>
+                    {{ subj.name }}
+                </option>
+            {% endfor %}
+        </select>
+        <button type="submit">Выбрать</button>
+    </form>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Предмет</th>
+                {% if user.role == "teacher" %}
+                    <th>Студент</th>
+                {% endif %}
+                <th>Оценка</th>
+                <th>Дата</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for grade in grades %}
+            <tr>
+                <td>{{ grade.subject.name }}</td>
+                {% if user.role == "teacher" %}
+                    <td>{{ grade.student.first_name }} {{ grade.student.last_name }}</td>
+                {% endif %}
+                <td>{{ grade.grade }}</td>
+                <td>{{ grade.date }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4">Нет оценок</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

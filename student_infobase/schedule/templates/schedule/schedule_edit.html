@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 
 {% block content %}
+{% load static %}
+<head>
+    <link rel="stylesheet" href="{% static 'css/schedule_edit.css' %}">
+</head>
     <h2>Редактировать расписание</h2>
     <form method="post">
         {% csrf_token %}

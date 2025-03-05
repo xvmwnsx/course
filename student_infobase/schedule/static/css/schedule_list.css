@@ -1,20 +1,18 @@
-/* Основной стиль для заголовка */
 h2 {
     text-align: center;
     margin: 20px 0;
     font-size: 28px;
-    color: #667eea; 
+    color: #333; 
     font-family: 'Arial', sans-serif;
 }
 
-/* Таблица */
 table {
     width: 90%;
     margin: 20px auto;
     border-collapse: collapse;
     font-family: 'Arial', sans-serif;
     background-color: #ffffff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Небольшая тень */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
     transition: 0.3s;
 }
 
@@ -29,7 +27,6 @@ td {
 th {
     background-color: #667eea;
     color: white;
-    text-transform: uppercase;
     font-weight: bold;
     padding: 10px;
 }
@@ -48,7 +45,6 @@ tr:hover {
     transition: 0.3s;
 }
 
-/* Кнопка загрузки */
 .btn-download {
     display: block;
     width: 200px;
@@ -70,20 +66,19 @@ tr:hover {
 }
 
 label {
-    font-size: 16px; /* Увеличивает размер текста */
-    font-weight: bold; /* Делаем текст жирным */
+    font-size: 16px; 
+    font-weight: bold;
 }
 
 
-/* Адаптация для мобильных устройств */
 @media (max-width: 768px) {
     table {
-        width: 100%; /* Таблица занимает весь экран */
+        width: 100%;
         font-size: 14px;
     }
 
     .btn-download {
-        width: 80%; /* Кнопка становится шире */
+        width: 80%;
         font-size: 14px;
     }
 }

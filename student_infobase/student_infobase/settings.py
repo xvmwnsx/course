@@ -122,6 +122,7 @@ LOGOUT_REDIRECT_URL = '/logout/'
 LOGIN_REDIRECT_URL = 'office'
 
 AUTH_USER_MODEL = 'schedule.CustomUser'
+
 # Логин редирект
 
 LOGIN_URL = 'login'

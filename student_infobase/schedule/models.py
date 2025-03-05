@@ -43,8 +43,19 @@ class Schedule(models.Model):
     teacher = models.ForeignKey(CustomUser, null=True, on_delete=models.CASCADE)
     
     def get_weekday(self):
-        return self.date.strftime('%A')  # Возвращает полное название дня недели (например, "Monday")
+        return self.date.strftime('%A')  
 
     def __str__(self):
         return f"{self.subject} {self.date} {self.time} {self.cabinet} {self.teacher}"
+
+class Grade(models.Model):
+    id = models.AutoField(primary_key=True)
+    student = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="grades_as_student")
+    subject = models.ForeignKey(Classes, on_delete=models.CASCADE)
+    teacher = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="grades_as_teacher")
+    grade = models.PositiveIntegerField()
+    date = models.DateField()
+
+    def __str__(self):
+        return f"{self.student} - {self.subject} - {self.grade}"
 

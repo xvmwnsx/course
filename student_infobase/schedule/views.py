@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect,get_object_or_404
-from .models import Schedule
+from .models import Schedule, Grade, Classes
 from .forms import ScheduleForm, UserRegistrationForm
 from django.http import HttpResponseForbidden
 from django.contrib.auth.views import LoginView, LogoutView
@@ -38,24 +38,39 @@ def home(request):
     return render(request, 'schedule/home.html')
 
 @login_required
-def schedule_list(request):
+def grade(request):
+    user = request.user 
+    if user.role == "student":
+        grades = Grade.objects.filter(student=user)  
+    elif user.role == "teacher":
+        grades = Grade.objects.filter(teacher=user) 
+    else:
+        grades = Grade.objects.all()  
+        
+    subjects = Classes.objects.all()
+
+    subject_id = request.GET.get("subject")
+    if subject_id:
+        grades = grades.filter(subject_id=subject_id)
+
+    return render(request, 'schedule/grades.html', {"grades": grades, "subjects": subjects})
+
+@login_required
+def schedule_list(request): 
     user = request.user
 
     if user.role == 'admin':
-        # Админ видит всё расписание
         schedules = Schedule.objects.all()
     elif user.role == 'teacher':
-        # Учитель видит только своё расписание
         schedules = Schedule.objects.filter(teacher=user)
-    else:
-        # Студент видит расписание своей группы (если у него есть группа)
-        user_groups = user.groups.all()
-        if user_groups.exists():
-            schedules = Schedule.objects.filter(subject__group__name__in=[group.name for group in user_groups])
+    elif user.role == 'student':
+        if user.group:  
+            schedules = Schedule.objects.filter(subject__group=user.group)
         else:
-            schedules = []
+            schedules = Schedule.objects.none() 
+    else:
+        schedules = Schedule.objects.none()
 
-    # Определяем, можно ли редактировать расписание (только учителям и админам)
     can_edit = user.role in ['teacher', 'admin']
 
     return render(request, 'schedule/schedule_list.html', {'user': user, 'schedules': schedules, 'can_edit': can_edit})
@@ -65,8 +80,6 @@ def schedule_list(request):
 @login_required
 def schedule_edit(request, pk):
     schedule = get_object_or_404(Schedule, pk=pk)
-
-    # Только учителя и админы могут редактировать расписание
     if request.user.role not in ['teacher', 'admin']:
         return HttpResponseForbidden("У вас нет прав на редактирование расписания.")
 
@@ -74,7 +87,7 @@ def schedule_edit(request, pk):
         form = ScheduleForm(request.POST, instance=schedule)
         if form.is_valid():
             form.save()
-            return redirect('schedule_list')  # Перенаправление после сохранения
+            return redirect('schedule_list')
     else:
         form = ScheduleForm(instance=schedule)
 
@@ -116,27 +129,25 @@ def office(request):
         )
     
 def download_schedule(request):
-    user_group = request.user.group  # Используем именно модель Group, а не auth.Group
+    user_group = request.user.group 
     schedule = Schedule.objects.filter(subject__group=user_group)
-  
+
     if not schedule:
         return HttpResponse("Нет данных для выгрузки", status=404)
 
     workbook = Workbook()
     sheet = workbook.active
     sheet.title = "Расписание"
-    
-    headers = ["ПРЕДМЕТ", 'НОМЕР ГРУППЫ', 'ГРУППА', "ДАТА", "ВРЕМЯ", "КАБИНЕТ", "ПРЕПОДАВАТЕЛЬ"]
+
+    headers = ["ДЕНЬ НЕДЕЛИ", "ПРЕДМЕТ", 'НОМЕР ГРУППЫ', 'ГРУППА', "ДАТА", "ВРЕМЯ", "КАБИНЕТ", "ПРЕПОДАВАТЕЛЬ"]
     sheet.append(headers)
 
-    # Стиль для заголовков
     header_font = Font(name='Arial', bold=True, color="FFFFFF")
     header_fill = PatternFill(start_color="667eea", end_color="5b74e3", fill_type="solid")
     header_alignment = Alignment(horizontal="center", vertical="center")
     border_style = Side(border_style="thin", color="000000")
     header_border = Border(left=border_style, right=border_style, top=border_style, bottom=border_style)
 
-    # Применяем стиль к заголовкам
     for col_num, header in enumerate(headers, start=1):
         cell = sheet.cell(row=1, column=col_num)
         cell.font = header_font
@@ -144,27 +155,37 @@ def download_schedule(request):
         cell.alignment = header_alignment
         cell.border = header_border
 
-    # Заполняем данные
-    for schedule in schedule:
-        teacher_name = f"{schedule.teacher.first_name} {schedule.teacher.last_name}"
+    days_of_week = {
+        "Monday": "Понедельник",
+        "Tuesday": "Вторник",
+        "Wednesday": "Среда",
+        "Thursday": "Четверг",
+        "Friday": "Пятница",
+        "Saturday": "Суббота",
+        "Sunday": "Воскресенье"
+    }
+
+    for schedule_item in schedule:
+        teacher_name = f"{schedule_item.teacher.first_name} {schedule_item.teacher.last_name}"
+        weekday = days_of_week.get(schedule_item.date.strftime('%A'), "Неизвестно")
+
         sheet.append([
-            schedule.subject.name,
-            schedule.subject.group.id,
-            schedule.subject.group.name,
-            schedule.date.strftime("%d-%m-%Y"),
-            schedule.time.strftime("%H:%M"),
-            schedule.cabinet or "—",
+            weekday,
+            schedule_item.subject.name,
+            schedule_item.subject.group.id,
+            schedule_item.subject.group.name,
+            schedule_item.date.strftime("%d-%m-%Y"),
+            schedule_item.time.strftime("%H:%M"),
+            schedule_item.cabinet or "—",
             teacher_name,
         ])
 
-    # Применяем стиль к данным (выравнивание, границы)
     data_alignment = Alignment(horizontal="left", vertical="center")
     for row in sheet.iter_rows(min_row=2, max_row=sheet.max_row, max_col=len(headers)):
         for cell in row:
             cell.alignment = data_alignment
             cell.border = header_border
 
-    # Автоматически подгоняем ширину колонок
     for col in sheet.columns:
         max_length = 0
         col_letter = col[0].column_letter
@@ -173,7 +194,6 @@ def download_schedule(request):
                 max_length = max(max_length, len(str(cell.value)))
         sheet.column_dimensions[col_letter].width = max_length + 2
 
-    # Подготовка ответа для скачивания
     response = HttpResponse(
         content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     )
@@ -182,4 +202,5 @@ def download_schedule(request):
     workbook.save(response)
 
     return response
+
 

@@ -20,6 +20,6 @@ urlpatterns = [
     path('password-change/done/',
         auth_views.PasswordChangeDoneView.as_view(),
         name='password_change_done'),
-
+    path('grade/', views.grade, name='grade'),
 ]
 
