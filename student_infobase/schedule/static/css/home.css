@@ -1,3 +1,45 @@
+.login_btn {
+    margin: 20px;
+    padding-bottom: 25px;
+    display: flex;
+    justify-content: center; /* Центрирование по горизонтали */
+    align-items: center;
+    gap: 20px; /* Расстояние между ссылками */
+    font-family: Arial, sans-serif; /* Шрифт */
+}
+
+.login_btn a {
+    text-decoration: none; /* Убираем подчеркивание */
+    padding: 13px 50px; /* Внутренние отступы */
+    border-radius: 12px; /* Закругленные углы */
+    font-weight: bold; /* Жирный текст */
+    transition: background-color 0.3s, color 0.3s; /* Плавные переходы */
+}
+
+/* Стиль для ссылки "Вход" */
+.login_btn a:first-child {
+    background-color: #C21E41; /* Красный фон */
+    color: white; /* Белый текст */
+    border: 2px solid #C21E41; /* Красная рамка */
+}
+
+.login_btn a:first-child:hover {
+    background-color: white; /* Белый фон при наведении */
+    color: #C21E41; /* Красный текст при наведении */
+}
+
+/* Стиль для ссылки "Регистрация" */
+.login_btn a:last-child {
+    background-color: #667EEA; /* Синий фон */
+    color: white; /* Белый текст */
+    border: 2px solid #667EEA; /* Синяя рамка */
+}
+
+.login_btn a:last-child:hover {
+    background-color: white; /* Белый фон при наведении */
+    color: #667EEA; /* Синий текст при наведении */
+}
+
 .search {
     display: flex;
     justify-content: center;

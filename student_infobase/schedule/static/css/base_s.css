@@ -5,6 +5,7 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  font-size: 16px;
 }
 
 .header {
@@ -20,9 +21,9 @@ body {
   justify-content: center;
   background: #ffffff;
   box-shadow: 4px 2px 8px 4px rgba(0, 0, 0, 0.1);
-  padding: 20px 0;
-  margin: 20px;
-  border-radius: 10px;
+  padding: 18px 0px;
+  margin: 18px;
+  border-radius: 12px;
 }
 
 .nav a {
@@ -31,8 +32,7 @@ body {
   font-size: 16px;
   border-radius: 5px;
   background: none;
-  margin-left: 20px;
-
+  margin-left: 40px;
   padding: 12px 20px;
   transition: background 0.3s, color 0.3s;
 }
@@ -47,7 +47,10 @@ body {
 
 h1 {
   text-align: center;
-  margin: 5px;
+  margin-right: 55px;
+  margin-left: 5px;
+  margin-top: 5px;
+  margin-bottom: 5px;
   color: #4960c6;
 }
 main {
