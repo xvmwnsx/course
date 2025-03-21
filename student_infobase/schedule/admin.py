@@ -48,6 +48,14 @@ class ClassesAdmin(admin.ModelAdmin):
             kwargs['queryset'] = CustomUser.objects.filter(role='teacher')
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
     
+    def has_change_permission(self, request, obj=None):
+        if request.user.role == 'student':  
+            return False 
+        return True 
+
+    def has_delete_permission(self, request, obj=None):
+        return request.user.role in ['admin', 'teacher'] 
+    
 class GradeAdmin(admin.ModelAdmin):
     list_display = ("student", "subject", "teacher", "grade", "date") 
     list_filter = ("subject", "teacher", "date") 
@@ -58,6 +66,14 @@ class GradeAdmin(admin.ModelAdmin):
         elif db_field.name == "teacher":
             kwargs["queryset"] = CustomUser.objects.filter(role="teacher")  
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
+    
+    def has_change_permission(self, request, obj=None):
+        if request.user.role == 'student':  
+            return False 
+        return True 
+
+    def has_delete_permission(self, request, obj=None):
+        return request.user.role in ['admin', 'teacher'] 
 
 admin.site.register(CustomUser, CustomUserAdmin)
 admin.site.register(Group)

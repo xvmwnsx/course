@@ -1,3 +1,41 @@
+.filter-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Отступ между строками */
+    margin-bottom: 20px;
+}
+
+.filter-group {
+    display: flex;
+    gap: 40px; /* Увеличенный отступ между предметом и группой */
+    align-items: center;
+}
+
+.filter-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.filter-button {
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s, transform 0.2s;
+    padding: 10px 20px;
+    margin-left: 10px;
+    background-color: #667eea;
+    font-weight: bold;
+    border-radius: 5px;
+    
+}
+
+.filter-button:hover {
+    background-color: #0056b3;
+}
+
+
+
 .container {
     max-width: 800px;
     margin: 5px auto;
@@ -22,6 +60,7 @@ form {
 form label {
     margin-right: 10px;
     font-weight: bold;
+    margin-bottom: 10px;
 }
 
 select {
@@ -47,22 +86,6 @@ select option {
     padding: 5px;
 }
 
-
-form button {
-    padding: 10px 20px;
-    margin-left: 10px;
-    background-color: #667eea;
-    color: white;
-    border: none;
-    font-weight: bold;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.2s;
-}
-
-form button:hover {
-    background-color: #4960c6
-}
 
 table {
     width: 100%;
@@ -110,4 +133,18 @@ td[colspan="4"] {
     text-align: center;
     font-style: italic;
     color: #888;
+}
+.green {
+    color: green;
+    font-weight: bold;
+}
+
+.yellow {
+    color: orange;
+    font-weight: bold;
+}
+
+.red {
+    color: red;
+    font-weight: bold;
 }

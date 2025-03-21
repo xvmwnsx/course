@@ -4,37 +4,71 @@
 {% load static %}
 <head>
     <link rel="stylesheet" href="{% static 'css/schedule_list.css' %}">
+    <script>
+        function showDay(day) {
+            let days = document.querySelectorAll('.schedule-day');
+            days.forEach(d => d.style.display = 'none');
+            document.getElementById(day).style.display = 'table';
+        }
+    </script>
 </head>
 <h2>Список занятий</h2>
-<table>
-    <tr>
-        <th>День недели</th>
-        <th>Предмет</th>
-        <th>Номер группы</th>
-        <th>Группа</th>
-        <th>Дата</th>
-        <th>Время</th>
-        <th>Кабинет</th>
-        <th>Преподаватель</th>
-        {% if can_edit %}
-            <th>Изменение</th>
+
+<div class="week-navigation">
+    <a href="?week_offset={{ prev_week_offset }}" class="btn">⬅️ Предыдущая неделя</a>
+    <span>{{ start_of_week }} — {{ end_of_week }}</span>
+    <a href="?week_offset={{ next_week_offset }}" class="btn">Следующая неделя ➡️</a>
+</div>
+
+
+{% for day, day_schedules in schedules.items %}
+    <div>
+        <h3>{{ day }}</h3>
+        {% if day_schedules %}
+            <table border="1">
+                <tr>
+                    <th>Дата</th>
+                    <th>Время</th>
+                    <th>Предмет</th>
+                    <th>Кабинет</th>
+                    
+                    {% if can_edit %}
+                    <th>Группа</th>
+                    <th>Номер группы</th>
+                    <th>Изменить</th>
+                    {% else %}
+                    <th>Преподаватель</th>
+                    {% endif %}
+                </tr>
+                {% for schedule in day_schedules %}
+                    <tr>
+                        <td>{{ schedule.date }}</td>
+                        <td>{{ schedule.time }}</td>
+                        <td>{{ schedule.subject }}</td>
+                        <td>{{ schedule.cabinet }}</td>
+                        
+                    {% if can_edit %}
+                    <td>{{ schedule.subject.group.name }}</td>
+                    <td>{{ schedule.subject.group.id }}</td>
+                    <td><a href="{% url 'schedule_edit' pk=schedule.id %}">✏️ Редактировать</a></td>
+                    {% else %}
+                    <td>{{ schedule.teacher }}</td>
+                    {% endif %}
+                    </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+            <p>Нет занятий</p>
         {% endif %}
-    </tr>
-    {% for schedule in schedules %}
-    <tr>
-        <td>{{ schedule.date|date:"l" }}</td>
-        <td>{{ schedule.subject }}</td>
-        <td>{{ schedule.subject.group.id }}</td>
-        <td>{{ schedule.subject.group.name }}</td>
-        <td>{{ schedule.date }}</td>
-        <td>{{ schedule.time }}</td>
-        <td>{{ schedule.cabinet }}</td>
-        <td>{{ schedule.teacher }}</td>
-        {% if can_edit %}
-        <td><a href="{% url 'schedule_edit' pk=schedule.id %}">✏️ Редактировать</a></td>
-    {% endif %}
-    </tr>
-    {% endfor %}
-</table>
+    </div>
+{% endfor %}
+
+
 <a href="{% url 'download_schedule' %}" class="btn-download">Скачать расписание</a>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        showDay('{{ week_days.0 }}');
+    });
+</script>
 {% endblock %}

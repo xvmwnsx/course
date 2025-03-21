@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect,get_object_or_404
-from .models import Schedule, Grade, Classes
-from .forms import ScheduleForm, UserRegistrationForm
+from .models import Schedule, Grade, Group, Classes
+from .forms import ScheduleForm, UserRegistrationForm, GradeForm
 from django.http import HttpResponseForbidden
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth import login, authenticate
@@ -11,6 +11,12 @@ from django.http import HttpResponse
 from openpyxl import Workbook
 from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
 from urllib.parse import quote
+
+
+from django.utils.translation import gettext as _
+from datetime import timedelta
+from django.utils.timezone import now
+
 
 
 def user_login(request):
@@ -38,44 +44,114 @@ def home(request):
     return render(request, 'schedule/home.html')
 
 @login_required
-def grade(request):
-    user = request.user 
-    if user.role == "student":
-        grades = Grade.objects.filter(student=user)  
-    elif user.role == "teacher":
-        grades = Grade.objects.filter(teacher=user) 
-    else:
-        grades = Grade.objects.all()  
-        
-    subjects = Classes.objects.all()
+def grade_list(request):
+    user = request.user
 
+    if user.role == "admin":
+        grades = Grade.objects.all()
+        subjects = Classes.objects.all()
+        groups = Group.objects.all()
+
+    elif user.role == "teacher":
+        subjects = Classes.objects.filter(teacher=user)  
+        grades = Grade.objects.filter(subject__in=subjects)
+        groups = Group.objects.filter(id__in=grades.values_list('student__group_id', flat=True)).distinct()
+
+    else:
+        grades = Grade.objects.filter(student=user)
+        subjects = Classes.objects.filter(id__in=grades.values_list('subject_id', flat=True))
+        groups = None
+        
+    # Фильтрация по предмету
     subject_id = request.GET.get("subject")
     if subject_id:
         grades = grades.filter(subject_id=subject_id)
 
-    return render(request, 'schedule/grades.html', {"grades": grades, "subjects": subjects})
+    # Фильтрация по группе (для учителей и админов)
+    if user.role in ["admin", "teacher"]:
+        group_id = request.GET.get("group")
+        if group_id:
+            grades = grades.filter(student__group_id=group_id)
+
+    can_edit = user.role in ["teacher", "admin"]
+
+    return render(request, 'schedule/grade_list.html', {
+        "grades": grades,
+        "subjects": subjects,
+        "groups": groups,
+        "can_edit": can_edit
+    })
+
 
 @login_required
 def schedule_list(request): 
     user = request.user
 
+    try:
+        week_offset = int(request.GET.get("week_offset", 0))
+    except ValueError:
+        week_offset = 0
+
+    today = now().date()
+    start_of_week = today - timedelta(days=today.weekday()) + timedelta(weeks=week_offset)
+    end_of_week = start_of_week + timedelta(days=5) 
+
     if user.role == 'admin':
-        schedules = Schedule.objects.all()
+        schedules = Schedule.objects.filter(date__range=[start_of_week, end_of_week])
     elif user.role == 'teacher':
-        schedules = Schedule.objects.filter(teacher=user)
-    elif user.role == 'student':
-        if user.group:  
-            schedules = Schedule.objects.filter(subject__group=user.group)
-        else:
-            schedules = Schedule.objects.none() 
+        schedules = Schedule.objects.filter(teacher=user, date__range=[start_of_week, end_of_week])
+    elif user.role == 'student' and user.group:
+        schedules = Schedule.objects.filter(subject__group=user.group, date__range=[start_of_week, end_of_week])
     else:
         schedules = Schedule.objects.none()
 
+
+    week_days_translation = {
+        "Monday": _("Понедельник"),
+        "Tuesday": _("Вторник"),
+        "Wednesday": _("Среда"),
+        "Thursday": _("Четверг"),
+        "Friday": _("Пятница"),
+        "Saturday": _("Суббота"),
+    }
+    week_days = list(week_days_translation.values())
+
+
+    grouped_schedules = {day: [] for day in week_days}
+    for schedule in schedules:
+        english_day = schedule.date.strftime("%A") 
+        russian_day = week_days_translation.get(english_day, None)  
+        if russian_day:
+            grouped_schedules.setdefault(russian_day, []).append(schedule) 
+
     can_edit = user.role in ['teacher', 'admin']
 
-    return render(request, 'schedule/schedule_list.html', {'user': user, 'schedules': schedules, 'can_edit': can_edit})
+    return render(request, 'schedule/schedule_list.html', {
+        'schedules': grouped_schedules,
+        'can_edit': can_edit,
+        'week_days': week_days,
+        'week_offset': week_offset,
+        'prev_week_offset': week_offset - 1,
+        'next_week_offset': week_offset + 1,
+        'start_of_week': start_of_week,
+        'end_of_week': end_of_week
+    })
 
+@login_required
+def grade_edit(request, pk):
+    grade_list = get_object_or_404(Grade, pk=pk)
+    if request.user.role not in ['teacher', 'admin']:
+        return HttpResponseForbidden("У вас нет прав на редактирование оценок.")
 
+    if request.method == "POST":
+        form = GradeForm(request.POST, instance=grade_list)
+        if form.is_valid():
+            form.save()
+            return redirect('grade_list')
+    else:
+        form = GradeForm(instance=grade_list)
+
+    return render(request, 'schedule/grade_edit.html', {'form': form})
 
 @login_required
 def schedule_edit(request, pk):
@@ -129,9 +205,11 @@ def office(request):
         )
     
 def download_schedule(request):
+    user = request.user
     user_group = request.user.group 
     schedule = Schedule.objects.filter(subject__group=user_group)
-
+    
+    
     if not schedule:
         return HttpResponse("Нет данных для выгрузки", status=404)
 

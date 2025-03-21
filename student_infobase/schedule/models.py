@@ -49,11 +49,21 @@ class Schedule(models.Model):
         return f"{self.subject} {self.date} {self.time} {self.cabinet} {self.teacher}"
 
 class Grade(models.Model):
-    id = models.AutoField(primary_key=True)
+    
+    GRADE_CHOICES = [
+        ('2', '2'),
+        ('3', '3'),
+        ('4', '4'),
+        ('5', '5'),
+        ('pass', 'Зачёт'),
+        ('fail', 'Незачёт'),
+    ]
+    
+    id = models.IntegerField(primary_key=True)
     student = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="grades_as_student")
     subject = models.ForeignKey(Classes, on_delete=models.CASCADE)
     teacher = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="grades_as_teacher")
-    grade = models.PositiveIntegerField()
+    grade = models.CharField(max_length=5, choices=GRADE_CHOICES)
     date = models.DateField()
 
     def __str__(self):

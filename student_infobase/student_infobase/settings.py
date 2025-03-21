@@ -117,7 +117,7 @@ USE_TZ = True
 
 DEFAULT_CHARSET = 'utf-8'
 
-LOGOUT_REDIRECT_URL = '/logout/'
+LOGOUT_REDIRECT_URL = 'logout'
 
 LOGIN_REDIRECT_URL = 'office'
 
@@ -129,7 +129,7 @@ LOGIN_URL = 'login'
 
 USE_L10N = True
 
-LOGOUT_URL = '/logout/'
+LOGOUT_URL = 'logout'
 
 MEDIA_URL = 'media/'
 

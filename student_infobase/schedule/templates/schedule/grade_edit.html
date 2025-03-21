@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% load static %}
+<head>
+    <link rel="stylesheet" href="{% static 'css/grade_edit.css' %}">
+</head>
+    <h2>Редактировать оценку</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Сохранить</button>
+    </form>
+    <a href="{% url 'grade_list' %}">Назад</a>
+{% endblock %}

@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/grade_list.css' %}">
+<div class="container">
+    <h2>Оценки</h2>
+    <form method="GET" class="filter-form">
+        <div class="filter-group">
+            <div class="filter-item">
+                <label for="subject">Предмет:</label>
+                <select name="subject" id="subject">
+                    <option value="">Все предметы</option>
+                    {% for subj in subjects %}
+                        <option value="{{ subj.id }}" {% if request.GET.subject == subj.id|stringformat:"s" %}selected{% endif %}>
+                            {{ subj.name }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+    
+            {% if can_edit %}
+            <div class="filter-item">
+                <label for="group">Группа:</label>
+                <select name="group" id="group">
+                    <option value="">Все группы</option>
+                    {% for group in groups %}
+                        <option value="{{ group.id }}" {% if request.GET.group == group.id|stringformat:"s" %}selected{% endif %}>
+                            {{ group.name }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            {% endif %}
+        </div>
+    
+        <button type="submit" class="filter-button">Выбрать</button>
+    </form>    
+    
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Предмет</th>
+                {% if can_edit %}
+                    <th>Студент</th>
+                {% endif %}
+                <th>Оценка</th>
+                <th>Дата</th>
+                {% if can_edit %}
+                    <th>Изменение</th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for grade in grades %}
+            <tr>
+                <td>{{ grade.subject.name }}</td>
+                {% if can_edit %}
+                    <td>{{ grade.student.first_name }} {{ grade.student.last_name }}</td>
+                {% endif %}
+                <td class="{% if grade.grade == '5' or grade.grade == '4' %}green
+                            {% elif grade.grade == '3' %}yellow
+                            {% elif grade.grade == '2' %}red
+                            {% elif grade.grade == 'pass' %}green
+                            {% elif grade.grade == 'fail' %}red
+                            {% endif %}">
+                {{ grade.get_grade_display }}</td>
+                <td>{{ grade.date }}</td>
+                {% if can_edit %}
+                    <td><a href="{% url 'grade_edit' pk=grade.id %}">✏️ Редактировать</a></td>
+                {% endif %}
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5">Нет оценок</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -6,6 +6,7 @@ from django.contrib.auth import views as auth_views
 urlpatterns = [
     path('', views.home, name='home'),
     path('schedule-edit/<int:pk>/', views.schedule_edit, name='schedule_edit'),
+    path('grade-edit/<int:pk>/', views.grade_edit, name='grade_edit'),
     path('login/', auth_views.LoginView.as_view(), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('office/', views.office, name='office'),
@@ -20,6 +21,6 @@ urlpatterns = [
     path('password-change/done/',
         auth_views.PasswordChangeDoneView.as_view(),
         name='password_change_done'),
-    path('grade/', views.grade, name='grade'),
+    path('grade-list/', views.grade_list, name='grade_list'),
 ]
 
