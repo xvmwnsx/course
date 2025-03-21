@@ -62,12 +62,10 @@ def grade_list(request):
         subjects = Classes.objects.filter(id__in=grades.values_list('subject_id', flat=True))
         groups = None
         
-    # Фильтрация по предмету
     subject_id = request.GET.get("subject")
     if subject_id:
         grades = grades.filter(subject_id=subject_id)
 
-    # Фильтрация по группе (для учителей и админов)
     if user.role in ["admin", "teacher"]:
         group_id = request.GET.get("group")
         if group_id:
