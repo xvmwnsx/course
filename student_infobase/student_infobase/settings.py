@@ -32,6 +32,7 @@ ALLOWED_HOSTS = ['10.0.2.2', '127.0.0.1', 'localhost']
 
 INSTALLED_APPS = [
     'schedule.apps.ScheduleConfig',
+    'schedule.templatetags',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -134,6 +135,12 @@ LOGOUT_URL = 'logout'
 MEDIA_URL = 'media/'
 
 MEDIA_ROOT = BASE_DIR / 'media'
+
+# Запуск
+# venv\Scripts\activate
+# cd student_infobase
+# python manage.py runserver
+# выход с сервера - CTRL+C
 
 
 # Static files (CSS, JavaScript, Images)

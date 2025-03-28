@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect,get_object_or_404
-from .models import Schedule, Grade, Group, Classes
+from .models import Schedule, Grade, Group, Classes, CustomUser
 from .forms import ScheduleForm, UserRegistrationForm, GradeForm
 from django.http import HttpResponseForbidden
 from django.contrib.auth.views import LoginView, LogoutView
@@ -11,12 +11,17 @@ from django.http import HttpResponse
 from openpyxl import Workbook
 from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
 from urllib.parse import quote
-
-
 from django.utils.translation import gettext as _
 from datetime import timedelta
 from django.utils.timezone import now
-
+from django.http import FileResponse
+from reportlab.pdfgen import canvas
+import io
+from django.http import FileResponse
+from reportlab.pdfgen import canvas
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
+from reportlab.lib.pagesizes import letter
 
 
 def user_login(request):
@@ -53,7 +58,7 @@ def grade_list(request):
         groups = Group.objects.all()
 
     elif user.role == "teacher":
-        subjects = Classes.objects.filter(teacher=user)  
+        subjects = Classes.objects.filter(teacher=user)
         grades = Grade.objects.filter(subject__in=subjects)
         groups = Group.objects.filter(id__in=grades.values_list('student__group_id', flat=True)).distinct()
 
@@ -61,15 +66,18 @@ def grade_list(request):
         grades = Grade.objects.filter(student=user)
         subjects = Classes.objects.filter(id__in=grades.values_list('subject_id', flat=True))
         groups = None
-        
+
+
     subject_id = request.GET.get("subject")
     if subject_id:
         grades = grades.filter(subject_id=subject_id)
+
 
     if user.role in ["admin", "teacher"]:
         group_id = request.GET.get("group")
         if group_id:
             grades = grades.filter(student__group_id=group_id)
+
 
     can_edit = user.role in ["teacher", "admin"]
 
@@ -79,6 +87,94 @@ def grade_list(request):
         "groups": groups,
         "can_edit": can_edit
     })
+
+    
+@login_required
+def subject_grades(request, subject_id):
+    subject = get_object_or_404(Classes, id=subject_id)  
+    students = CustomUser.objects.filter(group__classes=subject)
+    
+    grades = Grade.objects.filter(subject=subject).select_related("student")
+    
+    grades_by_date = {}
+    for grade in grades:
+        date_str = grade.date.strftime("%Y-%m-%d")
+        if date_str not in grades_by_date:
+            grades_by_date[date_str] = {}  
+        grades_by_date[date_str][grade.student.id] = grade  
+
+    return render(request, 'schedule/subject_grades.html', {
+        'subject': subject,
+        'students': students,
+        'grades_by_date': grades_by_date
+    })
+
+    
+
+@login_required
+def grade_edit(request, pk):
+    grade_list = get_object_or_404(Grade, pk=pk)
+    if request.user.role not in ['teacher', 'admin']:
+        return HttpResponseForbidden("У вас нет прав на редактирование оценок.")
+
+    if request.method == "POST":
+        form = GradeForm(request.POST, instance=grade_list)
+        if form.is_valid():
+            form.save()
+            return redirect('grade_list')
+    else:
+        form = GradeForm(instance=grade_list)
+
+    return render(request, 'schedule/grade_edit.html', {'form': form})
+
+@login_required
+def generate_subject_pdf(request, subject_id):
+    subject = Classes.objects.get(id=subject_id)
+    grades = Grade.objects.filter(subject=subject)
+
+    buffer = io.BytesIO()
+
+    p = canvas.Canvas(buffer, pagesize=letter)
+
+    pdfmetrics.registerFont(TTFont('DejaVu', 'DejaVuSans.ttf'))
+    p.setFont("DejaVu", 12)
+
+    p.drawString(100, 800, f"Журнал оценок: {subject.name}")
+
+    y_position = 780
+    line_height = 14  
+    max_line_length = 70  
+
+    def draw_wrapped_text(text, x, y, max_width):
+        """
+        Функция для автоматического переноса текста.
+        """
+        lines = []
+        current_line = []
+        for word in text.split():
+            current_line.append(word)
+            if p.stringWidth(' '.join(current_line), "DejaVu", 12) > max_width:
+                lines.append(' '.join(current_line[:-1]))
+                current_line = [word]
+        lines.append(' '.join(current_line)) 
+
+        for line in lines:
+            p.drawString(x, y, line)
+            y -= line_height
+        return y
+
+    for grade in grades:
+        text = f"{grade.student.first_name} {grade.student.last_name}: {grade.get_grade_display()} ({grade.date})"
+        y_position = draw_wrapped_text(text, 100, y_position, 400)
+
+    p.showPage()
+    p.save()
+
+    buffer.seek(0)
+
+    response = FileResponse(buffer, as_attachment=True, filename=f"{subject.name}_grades.pdf")
+    return response
+
 
 
 @login_required
@@ -134,22 +230,6 @@ def schedule_list(request):
         'start_of_week': start_of_week,
         'end_of_week': end_of_week
     })
-
-@login_required
-def grade_edit(request, pk):
-    grade_list = get_object_or_404(Grade, pk=pk)
-    if request.user.role not in ['teacher', 'admin']:
-        return HttpResponseForbidden("У вас нет прав на редактирование оценок.")
-
-    if request.method == "POST":
-        form = GradeForm(request.POST, instance=grade_list)
-        if form.is_valid():
-            form.save()
-            return redirect('grade_list')
-    else:
-        form = GradeForm(instance=grade_list)
-
-    return render(request, 'schedule/grade_edit.html', {'form': form})
 
 @login_required
 def schedule_edit(request, pk):

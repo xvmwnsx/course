@@ -1,150 +1,127 @@
+/* Основные стили контейнера */
+.container {
+    max-width: 90%;
+    margin: 20px auto;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Заголовок */
+h2 {
+    text-align: center;
+    color: #764ba2;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* Форма фильтров */
 .filter-form {
     display: flex;
-    flex-direction: column;
-    gap: 15px; /* Отступ между строками */
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
     margin-bottom: 20px;
 }
 
 .filter-group {
     display: flex;
-    gap: 40px; /* Увеличенный отступ между предметом и группой */
-    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
 }
 
-.filter-item {
-    display: flex;
-    flex-direction: column;
+.filter-item label {
+    font-weight: bold;
+    color: #6c757d;
 }
 
+.filter-item select {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Кнопка фильтра */
 .filter-button {
+    padding: 8px 15px;
+    background: #667eea;
     color: white;
     border: none;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s, transform 0.2s;
-    padding: 10px 20px;
-    margin-left: 10px;
-    background-color: #667eea;
-    font-weight: bold;
     border-radius: 5px;
-    
+    cursor: pointer;
+    transition: background 0.3s ease;
 }
 
 .filter-button:hover {
-    background-color: #0056b3;
+    background: #764ba2;
 }
 
-
-
-.container {
-    max-width: 800px;
-    margin: 5px auto;
-    padding: 1px;
-}
-
-h2 {
-    text-align: center;
-    margin: 20px 0;
-    font-size: 28px;
-    color: #333;
-    font-family: 'Arial', sans-serif;
-}
-
-form {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
-form label {
-    margin-right: 10px;
-    font-weight: bold;
-    margin-bottom: 10px;
-}
-
-select {
-    width: 100%; 
-    padding: 8px; 
-    font-size: 16px;
-    border: 2px solid #667eea; 
-    border-radius: 5px; 
-    background-color: #f9f9f9; 
-    color: #333;
-    cursor: pointer; 
-}
-
-select:focus {
-    border-color: #667eea;
-    outline: none;
-    background-color: #fff;
-    transition: background-color 0.3s, transform 0.2s;
-}
-
-select option {
-    font-size: 14px;
-    padding: 5px;
-}
-
-
+/* Таблица */
 table {
     width: 100%;
     border-collapse: collapse;
+    margin-top: 20px;
     background: white;
-    border-radius: 5px;
+    border-radius: 8px;
     overflow: hidden;
-    font-family: 'Arial', sans-serif;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
-    transition: background-color 0.3s, transform 0.2s;
 }
 
-td {
-    border: 1px solid #ffffff;
-    padding: 12px;
-    text-align: center;
-    font-size: 16px;
-    background-color: #ffffff;
-}
-
-th {
-    border: 1px solid #ffffff;
-    background-color: #667eea;
+/* Заголовки таблицы */
+thead {
+    background: #667eea;
     color: white;
-    font-weight: bold;
+}
+
+thead th {
     padding: 10px;
     text-align: center;
-    font-size: 16px;
-}
-td {
-    color: #333;
 }
 
-tr:nth-child(even) {
-    background-color: #ffffff;
-    transition: background-color 0.3s, transform 0.2s;
-}
-
-td:hover {
-    transition: background-color 0.3s, transform 0.2s;
-    background-color: #F4F4F9;
-}
-
-td[colspan="4"] {
+/* Ячейки таблицы */
+td, th {
+    padding: 10px;
     text-align: center;
-    font-style: italic;
-    color: #888;
+    border: 1px solid #ccc;
 }
+
+/* Чередующиеся строки */
+tbody tr:nth-child(even) {
+    background: #f8f9fa;
+}
+
+/* Стили оценок */
 .green {
-    color: green;
+    background-color: #d4edda; /* Светло-зеленый */
+    color: #155724;
     font-weight: bold;
 }
 
 .yellow {
-    color: orange;
+    background-color: #fff3cd; /* Желтый */
+    color: #856404;
     font-weight: bold;
 }
 
 .red {
-    color: red;
+    background-color: #f8d7da; /* Красный */
+    color: #721c24;
     font-weight: bold;
+}
+
+/* Убираем рамку для пустых ячеек */
+td:empty {
+    background: #f8f9fa;
+}
+
+/* Мобильная адаптация */
+@media (max-width: 768px) {
+    table {
+        font-size: 12px;
+    }
+    
+    .filter-form {
+        flex-direction: column;
+        align-items: center;
+    }
 }

@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
-
 {% block content %}
 {% load static %}
+{% load custom_filters %}
+
 <link rel="stylesheet" type="text/css" href="{% static 'css/grade_list.css' %}">
 <div class="container">
     <h2>Оценки</h2>
@@ -42,38 +43,25 @@
             <tr>
                 <th>Предмет</th>
                 {% if can_edit %}
-                    <th>Студент</th>
-                {% endif %}
-                <th>Оценка</th>
-                <th>Дата</th>
-                {% if can_edit %}
-                    <th>Изменение</th>
+                    <th>Группа</th>
                 {% endif %}
             </tr>
         </thead>
         <tbody>
-            {% for grade in grades %}
+            {% for subj in subjects %}
             <tr>
-                <td>{{ grade.subject.name }}</td>
+                <td>
+                    <a href="{% url 'subject_grades' subject_id=subj.id %}">
+
+                        {{ subj.name }}
+                    
+                </td>
                 {% if can_edit %}
-                    <td>{{ grade.student.first_name }} {{ grade.student.last_name }}</td>
+                <td>
+                    {{ subj.group.name }}
+                </td>
                 {% endif %}
-                <td class="{% if grade.grade == '5' or grade.grade == '4' %}green
-                            {% elif grade.grade == '3' %}yellow
-                            {% elif grade.grade == '2' %}red
-                            {% elif grade.grade == 'pass' %}green
-                            {% elif grade.grade == 'fail' %}red
-                            {% endif %}">
-                {{ grade.get_grade_display }}</td>
-                <td>{{ grade.date }}</td>
-                {% if can_edit %}
-                    <td><a href="{% url 'grade_edit' pk=grade.id %}">✏️ Редактировать</a></td>
-                {% endif %}
-            </tr>
-            {% empty %}
-            <tr>
-                <td colspan="5">Нет оценок</td>
-            </tr>
+            </tr>    
             {% endfor %}
         </tbody>
     </table>
