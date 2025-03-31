@@ -8,55 +8,43 @@
 <div class="container">
     <h2 class="page-title">Журнал оценок - {{ subject.name }}</h2>       
 
-    <table class="grades-table">
-        <thead>
-            <tr>
-                <th>Студент</th>
-                <th>Дата</th>
-                <th>Оценка</th>
-                <th>Изменение</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for student in students %}
-                {% with student_grades=grades_by_date|dict_items %}
-                    {% for date, grades_dict in student_grades %}
-                        {% with grade_obj=grades_dict|get_item:student.id %}
+    <div class="table-wrapper">
+        <div class="table-container">
+            <table class="grades-table">
+                <thead>
+                    <tr>
+                        <th>Студент</th>
+                        {% for date in date_list %}
+                            <th>{{ date }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for student in students %}
                         <tr>
-                            {% if forloop.first %}
-                                <td rowspan="{{ student_grades|length }}">{{ student.last_name }} {{ student.first_name }}</td>
-                            {% endif %}
-                            <td>{{ date }}</td>
-                            <td class="grade-cell 
-                                {% if grade_obj and grade_obj.value == '5' or grade_obj.value == '4' %}green
-                                {% elif grade_obj and grade_obj.value == '3' %}yellow
-                                {% elif grade_obj and grade_obj.value == '2' or grade_obj.value == 'fail' %}red
-                                {% elif grade_obj and grade_obj.value == 'pass' %}pass
-                                {% endif %}">
-                                {{ grade_obj.value }}
-                            </td>
-                            <td>
-                                {% if grade_obj and grade_obj.id %}
-                                    <a href="{% url 'grade_edit' pk=grade_obj.id %}">✏️</a>
-                                {% else %}
-                                    —
-                                {% endif %}
-                            </td>  
+                            <td>{{ student.last_name }} {{ student.first_name }}</td>
+                            {% for date in date_list %}
+                                {% with grades_by_date|get_item:date as grades_for_date %}
+                                    <td>
+                                        {% if grades_for_date and student.id in grades_for_date %}
+                                            {{ grades_for_date|get_item:student.id }}
+                                        {% else %}
+                                            -
+                                        {% endif %}
+                                    </td>
+                                {% endwith %}
+                            {% endfor %}
                         </tr>
-                        {% endwith %}
                     {% endfor %}
-                {% endwith %}
-            {% empty %}
-                <tr>
-                    <td colspan="4" class="no-data">Нет оценок</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
 
     <div class="buttons">
         <a href="{% url 'grade_list' %}" class="btn">⬅ Назад</a>
-        <a href="{% url 'generate_subject_pdf' subject.id %}" class="btn_download-btn">📄 Скачать PDF</a>
+        <a href="{% url 'export_grades_xlsx' subject.id %}" class="btn_download-btn">📄 Загрузить в XLSX</a>
     </div>
 </div>
 {% endblock %}

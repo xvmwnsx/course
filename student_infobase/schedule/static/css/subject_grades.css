@@ -1,30 +1,27 @@
-.grade-cell.pass {
-    background: white;
-    color:  #28a745;
-    font-weight: bold;
-}
-
-.grade-cell.fail {
-    background: white;  
-    color: #dc3545;
-    font-weight: bold;
-}
-.container {
-    width: 100%;
-    margin: 30px auto;
-    background: rgba(255, 255, 255, 0.1);
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
 .page-title {
     text-align: center;
     color: #000000;
 }
 
-.grades-table {
+.table-wrapper {
     width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    color: #667eea;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.table-container {
+    max-height: 500px;
+    overflow-x: auto; 
+    overflow-y: auto;
+
+}
+
+.grades-table {
+    width: max-content;
+    min-width: 100%; 
     border-collapse: collapse;
     margin-top: 20px;
     background: white;
@@ -32,39 +29,18 @@
     border-radius: 10px;
     overflow: hidden;
 }
-
-.grades-table th, .grades-table td {
-    padding: 12px;
-    text-align: center;
-    border: 1px solid #ccc;
-}
-
 .grades-table th {
     background: #667eea;
     color: white;
-}
-
-.grade-cell.red {
-    background: #ff4c4c;
-    color: white;
-    font-weight: bold;
-}
-
-.no-data {
-    text-align: center;
     padding: 15px;
-    font-size: 18px;
-    color: #ccc;
+    text-align: center;
+    white-space: nowrap;
 }
-
-.edit-link {
-    text-decoration: none;
-    font-size: 18px;
-    color: #28a745;
-}
-
-.edit-link:hover {
-    color: #764ba2;
+.grades-table td {
+    padding: 12px;
+    text-align: center;
+    border: 0.5px solid #ccc;
+    white-space: nowrap; 
 }
 
 .buttons {
@@ -82,7 +58,6 @@
     transition: 0.3s;
 }
 .btn_download-btn {
-
     padding: 10px 20px;
     text-decoration: none;
     color:  white;

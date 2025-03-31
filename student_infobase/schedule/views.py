@@ -88,28 +88,35 @@ def grade_list(request):
         "can_edit": can_edit
     })
 
-    
-@login_required
+from datetime import datetime, timedelta
+from django.shortcuts import render, get_object_or_404
+from .models import Grade, Classes, CustomUser
+
 def subject_grades(request, subject_id):
     subject = get_object_or_404(Classes, id=subject_id)  
-    students = CustomUser.objects.filter(group__classes=subject)
+    students = CustomUser.objects.filter(group__classes=subject).order_by('last_name', 'first_name')
+
+    today = datetime.today()
+    first_day = today.replace(day=1) 
+    last_day = (first_day + timedelta(days=31)).replace(day=1) - timedelta(days=1)
+
+    date_list = [(first_day + timedelta(days=i)).strftime("%Y-%m-%d") for i in range((last_day - first_day).days + 1)]
+
+    grades = Grade.objects.filter(subject=subject, date__range=[first_day, last_day]).select_related("student")
     
-    grades = Grade.objects.filter(subject=subject).select_related("student")
-    
-    grades_by_date = {}
+    grades_by_date = {date: {} for date in date_list}  
+
     for grade in grades:
         date_str = grade.date.strftime("%Y-%m-%d")
-        if date_str not in grades_by_date:
-            grades_by_date[date_str] = {}  
-        grades_by_date[date_str][grade.student.id] = grade  
+        grades_by_date[date_str][grade.student.id] = grade.grade 
 
     return render(request, 'schedule/subject_grades.html', {
         'subject': subject,
         'students': students,
-        'grades_by_date': grades_by_date
+        'grades_by_date': grades_by_date,
+        'date_list': date_list  
     })
-
-    
+  
 
 @login_required
 def grade_edit(request, pk):
@@ -127,52 +134,36 @@ def grade_edit(request, pk):
 
     return render(request, 'schedule/grade_edit.html', {'form': form})
 
-@login_required
-def generate_subject_pdf(request, subject_id):
-    subject = Classes.objects.get(id=subject_id)
-    grades = Grade.objects.filter(subject=subject)
+import pandas as pd
+from urllib.parse import quote
 
-    buffer = io.BytesIO()
+def export_grades_xlsx(request, subject_id):
+    subject = get_object_or_404(Classes, id=subject_id)  
+    grades = Grade.objects.filter(subject=subject).order_by('student__last_name', 'date')  
 
-    p = canvas.Canvas(buffer, pagesize=letter)
-
-    pdfmetrics.registerFont(TTFont('DejaVu', 'DejaVuSans.ttf'))
-    p.setFont("DejaVu", 12)
-
-    p.drawString(100, 800, f"Журнал оценок: {subject.name}")
-
-    y_position = 780
-    line_height = 14  
-    max_line_length = 70  
-
-    def draw_wrapped_text(text, x, y, max_width):
-        """
-        Функция для автоматического переноса текста.
-        """
-        lines = []
-        current_line = []
-        for word in text.split():
-            current_line.append(word)
-            if p.stringWidth(' '.join(current_line), "DejaVu", 12) > max_width:
-                lines.append(' '.join(current_line[:-1]))
-                current_line = [word]
-        lines.append(' '.join(current_line)) 
-
-        for line in lines:
-            p.drawString(x, y, line)
-            y -= line_height
-        return y
-
+    data = []
     for grade in grades:
-        text = f"{grade.student.first_name} {grade.student.last_name}: {grade.get_grade_display()} ({grade.date})"
-        y_position = draw_wrapped_text(text, 100, y_position, 400)
+        data.append([
+            grade.student.last_name,
+            grade.student.first_name,
+            grade.date.strftime('%Y-%m-%d'),
+            grade.grade
+        ])
+    
+    df = pd.DataFrame(data, columns=['Фамилия', 'Имя', 'Дата', 'Оценка'])
+    
+    response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
 
-    p.showPage()
-    p.save()
+    subject_name = subject.name.replace(" ", "_")  
+    filename = f"grades_{subject_name}.xlsx"
 
-    buffer.seek(0)
+    quoted_filename = quote(filename)  
+    response['Content-Disposition'] = f'attachment; filename="{filename}"; filename*=UTF-8\'\'{quoted_filename}'
 
-    response = FileResponse(buffer, as_attachment=True, filename=f"{subject.name}_grades.pdf")
+    
+    with pd.ExcelWriter(response, engine='xlsxwriter') as writer:
+        df.to_excel(writer, index=False, sheet_name='Оценки')
+    
     return response
 
 
@@ -198,8 +189,7 @@ def schedule_list(request):
         schedules = Schedule.objects.filter(subject__group=user.group, date__range=[start_of_week, end_of_week])
     else:
         schedules = Schedule.objects.none()
-
-
+    
     week_days_translation = {
         "Monday": _("Понедельник"),
         "Tuesday": _("Вторник"),

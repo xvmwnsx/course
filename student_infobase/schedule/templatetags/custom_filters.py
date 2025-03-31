@@ -4,7 +4,7 @@ register = template.Library()
 
 @register.filter
 def get_item(dictionary, key):
-    return dictionary.get(key, None)
+    return dictionary.get(key, '-')
 
 @register.filter
 def dict_items(dictionary):
