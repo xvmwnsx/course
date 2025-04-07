@@ -1,6 +1,71 @@
+.editable {
+    min-width: 30px; 
+    text-align: center;
+    padding: 5px;
+}
+
+.can-edit {
+    background-color: #f9f9f9; 
+    border: 1px solid #ddd;
+}
+
+.can-edit:focus {
+    outline: 2px solid blue; 
+}
+
+
+.filter-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    background: #ffffff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.filter-form label {
+    font-weight: bold;
+    color: #333;
+}
+
+.filter-form select {
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background: white;
+    cursor: pointer;
+    font-size: 16px;
+    transition: 0.3s;
+}
+
+.filter-form select:focus {
+    border-color: #667eea;
+    outline: none;
+}
+
+.filter-form button {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    background: #4A90E2;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.filter-form button:hover {
+    background: #2e5b8e;
+}
+
+
 .page-title {
     text-align: center;
     color: #000000;
+    margin-bottom: 20px;
 }
 
 .table-wrapper {
@@ -25,7 +90,7 @@
     border-collapse: collapse;
     margin-top: 20px;
     background: white;
-    color: #667eea;
+    color: #000000;
     border-radius: 10px;
     overflow: hidden;
 }
@@ -36,11 +101,19 @@
     text-align: center;
     white-space: nowrap;
 }
+
+.grades-table td[contenteditable="true"] {
+    display: block;
+}
+
 .grades-table td {
     padding: 12px;
     text-align: center;
     border: 0.5px solid #ccc;
     white-space: nowrap; 
+    pointer-events: auto; 
+    user-select: text;
+    
 }
 
 .buttons {
@@ -61,12 +134,14 @@
     padding: 10px 20px;
     text-decoration: none;
     color:  white;
-    background: #667eea;
+    background: #47a157;
+    font-weight: bold;
     border-radius: 5px;
-    transition: 0.3s;
+    transition: background-color 0.3s, transform 0.2s;
 
 }
 
 .btn_download-btn:hover {
-    background: #764ba2;
+    background-color: #37774e;
+    transform: scale(1.05);
 }

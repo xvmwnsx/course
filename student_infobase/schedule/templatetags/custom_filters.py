@@ -9,3 +9,8 @@ def get_item(dictionary, key):
 @register.filter
 def dict_items(dictionary):
     return dictionary.items()
+
+@register.simple_tag
+def grade_lookup(dictionary, student_id, date):
+    return dictionary.get((student_id, date), '')
+

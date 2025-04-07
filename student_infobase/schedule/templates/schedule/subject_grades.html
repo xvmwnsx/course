@@ -6,8 +6,26 @@
 <link rel="stylesheet" type="text/css" href="{% static 'css/subject_grades.css' %}">
 
 <div class="container">
-    <h2 class="page-title">Журнал оценок - {{ subject.name }}</h2>       
+    <h2 class="page-title">Журнал оценок - {{ subject.name }}</h2>  
 
+    <form method="GET" class="filter-form">
+        <label for="month">Месяц:</label>
+        <select name="month" id="month">
+            {% for num, name in months.items %}
+                <option value="{{ num }}" {% if num == selected_month %}selected{% endif %}>{{ name }}</option>
+            {% endfor %}
+        </select>
+    
+        <label for="year">Год:</label>
+        <select name="year" id="year">
+            {% for year in year_range %}
+                <option value="{{ year }}" {% if year == selected_year %}selected{% endif %}>{{ year }}</option>
+            {% endfor %}
+        </select>
+    
+        <button type="submit">Применить</button>
+    </form>
+    
     <div class="table-wrapper">
         <div class="table-container">
             <table class="grades-table">
@@ -45,6 +63,8 @@
     <div class="buttons">
         <a href="{% url 'grade_list' %}" class="btn">⬅ Назад</a>
         <a href="{% url 'export_grades_xlsx' subject.id %}" class="btn_download-btn">📄 Загрузить в XLSX</a>
+        <a href="{% url 'edit_grades' subject.id %}" class="btn edit-btn">✏️ Редактировать оценки</a>
     </div>
+   
 </div>
 {% endblock %}

@@ -48,91 +48,185 @@ def user_login(request):
 def home(request):
     return render(request, 'schedule/home.html')
 
+
 @login_required
 def grade_list(request):
     user = request.user
 
     if user.role == "admin":
-        grades = Grade.objects.all()
         subjects = Classes.objects.all()
         groups = Group.objects.all()
-
     elif user.role == "teacher":
         subjects = Classes.objects.filter(teacher=user)
-        grades = Grade.objects.filter(subject__in=subjects)
-        groups = Group.objects.filter(id__in=grades.values_list('student__group_id', flat=True)).distinct()
-
+        groups = Group.objects.filter(id__in=subjects.values_list("group_id", flat=True)).distinct()
     else:
-        grades = Grade.objects.filter(student=user)
-        subjects = Classes.objects.filter(id__in=grades.values_list('subject_id', flat=True))
+        subjects = Classes.objects.filter(group=user.group)
         groups = None
-
 
     subject_id = request.GET.get("subject")
     if subject_id:
-        grades = grades.filter(subject_id=subject_id)
-
+        subjects = subjects.filter(id=subject_id)
 
     if user.role in ["admin", "teacher"]:
         group_id = request.GET.get("group")
         if group_id:
-            grades = grades.filter(student__group_id=group_id)
-
-
-    can_edit = user.role in ["teacher", "admin"]
+            subjects = subjects.filter(group_id=group_id)
 
     return render(request, 'schedule/grade_list.html', {
-        "grades": grades,
         "subjects": subjects,
         "groups": groups,
-        "can_edit": can_edit
+        "is_teacher_or_admin": user.role in ["admin", "teacher"],
     })
 
 from datetime import datetime, timedelta
 from django.shortcuts import render, get_object_or_404
 from .models import Grade, Classes, CustomUser
 
+days_ru = {
+    'Mon': 'Пн', 'Tue': 'Вт', 'Wed': 'Ср', 'Thu': 'Чт', 'Fri': 'Пт', 'Sat': 'Сб', 'Sun': 'Вс'
+}
+
 def subject_grades(request, subject_id):
     subject = get_object_or_404(Classes, id=subject_id)  
-    students = CustomUser.objects.filter(group__classes=subject).order_by('last_name', 'first_name')
+    user = request.user  
+
+    is_student = user.role == 'student'
+
+    if is_student:
+        students = CustomUser.objects.filter(id=user.id)
+    else:
+        students = CustomUser.objects.filter(group__classes=subject).order_by('last_name', 'first_name')
 
     today = datetime.today()
-    first_day = today.replace(day=1) 
+    selected_month = int(request.GET.get('month', today.month))
+    selected_year = int(request.GET.get('year', today.year))
+    
+    if selected_month in [7, 8]:
+        selected_month = 9 
+    
+    first_day = datetime(selected_year, selected_month, 1)
     last_day = (first_day + timedelta(days=31)).replace(day=1) - timedelta(days=1)
-
-    date_list = [(first_day + timedelta(days=i)).strftime("%Y-%m-%d") for i in range((last_day - first_day).days + 1)]
+    
+    date_list = []
+    current_day = first_day
+    while current_day <= last_day:
+        if current_day.weekday() != 6:  
+            weekday_ru = days_ru[current_day.strftime("%a")]
+            date_list.append(current_day.strftime("%d-%m-%y") + f" ({weekday_ru})") 
+        current_day += timedelta(days=1)
 
     grades = Grade.objects.filter(subject=subject, date__range=[first_day, last_day]).select_related("student")
-    
-    grades_by_date = {date: {} for date in date_list}  
 
+    if is_student:
+        grades = grades.filter(student=user)
+
+    grades_by_date = {date: {} for date in date_list}
     for grade in grades:
-        date_str = grade.date.strftime("%Y-%m-%d")
+        weekday_ru = days_ru[grade.date.strftime("%a")]
+        date_str = grade.date.strftime("%d-%m-%y") + f" ({weekday_ru})"
         grades_by_date[date_str][grade.student.id] = grade.grade 
+
+    months = {
+        1: "Январь", 2: "Февраль", 3: "Март", 4: "Апрель", 5: "Май", 6: "Июнь",
+        9: "Сентябрь", 10: "Октябрь", 11: "Ноябрь", 12: "Декабрь"
+    }
+
+    year_range = list(range(today.year - 5, today.year + 1))
 
     return render(request, 'schedule/subject_grades.html', {
         'subject': subject,
         'students': students,
         'grades_by_date': grades_by_date,
-        'date_list': date_list  
+        'date_list': date_list,
+        'months': months,
+        'year_range': year_range,
+        'selected_month': selected_month,
+        'selected_year': selected_year,
     })
-  
 
-@login_required
-def grade_edit(request, pk):
-    grade_list = get_object_or_404(Grade, pk=pk)
-    if request.user.role not in ['teacher', 'admin']:
-        return HttpResponseForbidden("У вас нет прав на редактирование оценок.")
+from django.shortcuts import render, get_object_or_404, redirect
+from datetime import datetime, timedelta
+from .models import Grade, Classes, CustomUser
 
-    if request.method == "POST":
-        form = GradeForm(request.POST, instance=grade_list)
-        if form.is_valid():
-            form.save()
-            return redirect('grade_list')
-    else:
-        form = GradeForm(instance=grade_list)
+def edit_grades(request, subject_id):
+    
+    days_ru = {
+    'Mon': 'Пн', 'Tue': 'Вт', 'Wed': 'Ср', 'Thu': 'Чт', 'Fri': 'Пт', 'Sat': 'Сб', 'Sun': 'Вс'
+}
+    
+    subject = get_object_or_404(Classes, id=subject_id)
+    today = datetime.today()
 
-    return render(request, 'schedule/grade_edit.html', {'form': form})
+    selected_month = int(request.GET.get('month', today.month))
+    selected_year = int(request.GET.get('year', today.year))
+
+
+    if selected_month in [7, 8]:
+        selected_month = 9
+
+    first_day = datetime(selected_year, selected_month, 1)
+    last_day = (first_day + timedelta(days=31)).replace(day=1) - timedelta(days=1)
+
+
+    date_list = []
+    current_day = first_day
+    while current_day <= last_day:
+        if current_day.weekday() != 6:
+            weekday_ru = days_ru[current_day.strftime("%a")]
+            date_list.append(current_day.strftime("%d-%m-%y") + f" ({weekday_ru})")
+        current_day += timedelta(days=1)
+
+    students = CustomUser.objects.filter(group__classes=subject, role='student').order_by('last_name', 'first_name')
+    grades = Grade.objects.filter(subject=subject, date__range=[first_day, last_day])
+
+
+    grade_dict = {}
+    for grade in grades:
+        key = (grade.student.id, grade.date.strftime("%d-%m-%y") + f" ({days_ru[grade.date.strftime('%a')]})")
+        grade_dict[key] = grade.grade
+
+    grade_choices = Grade.GRADE_CHOICES
+
+    months = {
+        1: "Январь", 2: "Февраль", 3: "Март", 4: "Апрель", 5: "Май", 6: "Июнь",
+        9: "Сентябрь", 10: "Октябрь", 11: "Ноябрь", 12: "Декабрь"
+    }
+    year_range = list(range(today.year - 5, today.year + 1))
+    
+    if request.method == 'POST':
+        for student in students:
+            for date_str in date_list:
+                key = f"grade_{student.id}_{date_str}"
+                grade_value = request.POST.get(key)
+                if grade_value:
+                    date = datetime.strptime(date_str[:8], "%d-%m-%y").date()
+                    grade, created = Grade.objects.get_or_create(
+                        student=student,
+                        subject=subject,
+                        date=date,
+                        defaults={'teacher': request.user, 'grade': grade_value}
+                    )
+                    if not created:
+                        grade.grade = grade_value
+                        grade.save()
+        return redirect(request.path + f"?month={selected_month}&year={selected_year}")
+
+
+    return render(request, 'schedule/edit_grades.html', {
+        'subject': subject,
+        'students': students,
+        'date_list': date_list,
+        'grade_dict': grade_dict,
+        'grade_choices': grade_choices,
+        'months': months,
+        'year_range': year_range,
+        'selected_month': selected_month,
+        'selected_year': selected_year,
+    })
+
+
+
+
 
 import pandas as pd
 from urllib.parse import quote
@@ -272,14 +366,33 @@ def office(request):
         {'user': request.user, 'schedule': schedule}
         )
     
+from openpyxl import Workbook
+from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
+from django.http import HttpResponse
+from urllib.parse import quote
+from django.utils.timezone import now
+from datetime import timedelta
+
 def download_schedule(request):
     user = request.user
-    user_group = request.user.group 
-    schedule = Schedule.objects.filter(subject__group=user_group)
-    
-    
-    if not schedule:
-        return HttpResponse("Нет данных для выгрузки", status=404)
+
+    try:
+        week_offset = int(request.GET.get("week_offset", 0))
+    except ValueError:
+        week_offset = 0
+
+    today = now().date()
+    start_of_week = today - timedelta(days=today.weekday()) + timedelta(weeks=week_offset)
+    end_of_week = start_of_week + timedelta(days=5) 
+
+    if user.role == 'admin':
+        schedules = Schedule.objects.filter(date__range=[start_of_week, end_of_week])
+    elif user.role == 'teacher':
+        schedules = Schedule.objects.filter(teacher=user, date__range=[start_of_week, end_of_week])
+    elif user.role == 'student' and user.group:
+        schedules = Schedule.objects.filter(subject__group=user.group, date__range=[start_of_week, end_of_week])
+    else:
+        schedules = Schedule.objects.none()
 
     workbook = Workbook()
     sheet = workbook.active
@@ -311,7 +424,7 @@ def download_schedule(request):
         "Sunday": "Воскресенье"
     }
 
-    for schedule_item in schedule:
+    for schedule_item in schedules:
         teacher_name = f"{schedule_item.teacher.first_name} {schedule_item.teacher.last_name}"
         weekday = days_of_week.get(schedule_item.date.strftime('%A'), "Неизвестно")
 
@@ -348,5 +461,3 @@ def download_schedule(request):
     workbook.save(response)
 
     return response
-
-

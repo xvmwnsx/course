@@ -64,7 +64,8 @@
 {% endfor %}
 
 
-<a href="{% url 'download_schedule' %}" class="btn-download">Скачать расписание</a>
+<a href="{% url 'download_schedule' %}?week_offset={{ week_offset }}" class="btn-download">📄 Загрузить в XLSX</a>
+
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
