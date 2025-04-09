@@ -8,6 +8,8 @@ class ScheduleForm(forms.ModelForm):
         fields = ['id', 'date', 'time', 'subject']
 
 class UserRegistrationForm(UserCreationForm):
+    first_name = forms.CharField(label="Имя и Отчество", max_length=150)
+    last_name = forms.CharField(label="Фамилия", max_length=150)
     username = forms.CharField(
         label='Логин'
         )
@@ -20,6 +22,12 @@ class UserRegistrationForm(UserCreationForm):
         label="Группа",
         widget=forms.Select(attrs={'class': 'form-control'})
         )
+    role = forms.ChoiceField(
+        choices=CustomUser.ROLE_CHOICES,
+        label="Роль",
+        widget=forms.Select(attrs={'class': 'form-control'})
+        )
+
     password1 = forms.CharField(
         required=True,
         label="Пароль",
@@ -36,7 +44,7 @@ class UserRegistrationForm(UserCreationForm):
     
     class Meta:
         model = CustomUser
-        fields = ['username', 'email', 'group', 'password1', 'password2']
+        fields = ['username', 'email', 'first_name', 'last_name', 'group', 'password1', 'password2', 'role']
 
     def clean_email(self):
         email = self.cleaned_data.get('email')

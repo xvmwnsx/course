@@ -341,6 +341,8 @@ def schedule_search(request):
     return render(request, 'schedule/schedule_search.html', 
                   {'query': query, 'results': results})
 
+
+
 def register(request):
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST)
@@ -351,19 +353,23 @@ def register(request):
             return redirect('home')  
     else:
         form = UserRegistrationForm()
-    return render(request, 'schedule/register_user.html', {'form': form})
+    return render(request, 'registration/register_user.html', {'form': form})
+
+
 
 
 @login_required  
 def office(request):
+    user = request.user
     user_groups = request.user.groups.all()
     schedule = Schedule.objects.filter(
         subject__group__name__in=[group.name for group in user_groups]
         )
+    can_edit = user.role in ['teacher', 'admin']
     return render(
         request, 
         'schedule/office.html', 
-        {'user': request.user, 'schedule': schedule}
+        {'user': request.user, 'can_edit': can_edit, 'schedule': schedule}
         )
     
 from openpyxl import Workbook
