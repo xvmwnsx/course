@@ -31,6 +31,8 @@ ALLOWED_HOSTS = ['10.0.2.2', '127.0.0.1', 'localhost']
 # Application definition
 
 INSTALLED_APPS = [
+    'grades.apps.GradesConfig',
+    'accounts.apps.AccountsConfig',
     'schedule.apps.ScheduleConfig',
     'schedule.templatetags',
     'django.contrib.admin',
@@ -57,7 +59,7 @@ ROOT_URLCONF = 'student_infobase.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -79,7 +81,7 @@ WSGI_APPLICATION = 'student_infobase.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'students_infobase',
+        'NAME': 's_infobase',
         'USER': 'postgres',
         'PASSWORD': '12345',
     }
@@ -122,7 +124,7 @@ LOGOUT_REDIRECT_URL = 'logout'
 
 LOGIN_REDIRECT_URL = 'office'
 
-AUTH_USER_MODEL = 'schedule.CustomUser'
+AUTH_USER_MODEL = 'accounts.CustomUser'
 
 # Логин редирект
 
@@ -148,8 +150,9 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 STATIC_URL = 'static/'
 
-
-STATIC_ROOT = BASE_DIR / "schedule/static"
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
