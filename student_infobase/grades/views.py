@@ -18,9 +18,13 @@ def grade_list(request):
     elif user.role == "teacher":
         subjects = Classes.objects.filter(teacher=user)
         groups = Group.objects.filter(id__in=subjects.values_list("group_id", flat=True)).distinct()
+    elif user.role == "student":
+        if hasattr(user, "student") and user.student.group:
+            subjects = Classes.objects.filter(group=user.student.group)
     else:
-        subjects = Classes.objects.filter(group=user.group)
-        groups = None
+        subjects = Classes.objects.none()
+    groups = None
+
 
     subject_id = request.GET.get("subject")
     if subject_id:
@@ -51,7 +55,8 @@ def subject_grades(request, subject_id):
     if is_student:
         students = CustomUser.objects.filter(id=user.id)
     else:
-        students = CustomUser.objects.filter(group__classes=subject).order_by('last_name', 'first_name')
+        students = CustomUser.objects.filter(student__group=subject.group).order_by('surname', 'first_name')
+
 
     today = datetime.today()
     selected_month = int(request.GET.get('month', today.month))
@@ -132,7 +137,7 @@ def edit_grades(request, subject_id):
             date_list.append(current_day.strftime("%d-%m-%y") + f" ({weekday_ru})")
         current_day += timedelta(days=1)
 
-    students = CustomUser.objects.filter(group__classes=subject, role='student').order_by('last_name', 'first_name')
+    students = CustomUser.objects.filter(student__group=subject.group, role='student').order_by('surname', 'first_name')
     grades = Grade.objects.filter(subject=subject, date__range=[first_day, last_day])
 
 

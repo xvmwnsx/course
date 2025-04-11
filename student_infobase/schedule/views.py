@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect,get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Schedule
 from .forms import ScheduleForm
 from django.http import HttpResponse, HttpResponseForbidden
@@ -26,9 +26,12 @@ def schedule_list(request):
     if user.role == 'admin':
         schedules = Schedule.objects.filter(date__range=[start_of_week, end_of_week])
     elif user.role == 'teacher':
-        schedules = Schedule.objects.filter(teacher=user, date__range=[start_of_week, end_of_week])
-    elif user.role == 'student' and user.group:
-        schedules = Schedule.objects.filter(subject__group=user.group, date__range=[start_of_week, end_of_week])
+        schedules = Schedule.objects.filter(teacher=user.teacher, date__range=[start_of_week, end_of_week])
+    elif user.role == 'student':
+        if hasattr(user, 'student') and user.student.group:
+            schedules = Schedule.objects.filter(subject__group=user.student.group, date__range=[start_of_week, end_of_week])
+        else:
+            schedules = Schedule.objects.none()
     else:
         schedules = Schedule.objects.none()
     
@@ -41,7 +44,6 @@ def schedule_list(request):
         "Saturday": _("Суббота"),
     }
     week_days = list(week_days_translation.values())
-
 
     grouped_schedules = {day: [] for day in week_days}
     for schedule in schedules:
@@ -84,11 +86,11 @@ def schedule_search(request):
     query = request.GET.get('q', '')
     results = None
     if query:
-        results = Schedule.objects.filter(Q(subject__name__icontains=query) | Q(subject__group__name__icontains=query) ).select_related('subject')  
+        results = Schedule.objects.filter(Q(subject__name__icontains=query) | Q(subject__group__name__icontains=query)).select_related('subject')  
 
-    return render(request, 'schedule_search.html', 
-                  {'query': query, 'results': results})
+    return render(request, 'schedule_search.html', {'query': query, 'results': results})
 
+@login_required
 def download_schedule(request):
     user = request.user
 
@@ -104,9 +106,9 @@ def download_schedule(request):
     if user.role == 'admin':
         schedules = Schedule.objects.filter(date__range=[start_of_week, end_of_week])
     elif user.role == 'teacher':
-        schedules = Schedule.objects.filter(teacher=user, date__range=[start_of_week, end_of_week])
-    elif user.role == 'student' and user.group:
-        schedules = Schedule.objects.filter(subject__group=user.group, date__range=[start_of_week, end_of_week])
+        schedules = Schedule.objects.filter(teacher=user.teacher, date__range=[start_of_week, end_of_week])
+    elif user.role == 'student' and hasattr(user, 'student') and user.student.group:
+        schedules = Schedule.objects.filter(subject__group=user.student.group, date__range=[start_of_week, end_of_week])
     else:
         schedules = Schedule.objects.none()
 
@@ -141,7 +143,7 @@ def download_schedule(request):
     }
 
     for schedule_item in schedules:
-        teacher_name = f"{schedule_item.teacher.first_name} {schedule_item.teacher.last_name}"
+        teacher_name = f"{schedule_item.teacher.user.first_name} {schedule_item.teacher.user.last_name}"
         weekday = days_of_week.get(schedule_item.date.strftime('%A'), "Неизвестно")
 
         sheet.append([

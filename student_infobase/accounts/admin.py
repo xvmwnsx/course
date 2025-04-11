@@ -1,32 +1,38 @@
 from django.contrib import admin
+from .models import CustomUser, Group, Student, Teacher
 from django.contrib.auth.admin import UserAdmin
-from .models import CustomUser, Group  # Group можно тут оставить, если модель связана с пользователями
 
+@admin.register(CustomUser)
 class CustomUserAdmin(UserAdmin):
     model = CustomUser
-    fieldsets = UserAdmin.fieldsets + (
-        ('Роль', {'fields': ('role',)}),
-        ('Группа', {'fields': ('group',)}),
+    fieldsets = (
+        (None, {'fields': ('username', 'password')}),
+        ('Персональная информация', {
+            'fields': ('surname', 'first_name', 'last_name', 'role'),
+        }),
+        ('Даты', {'fields': ('last_login', 'date_joined')}),
     )
-    add_fieldsets = UserAdmin.add_fieldsets + (
-        ('Роль', {'fields': ('role',)}),
-        ('Группа', {'fields': ('group',)}),
+    add_fieldsets = (
+        (None, {
+            'classes': ('wide',),
+            'fields': ('username', 'surname', 'first_name', 'last_name', 'role', 'password1', 'password2'),
+        }),
     )
-    list_display = ['username', 'email', 'group', 'role', 'is_staff', 'is_active']
-    list_filter = ['role', 'is_staff', 'is_active']
 
-    def get_fieldsets(self, request, obj=None):
-        fieldsets = super().get_fieldsets(request, obj)
-        if obj and obj.role in ['admin', 'teacher']:  
-            return [fs for fs in fieldsets if 'group' not in fs[1]['fields']]
-        return fieldsets
+    list_display = ('username', 'surname', 'first_name', 'last_name', 'role')
+    search_fields = ('username', 'surname', 'first_name', 'last_name', 'role')
+    ordering = ('username',)
+    exclude = ('is_staff', 'is_superuser', 'groups', 'user_permissions')
 
-    def get_list_display(self, request):
-        list_display = super().get_list_display(request)
-        if request.user.role in ['admin', 'teacher']:
-            return [field for field in list_display if field != 'group']
-        return list_display 
 
-admin.site.register(CustomUser, CustomUserAdmin)
+@admin.register(Student)
+class StudentAdmin(admin.ModelAdmin):
+    list_display = ('user', 'faculty', 'department', 'record_book_number', 'admission_year', 'gpa')
+    search_fields = ('user__first_name', 'user__surname', 'user__last_name', 'record_book_number')
+
+@admin.register(Teacher)
+class TeacherAdmin(admin.ModelAdmin):
+    list_display = ('user', 'faculty', 'department', 'experience_years', 'position')
+    search_fields = ('user__first_name', 'user__surname', 'user__last_name', 'department')
+
 admin.site.register(Group)
-
