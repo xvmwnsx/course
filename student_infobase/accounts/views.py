@@ -27,7 +27,7 @@ def user_login(request):
     else:
         form = LoginView()
 
-    return render(request, 'login.html', {'form': form})
+    return render(request, 'registration/login.html', {'form': form})
 
 
 def register(request):
@@ -40,7 +40,7 @@ def register(request):
             return redirect('home')  
     else:
         form = UserRegistrationForm()
-    return render(request, 'register_user.html', {'form': form})
+    return render(request, 'registration/register_user.html', {'form': form})
 
 
 @login_required  
@@ -53,6 +53,6 @@ def office(request):
     can_edit = user.role in ['teacher', 'admin']
     return render(
         request, 
-        'office.html', 
+        'account/office.html', 
         {'user': request.user, 'can_edit': can_edit, 'schedule': schedule}
         )

@@ -54,7 +54,7 @@ def schedule_list(request):
 
     can_edit = user.role in ['teacher', 'admin']
 
-    return render(request, 'schedule_list.html', {
+    return render(request, 'schedule/schedule_list.html', {
         'schedules': grouped_schedules,
         'can_edit': can_edit,
         'week_days': week_days,
@@ -79,7 +79,7 @@ def schedule_edit(request, pk):
     else:
         form = ScheduleForm(instance=schedule)
 
-    return render(request, 'schedule_edit.html', {'form': form})
+    return render(request, 'schedule/schedule_edit.html', {'form': form})
 
 @login_required
 def schedule_search(request):
@@ -88,7 +88,7 @@ def schedule_search(request):
     if query:
         results = Schedule.objects.filter(Q(subject__name__icontains=query) | Q(subject__group__name__icontains=query)).select_related('subject')  
 
-    return render(request, 'schedule_search.html', {'query': query, 'results': results})
+    return render(request, 'schedule/schedule_search.html', {'query': query, 'results': results})
 
 @login_required
 def download_schedule(request):

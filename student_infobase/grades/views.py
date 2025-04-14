@@ -8,9 +8,13 @@ from django.utils.translation import gettext as _
 import pandas as pd
 from accounts.models import CustomUser, Group
 
+
 @login_required
 def grade_list(request):
     user = request.user
+
+    subjects = Classes.objects.none()
+    groups = None
 
     if user.role == "admin":
         subjects = Classes.objects.all()
@@ -21,10 +25,6 @@ def grade_list(request):
     elif user.role == "student":
         if hasattr(user, "student") and user.student.group:
             subjects = Classes.objects.filter(group=user.student.group)
-    else:
-        subjects = Classes.objects.none()
-    groups = None
-
 
     subject_id = request.GET.get("subject")
     if subject_id:
@@ -35,11 +35,12 @@ def grade_list(request):
         if group_id:
             subjects = subjects.filter(group_id=group_id)
 
-    return render(request, 'grade_list.html', {
+    return render(request, 'grades/grade_list.html', {
         "subjects": subjects,
         "groups": groups,
         "is_teacher_or_admin": user.role in ["admin", "teacher"],
     })
+
 
 
 days_ru = {
@@ -94,7 +95,7 @@ def subject_grades(request, subject_id):
 
     year_range = list(range(today.year - 5, today.year + 1))
 
-    return render(request, 'subject_grades.html', {
+    return render(request, 'grades/subject_grades.html', {
         'subject': subject,
         'students': students,
         'grades_by_date': grades_by_date,
@@ -105,9 +106,7 @@ def subject_grades(request, subject_id):
         'selected_year': selected_year,
     })
 
-from django.shortcuts import render, get_object_or_404, redirect
-from datetime import datetime, timedelta
-from .models import Grade, Classes, CustomUser
+
 
 def edit_grades(request, subject_id):
     
@@ -173,7 +172,7 @@ def edit_grades(request, subject_id):
         return redirect(request.path + f"?month={selected_month}&year={selected_year}")
 
 
-    return render(request, 'edit_grades.html', {
+    return render(request, 'grades/edit_grades.html', {
         'subject': subject,
         'students': students,
         'date_list': date_list,
