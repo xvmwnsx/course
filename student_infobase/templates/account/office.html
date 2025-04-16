@@ -12,11 +12,18 @@
     <p><strong>Login:</strong> {{ user.username }}</p>
     <p><strong>Email:</strong> {{ user.email }}</p>
     <p><strong>Роль:</strong> {{ user.role }}</p>
-    {% if can_edit %}
-        <p><strong>Группа: </strong>{{ user.group }} - {{user.group.name}} </p>
-    {% endif %}
     <p><strong>Ваш ID:</strong> {{ user.id }}</p>
     <p><strong>Дата регистрации:</strong> {{ user.date_joined }}</p> 
+    {% if student %}
+        <p><strong>Группа: </strong>{{ student.group }}</p>
+            {% if student.gpa %}
+                <p><strong>Средний балл (GPA):</strong> {{ student.gpa }}</p>
+            {% else %}
+                <p><strong>Средний балл (GPA):</strong> Нет данных</p>
+            {% endif %}
+    {% endif %}
+
+
     
 </div>
 <p><a href="{% url 'password_change' %}">Сменить пароль</a></p>

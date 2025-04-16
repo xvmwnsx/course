@@ -1,12 +1,13 @@
 from datetime import datetime, timedelta
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Grade, Classes, CustomUser
+from .models import Grade, Classes, CustomUser, PassFailRecord
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from urllib.parse import quote
 from django.utils.translation import gettext as _
 import pandas as pd
-from accounts.models import CustomUser, Group
+from accounts.models import Group
+from django.db.models import Q
 
 
 @login_required
@@ -48,36 +49,38 @@ days_ru = {
 }
 
 def subject_grades(request, subject_id):
-    subject = get_object_or_404(Classes, id=subject_id)  
-    user = request.user  
-
+    subject = get_object_or_404(Classes, id=subject_id)
+    user = request.user
     is_student = user.role == 'student'
 
     if is_student:
         students = CustomUser.objects.filter(id=user.id)
     else:
-        students = CustomUser.objects.filter(student__group=subject.group).order_by('surname', 'first_name')
-
+        students = CustomUser.objects.filter(student__group=subject.group, role='student').order_by('surname', 'first_name')
 
     today = datetime.today()
     selected_month = int(request.GET.get('month', today.month))
     selected_year = int(request.GET.get('year', today.year))
-    
+
     if selected_month in [7, 8]:
-        selected_month = 9 
-    
+        selected_month = 9
+
     first_day = datetime(selected_year, selected_month, 1)
     last_day = (first_day + timedelta(days=31)).replace(day=1) - timedelta(days=1)
-    
+
     date_list = []
     current_day = first_day
     while current_day <= last_day:
-        if current_day.weekday() != 6:  
+        if current_day.weekday() != 6:
             weekday_ru = days_ru[current_day.strftime("%a")]
-            date_list.append(current_day.strftime("%d-%m-%y") + f" ({weekday_ru})") 
+            date_list.append(current_day.strftime("%d-%m-%y") + f" ({weekday_ru})")
         current_day += timedelta(days=1)
 
-    grades = Grade.objects.filter(subject=subject, date__range=[first_day, last_day]).select_related("student")
+    # Оценки (числовые)
+    grades = Grade.objects.filter(
+        subject=subject,
+        date__range=[first_day, last_day]
+    ).select_related("student")
 
     if is_student:
         grades = grades.filter(student=user)
@@ -86,7 +89,21 @@ def subject_grades(request, subject_id):
     for grade in grades:
         weekday_ru = days_ru[grade.date.strftime("%a")]
         date_str = grade.date.strftime("%d-%m-%y") + f" ({weekday_ru})"
-        grades_by_date[date_str][grade.student.id] = grade.grade 
+        grades_by_date[date_str][grade.student.id] = f"{grade.grade} (экз)" if grade.is_exam else str(grade.grade)
+
+    # Зачёты и незачёты
+    pass_fails = PassFailRecord.objects.filter(
+        subject=subject,
+        date__range=[first_day, last_day]
+    )
+
+    if is_student:
+        pass_fails = pass_fails.filter(student=user)
+
+    for record in pass_fails:
+        weekday_ru = days_ru[record.date.strftime("%a")]
+        date_str = record.date.strftime("%d-%m-%y") + f" ({weekday_ru})"
+        grades_by_date.setdefault(date_str, {})[record.student.id] = 'Зачёт' if record.status == 'pass' else 'Незачёт'
 
     months = {
         1: "Январь", 2: "Февраль", 3: "Март", 4: "Апрель", 5: "Май", 6: "Июнь",
@@ -105,7 +122,6 @@ def subject_grades(request, subject_id):
         'selected_month': selected_month,
         'selected_year': selected_year,
     })
-
 
 
 def edit_grades(request, subject_id):

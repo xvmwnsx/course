@@ -81,7 +81,7 @@ WSGI_APPLICATION = 'student_infobase.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'school',
+        'NAME': 'students_infobase',
         'USER': 'postgres',
         'PASSWORD': '12345',
     }

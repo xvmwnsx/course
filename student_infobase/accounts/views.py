@@ -43,16 +43,21 @@ def register(request):
     return render(request, 'registration/register_user.html', {'form': form})
 
 
+from accounts.models import Student
+
 @login_required  
 def office(request):
     user = request.user
-    user_groups = request.user.groups.all()
-    schedule = Schedule.objects.filter(
-        subject__group__name__in=[group.name for group in user_groups]
-        )
+    try:
+        student = Student.objects.get(user=user)
+    except Student.DoesNotExist:
+        student = None
+
     can_edit = user.role in ['teacher', 'admin']
+
     return render(
         request, 
         'account/office.html', 
-        {'user': request.user, 'can_edit': can_edit, 'schedule': schedule}
-        )
+        {'user': user, 'student': student, 'can_edit': can_edit}
+    )
+
