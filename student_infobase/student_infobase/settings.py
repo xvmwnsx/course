@@ -45,6 +45,8 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+
+
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -52,6 +54,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'accounts.middleware.BlockStudentAdminMiddleware',
 ]
 
 ROOT_URLCONF = 'student_infobase.urls'
@@ -81,7 +84,7 @@ WSGI_APPLICATION = 'student_infobase.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'students_infobase',
+        'NAME': 'students_info',
         'USER': 'postgres',
         'PASSWORD': '12345',
     }

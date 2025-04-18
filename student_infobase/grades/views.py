@@ -1,16 +1,14 @@
 from datetime import datetime, timedelta
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Grade, Classes, CustomUser, PassFailRecord
+from .models import Grade, Classes, CustomUser, Exam
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from urllib.parse import quote
 from django.utils.translation import gettext as _
 import pandas as pd
 from accounts.models import Group
-from django.db.models import Q
 
-
-@login_required
+@login_required 
 def grade_list(request):
     user = request.user
 
@@ -31,6 +29,7 @@ def grade_list(request):
     if subject_id:
         subjects = subjects.filter(id=subject_id)
 
+
     if user.role in ["admin", "teacher"]:
         group_id = request.GET.get("group")
         if group_id:
@@ -42,12 +41,11 @@ def grade_list(request):
         "is_teacher_or_admin": user.role in ["admin", "teacher"],
     })
 
-
-
 days_ru = {
     'Mon': 'Пн', 'Tue': 'Вт', 'Wed': 'Ср', 'Thu': 'Чт', 'Fri': 'Пт', 'Sat': 'Сб', 'Sun': 'Вс'
 }
 
+@login_required(login_url='/') 
 def subject_grades(request, subject_id):
     subject = get_object_or_404(Classes, id=subject_id)
     user = request.user
@@ -62,7 +60,7 @@ def subject_grades(request, subject_id):
     selected_month = int(request.GET.get('month', today.month))
     selected_year = int(request.GET.get('year', today.year))
 
-    if selected_month in [7, 8]:
+    if selected_month in [7, 8]:  
         selected_month = 9
 
     first_day = datetime(selected_year, selected_month, 1)
@@ -71,39 +69,18 @@ def subject_grades(request, subject_id):
     date_list = []
     current_day = first_day
     while current_day <= last_day:
-        if current_day.weekday() != 6:
+        if current_day.weekday() != 6:  
             weekday_ru = days_ru[current_day.strftime("%a")]
             date_list.append(current_day.strftime("%d-%m-%y") + f" ({weekday_ru})")
         current_day += timedelta(days=1)
 
-    # Оценки (числовые)
-    grades = Grade.objects.filter(
-        subject=subject,
-        date__range=[first_day, last_day]
-    ).select_related("student")
-
-    if is_student:
-        grades = grades.filter(student=user)
-
+    grades = Grade.objects.filter(subject=subject, date__range=[first_day, last_day])
+    
     grades_by_date = {date: {} for date in date_list}
     for grade in grades:
         weekday_ru = days_ru[grade.date.strftime("%a")]
         date_str = grade.date.strftime("%d-%m-%y") + f" ({weekday_ru})"
-        grades_by_date[date_str][grade.student.id] = f"{grade.grade} (экз)" if grade.is_exam else str(grade.grade)
-
-    # Зачёты и незачёты
-    pass_fails = PassFailRecord.objects.filter(
-        subject=subject,
-        date__range=[first_day, last_day]
-    )
-
-    if is_student:
-        pass_fails = pass_fails.filter(student=user)
-
-    for record in pass_fails:
-        weekday_ru = days_ru[record.date.strftime("%a")]
-        date_str = record.date.strftime("%d-%m-%y") + f" ({weekday_ru})"
-        grades_by_date.setdefault(date_str, {})[record.student.id] = 'Зачёт' if record.status == 'pass' else 'Незачёт'
+        grades_by_date.setdefault(date_str, {})[grade.student.id] = grade.grade
 
     months = {
         1: "Январь", 2: "Февраль", 3: "Март", 4: "Апрель", 5: "Май", 6: "Июнь",
@@ -111,7 +88,9 @@ def subject_grades(request, subject_id):
     }
 
     year_range = list(range(today.year - 5, today.year + 1))
-
+    
+    can_edit = user.role in ['teacher', 'admin']
+    
     return render(request, 'grades/subject_grades.html', {
         'subject': subject,
         'students': students,
@@ -121,28 +100,27 @@ def subject_grades(request, subject_id):
         'year_range': year_range,
         'selected_month': selected_month,
         'selected_year': selected_year,
+        'can_edit': can_edit
     })
 
-
+@login_required(login_url='/')
 def edit_grades(request, subject_id):
     
     days_ru = {
-    'Mon': 'Пн', 'Tue': 'Вт', 'Wed': 'Ср', 'Thu': 'Чт', 'Fri': 'Пт', 'Sat': 'Сб', 'Sun': 'Вс'
-}
-    
+        'Mon': 'Пн', 'Tue': 'Вт', 'Wed': 'Ср', 'Thu': 'Чт', 'Fri': 'Пт', 'Sat': 'Сб', 'Sun': 'Вс'
+    }
+
     subject = get_object_or_404(Classes, id=subject_id)
     today = datetime.today()
 
     selected_month = int(request.GET.get('month', today.month))
     selected_year = int(request.GET.get('year', today.year))
 
-
     if selected_month in [7, 8]:
         selected_month = 9
 
     first_day = datetime(selected_year, selected_month, 1)
     last_day = (first_day + timedelta(days=31)).replace(day=1) - timedelta(days=1)
-
 
     date_list = []
     current_day = first_day
@@ -155,20 +133,19 @@ def edit_grades(request, subject_id):
     students = CustomUser.objects.filter(student__group=subject.group, role='student').order_by('surname', 'first_name')
     grades = Grade.objects.filter(subject=subject, date__range=[first_day, last_day])
 
-
     grade_dict = {}
     for grade in grades:
         key = (grade.student.id, grade.date.strftime("%d-%m-%y") + f" ({days_ru[grade.date.strftime('%a')]})")
         grade_dict[key] = grade.grade
 
-    grade_choices = Grade.GRADE_CHOICES
+    grade_choices = Grade.GRADE_CHOICES  
 
     months = {
         1: "Январь", 2: "Февраль", 3: "Март", 4: "Апрель", 5: "Май", 6: "Июнь",
         9: "Сентябрь", 10: "Октябрь", 11: "Ноябрь", 12: "Декабрь"
     }
     year_range = list(range(today.year - 5, today.year + 1))
-    
+
     if request.method == 'POST':
         for student in students:
             for date_str in date_list:
@@ -187,7 +164,6 @@ def edit_grades(request, subject_id):
                         grade.save()
         return redirect(request.path + f"?month={selected_month}&year={selected_year}")
 
-
     return render(request, 'grades/edit_grades.html', {
         'subject': subject,
         'students': students,
@@ -200,7 +176,25 @@ def edit_grades(request, subject_id):
         'selected_year': selected_year,
     })
 
+@login_required(login_url='/') 
+def edit_exam(request, exam_id):
+    exam = get_object_or_404(Exam, id=exam_id)
+    exams = Exam.objects.filter(subject=exam.subject)
 
+    if request.method == 'POST':
+        for exam in exams:
+            status_key = f'status_{exam.student.id}'
+            status = request.POST.get(status_key, exam.status)
+            
+            exam.status = status
+            exam.save()
+        
+        return redirect('grade_list')
+
+    return render(request, 'grades/edit_exam.html', {'exams': exams, 'subject': exam.subject})
+
+
+@login_required(login_url='/') 
 def export_grades_xlsx(request, subject_id):
     subject = get_object_or_404(Classes, id=subject_id)  
     grades = Grade.objects.filter(subject=subject).order_by('student__last_name', 'date')  
@@ -218,13 +212,9 @@ def export_grades_xlsx(request, subject_id):
     
     response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
 
-    subject_name = subject.name.replace(" ", "_")  
-    filename = f"grades_{subject_name}.xlsx"
+    filename = "Отчет оценок.xlsx"
+    response['Content-Disposition'] = f'attachment; filename*=UTF-8\'\'{quote(filename)}'
 
-    quoted_filename = quote(filename)  
-    response['Content-Disposition'] = f'attachment; filename="{filename}"; filename*=UTF-8\'\'{quoted_filename}'
-
-    
     with pd.ExcelWriter(response, engine='xlsxwriter') as writer:
         df.to_excel(writer, index=False, sheet_name='Оценки')
     

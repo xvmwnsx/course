@@ -10,3 +10,14 @@ class GradeForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         
         self.fields['teacher'].queryset = CustomUser.objects.filter(role='teacher')
+        
+from django import forms
+from .models import Exam
+
+class ExamForm(forms.ModelForm):
+    class Meta:
+        model = Exam
+        fields = ['status', 'date']
+        widgets = {
+            'date': forms.DateInput(attrs={'type': 'date'}),
+        }

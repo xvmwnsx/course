@@ -1,57 +1,3 @@
-.filter-form {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 15px;
-    background: #ffffff;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
-}
-
-.filter-form label {
-    font-weight: bold;
-    color: #333;
-}
-
-.filter-form select {
-    padding: 8px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    background: white;
-    cursor: pointer;
-    font-size: 16px;
-    transition: 0.3s;
-}
-
-.filter-form select:focus {
-    border-color: #667eea;
-    outline: none;
-}
-
-.filter-form button {
-    padding: 8px 15px;
-    border: none;
-    border-radius: 5px;
-    background: #4A90E2;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-.filter-form button:hover {
-    background: #2e5b8e;
-}
-
-
-.page-title {
-    text-align: center;
-    color: #000000;
-    margin-bottom: 20px;
-}
-
 .table-wrapper {
     width: 100%;
     border-collapse: collapse;
@@ -68,7 +14,7 @@
 
 }
 
-.grades-table {
+.exam-table {
     width: max-content;
     min-width: 100%; 
     border-collapse: collapse;
@@ -77,8 +23,9 @@
     color: #000000;
     border-radius: 10px;
     overflow: hidden;
+    margin-bottom: 50px;
 }
-.grades-table th {
+.exam-table th {
     background: #667eea;
     color: white;
     padding: 15px;
@@ -86,11 +33,11 @@
     white-space: nowrap;
 }
 
-.grades-table td[contenteditable="true"] {
+.exam-table td[contenteditable="true"] {
     display: block;
 }
 
-.grades-table td {
+.exam-table td {
     padding: 12px;
     text-align: center;
     border: 0.5px solid #ccc;

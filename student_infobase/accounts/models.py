@@ -55,6 +55,10 @@ class Group(models.Model):
         direction_name = self.direction.name if self.direction else "Без направления"
         profile_name = self.profile.name if self.profile else "Без профиля"
         return f"{direction_name} / {profile_name} — Группа {self.number}"
+    
+    class Meta:
+        verbose_name = "Группа"
+        verbose_name_plural = "Группы"
 
 
 
@@ -65,11 +69,11 @@ class CustomUser(AbstractUser):
     last_name = models.CharField(max_length=150, null=True, verbose_name="Отчество")
 
     ROLE_CHOICES = [
-        ('student', 'Student'),
-        ('teacher', 'Teacher'),
-        ('admin', 'Admin'),
+        ('student', 'Студент'),
+        ('teacher', 'Преподаватель'),
+        ('admin', 'Админ'),
     ]
-    role = models.CharField(max_length=20, choices=ROLE_CHOICES, null=True, blank=True)
+    role = models.CharField(max_length=20, choices=ROLE_CHOICES, null=True, blank=True, verbose_name = "Роль")
 
     def full_name(self):
         return f"{self.surname} {self.first_name} {self.last_name}".strip()
@@ -79,25 +83,17 @@ class CustomUser(AbstractUser):
 class Student(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, primary_key=True, verbose_name="Пользователь")
     group = models.ForeignKey(Group, on_delete=models.SET_NULL, null=True, verbose_name="Группа")
-    year = models.PositiveIntegerField(verbose_name="Год обучения")
+    year = models.PositiveIntegerField(null=True, verbose_name="Курс")
     faculty = models.ForeignKey(Faculty, on_delete=models.SET_NULL, null=True, verbose_name="Факультет")
     department = models.ForeignKey(Department, on_delete=models.SET_NULL, null=True, verbose_name="Кафедра")
     record_book_number = models.CharField(max_length=50, verbose_name="Номер зачетной книжки")
     citizenship = models.CharField(max_length=100, verbose_name="Гражданство")
     birth_date = models.DateField(verbose_name="Дата рождения")
     admission_year = models.PositiveIntegerField(verbose_name="Год поступления")
-
+    
+    
     def __str__(self):
         return f"Студент {self.user.get_full_name()}"
-
-    @property
-    def gpa(self):
-        exam_grades = self.user.grades_as_student.filter(is_exam=True, grade__isnull=False)
-        if not exam_grades.exists():
-            return None
-        total = sum(grade.grade for grade in exam_grades)
-        return round(total / exam_grades.count(), 2)
-
 
 
 

@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.utils.translation import gettext as _
 from .forms import UserRegistrationForm
-from schedule.models import Schedule
+from accounts.models import Student
 
 def user_login(request):
     if request.method == 'POST':
@@ -42,10 +42,7 @@ def register(request):
         form = UserRegistrationForm()
     return render(request, 'registration/register_user.html', {'form': form})
 
-
-from accounts.models import Student
-
-@login_required  
+@login_required 
 def office(request):
     user = request.user
     try:

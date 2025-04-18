@@ -34,7 +34,6 @@
                     
                     {% if can_edit %}
                     <th>Группа</th>
-                    <th>Номер группы</th>
                     <th>Изменить</th>
                     {% else %}
                     <th>Преподаватель</th>
@@ -48,8 +47,7 @@
                         <td>{{ schedule.cabinet }}</td>
                         
                     {% if can_edit %}
-                    <td>{{ schedule.subject.group.name }}</td>
-                    <td>{{ schedule.subject.group.id }}</td>
+                    <td>{{ schedule.subject.group }}</td>
                     <td><a href="{% url 'schedule_edit' pk=schedule.id %}">✏️ Редактировать</a></td>
                     {% else %}
                     <td>{{ schedule.teacher }}</td>

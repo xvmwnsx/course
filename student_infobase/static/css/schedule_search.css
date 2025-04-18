@@ -1,4 +1,4 @@
-/* Основной заголовок */
+
 h2 {
     text-align: center;
     margin: 20px 0;
@@ -7,7 +7,6 @@ h2 {
     font-family: 'Arial', sans-serif;
 }
 
-/* Контейнер результатов */
 .search-results {
     width: 90%;
     margin: 20px auto;
@@ -18,7 +17,6 @@ h2 {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Результаты списка */
 ul {
     list-style-type: none;
     padding: 0;
@@ -40,7 +38,6 @@ strong {
     font-weight: bold;
 }
 
-/* Сообщение о пустых результатах */
 p {
     text-align: center;
     font-size: 16px;
@@ -56,12 +53,9 @@ code {
 }
 
 label {
-    font-size: 16px; /* Увеличивает размер текста */
-    font-weight: bold; /* Делаем текст жирным */
+    font-size: 16px;
+    font-weight: bold; 
 }
-
-
-/* Адаптация для мобильных устройств */
 @media (max-width: 768px) {
     .search-results {
         width: 100%;

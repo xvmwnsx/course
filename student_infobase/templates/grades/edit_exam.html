@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+{% load custom_filters %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'css/edit_exam.css' %}">
+
+<h2>Изменить экзамен для предмета: {{ subject.name }}</h2>
+
+<form method="POST">
+    {% csrf_token %}
+    <div class="table-wrapper">
+        <div class="table-container">
+            <table class="exam-table">
+                <thead>
+                    <tr>
+                        <th>Студент</th>
+                        <th>Оценка</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for exam in exams %}
+                        <tr>
+                            <td>{{ exam.student.get_full_name }}</td>
+                            <td>
+                                <select name="status_{{ exam.student.id }}">
+                                    <option value="pass" {% if exam.status == 'pass' %}selected{% endif %}>Зачёт</option>
+                                    <option value="fail" {% if exam.status == 'fail' %}selected{% endif %}>Незачёт</option>
+                                    <option value="5" {% if exam.status == '5' %}selected{% endif %}>5</option>
+                                    <option value="4" {% if exam.status == '4' %}selected{% endif %}>4</option>
+                                    <option value="3" {% if exam.status == '3' %}selected{% endif %}>3</option>
+                                </select>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>        
+        </div>
+    </div>
+    
+</form>
+<div class="buttons">
+    <a class="btn" href="{% url 'subject_grades' subject.id %}">⬅ Назад</a>
+    <button type="submit" class="btn_download-btn">💾 Сохранить изменения</button>
+</div>
+{% endblock %}

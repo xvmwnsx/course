@@ -2,7 +2,6 @@ from django.contrib import admin
 from .models import CustomUser, Group, Student, Teacher, Faculty, Department, Direction, Profile
 from django.contrib.auth.admin import UserAdmin
 
-@admin.register(CustomUser)
 class CustomUserAdmin(UserAdmin):
     model = CustomUser
     fieldsets = (
@@ -25,17 +24,19 @@ class CustomUserAdmin(UserAdmin):
     exclude = ('is_staff', 'is_superuser', 'groups', 'user_permissions')
 
 
-@admin.register(Student)
 class StudentAdmin(admin.ModelAdmin):
-    list_display = ('user__surname', 'user__first_name', 'user__last_name', 'user', 'group', 'get_gpa')
+    list_display = ('group', 'faculty', 'department', 'user__surname', 'user__first_name', 'user__last_name', 'user', 'year')
     search_fields = ('user__surname', 'user__first_name', 'user__last_name', 'record_book_number')
-    list_filter = ('group', 'faculty', 'department')
+    list_filter = ('group', 'faculty', 'department', 'year')
+    ordering = ('group',)
 
-    def get_gpa(self, obj):
-        return obj.gpa if obj.gpa is not None else "—"
-    get_gpa.short_description = "GPA"
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == 'user':
+            kwargs['queryset'] = CustomUser.objects.filter(role='student')
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
-@admin.register(Teacher)
+
+
 class TeacherAdmin(admin.ModelAdmin):
     list_display = ('get_full_name', 'user', 'faculty', 'department', 'position')
     list_filter = ('faculty', 'department')
@@ -44,10 +45,13 @@ class TeacherAdmin(admin.ModelAdmin):
     def get_full_name(self, obj):
         return f"{obj.user.surname} {obj.user.first_name} {obj.user.last_name}"
     get_full_name.short_description = 'ФИО'
-
     
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == 'user':
+            kwargs['queryset'] = CustomUser.objects.filter(role='teacher')
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
-@admin.register(Group)
+
 class GroupAdmin(admin.ModelAdmin):
     list_display = ('number', 'direction', 'profile', 'get_education_level')
     list_filter = ('direction__education_level', 'profile', 'direction')
@@ -58,27 +62,32 @@ class GroupAdmin(admin.ModelAdmin):
     get_education_level.short_description = "Уровень образования"
 
 
-
-@admin.register(Faculty)
 class FacultyAdmin(admin.ModelAdmin):
     list_display = ('name',)
     search_fields = ('name',)
 
-@admin.register(Direction)
 class DirectionAdmin(admin.ModelAdmin):
-    list_display = ('code', 'name', 'faculty', 'education_level')
-    list_filter = ('faculty', 'education_level')
+    list_display = ('code', 'name','faculty', 'education_level')
+    list_filter = ('code', 'name', 'faculty', 'education_level')
     search_fields = ('code', 'name')
+    ordering = ('faculty',)
 
-
-@admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
     list_display = ('name', 'direction')
     list_filter = ('direction',)
     search_fields = ('name',)
     
-@admin.register(Department)
+
 class DepartmentAdmin(admin.ModelAdmin):
     list_display = ('name', 'faculty')
     list_filter = ('faculty',)
     search_fields = ('name',)
+
+admin.site.register(CustomUser, CustomUserAdmin)
+admin.site.register(Student, StudentAdmin)
+admin.site.register(Teacher, TeacherAdmin)
+admin.site.register(Group, GroupAdmin)
+admin.site.register(Faculty, FacultyAdmin)
+admin.site.register(Direction, DirectionAdmin)
+admin.site.register(Profile, ProfileAdmin)
+admin.site.register(Department, DepartmentAdmin)

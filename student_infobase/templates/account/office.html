@@ -15,7 +15,7 @@
     <p><strong>Ваш ID:</strong> {{ user.id }}</p>
     <p><strong>Дата регистрации:</strong> {{ user.date_joined }}</p> 
     {% if student %}
-        <p><strong>Группа: </strong>{{ student.group }}</p>
+        <p><strong>Направление / Профиль / Номер группы: </strong>{{ student.group }}</p>
             {% if student.gpa %}
                 <p><strong>Средний балл (GPA):</strong> {{ student.gpa }}</p>
             {% else %}

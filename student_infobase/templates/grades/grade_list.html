@@ -1,12 +1,15 @@
 {% extends 'base.html' %}
+
 {% block content %}
 {% load static %}
 
 <link rel="stylesheet" type="text/css" href="{% static 'css/grade_list.css' %}">
-<h2>Оценки</h2>
+{% if is_teacher_or_admin %}
+<h2>Журнал</h2>
+{% else %}
+<h2>Зачетная книжка</h2>
+{% endif %}
 <div class="container">
-    
-
     <div class="filter-container">
         <form method="GET" class="filter-form">
             <label for="subject">Предмет:</label>
@@ -25,7 +28,7 @@
                 <option value="">Все группы</option>
                 {% for group in groups %}
                     <option value="{{ group.id }}" {% if request.GET.group == group.id|stringformat:"s" %}selected{% endif %}>
-                        {{ group.name }}
+                        {{ group }}
                     </option>
                 {% endfor %}
             </select>
@@ -34,23 +37,26 @@
             <button type="submit" class="filter-button">Выбрать</button>
         </form>    
     </div>
-    
-    
+
     <table border="1">
         <thead>
             <tr>
-                <th>Предмет</th>
+                
                 {% if is_teacher_or_admin %}<th>Группа</th>{% endif %}
+                <th>Предмет</th>
             </tr>
         </thead>
         <tbody>
             {% for subj in subjects %}
             <tr>
+                {% if is_teacher_or_admin %}
+                    <td>{{ subj.group }}</td>
+                {% endif %}
                 <td><a href="{% url 'subject_grades' subject_id=subj.id %}">{{ subj.name }}</a></td>
-                {% if is_teacher_or_admin %}<td>{{ subj.group.name }}</td>{% endif %}
             </tr>    
             {% endfor %}
         </tbody>
     </table>
 </div>
+
 {% endblock %}

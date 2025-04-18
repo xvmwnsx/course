@@ -15,7 +15,7 @@ class Schedule(models.Model):
     subject = models.ForeignKey(Classes, on_delete=models.CASCADE, verbose_name="Предмет")
     cabinet = models.IntegerField(null=True, blank=True, verbose_name="Кабинет")
     teacher = models.ForeignKey(CustomUser, null=True, on_delete=models.CASCADE, verbose_name="Преподаватель")
-
+    
     def get_weekday(self):
         return self.date.strftime('%A')  
 

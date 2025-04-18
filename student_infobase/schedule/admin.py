@@ -7,6 +7,14 @@ class ScheduleAdmin(admin.ModelAdmin):
     list_filter = ('subject__group__direction', 'subject__group__profile', 'date')
     ordering = ['subject__group__direction__name', 'subject__group__profile__name', 'date', 'time']
 
+    search_fields = (
+        'subject', 
+        'teacher', 
+        'date',
+        'time',
+        'get_direction', 
+        'get_profile'
+    ) 
     def get_direction(self, obj):
         return obj.subject.group.direction.name if obj.subject and obj.subject.group and obj.subject.group.direction else '—'
     get_direction.short_description = 'Направление'
@@ -27,10 +35,19 @@ class ScheduleAdmin(admin.ModelAdmin):
         return request.user.role in ['admin', 'teacher']
 
 class ClassesAdmin(admin.ModelAdmin):
-    list_display = ('name', 'group', 'get_direction', 'get_profile', 'teacher')
+    list_display = ('name', 'group', 'get_direction', 'get_profile', 'teacher', 'teacher__first_name', 'teacher__last_name', 'teacher__surname')
     list_filter = ('group__direction', 'group__profile')
     ordering = ['group__direction__name', 'group__profile__name', 'name']
 
+    search_fields = (
+        'subject', 
+        'teacher', 
+        'date',
+        'time',
+        'get_direction', 
+        'get_profile',
+        'year'
+    ) 
     def get_direction(self, obj):
         return obj.group.direction.name if obj.group and obj.group.direction else '—'
     get_direction.short_description = 'Направление'

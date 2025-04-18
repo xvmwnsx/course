@@ -42,15 +42,21 @@
                         <tr>
                             <td>{{ student.last_name }} {{ student.first_name }}</td>
                             {% for date in date_list %}
-                                {% with grades_by_date|get_item:date as grades_for_date %}
-                                    <td>
-                                        {% if grades_for_date and student.id in grades_for_date %}
-                                            {{ grades_for_date|get_item:student.id }}
+                                <td>
+                                    {% with grades_for_date=grades_by_date|get_item:date %}
+                                        {% if grades_for_date %}
+                                            {% with student_grade=grades_for_date|get_item:student.id %}
+                                                {% if student_grade %}
+                                                    {{ student_grade }}
+                                                {% else %}
+                                                    -
+                                                {% endif %}
+                                            {% endwith %}
                                         {% else %}
                                             -
                                         {% endif %}
-                                    </td>
-                                {% endwith %}
+                                    {% endwith %}
+                                </td>
                             {% endfor %}
                         </tr>
                     {% endfor %}
@@ -59,12 +65,13 @@
         </div>
     </div>
     
-
     <div class="buttons">
         <a href="{% url 'grade_list' %}" class="btn">⬅ Назад</a>
         <a href="{% url 'export_grades_xlsx' subject.id %}" class="btn_download-btn">📄 Загрузить в XLSX</a>
+        {% if can_edit %}
+        <a href="{% url 'edit_exam' subject.id %}" class="btn edit-btn">✅ Поставить экзамен</a>
         <a href="{% url 'edit_grades' subject.id %}" class="btn edit-btn">✏️ Редактировать оценки</a>
+        {% endif %}
     </div>
-   
 </div>
 {% endblock %}

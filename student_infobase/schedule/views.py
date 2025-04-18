@@ -11,7 +11,7 @@ from django.utils.translation import gettext as _
 from datetime import timedelta
 from django.utils.timezone import now
 
-@login_required
+@login_required(login_url='/') 
 def schedule_list(request): 
     user = request.user
     try:
@@ -65,7 +65,7 @@ def schedule_list(request):
         'end_of_week': end_of_week
     })
 
-@login_required
+@login_required(login_url='/') 
 def schedule_edit(request, pk):
     schedule = get_object_or_404(Schedule, pk=pk)
     if request.user.role not in ['teacher', 'admin']:
@@ -81,7 +81,7 @@ def schedule_edit(request, pk):
 
     return render(request, 'schedule/schedule_edit.html', {'form': form})
 
-@login_required
+@login_required(login_url='/') 
 def schedule_search(request):
     query = request.GET.get('q', '')
     results = None
@@ -90,7 +90,7 @@ def schedule_search(request):
 
     return render(request, 'schedule/schedule_search.html', {'query': query, 'results': results})
 
-@login_required
+@login_required(login_url='/') 
 def download_schedule(request):
     user = request.user
 
@@ -116,7 +116,7 @@ def download_schedule(request):
     sheet = workbook.active
     sheet.title = "Расписание"
 
-    headers = ["ДЕНЬ НЕДЕЛИ", "ПРЕДМЕТ", 'НОМЕР ГРУППЫ', 'ГРУППА', "ДАТА", "ВРЕМЯ", "КАБИНЕТ", "ПРЕПОДАВАТЕЛЬ"]
+    headers = ["ДЕНЬ НЕДЕЛИ", "ПРЕДМЕТ", "ГРУППА", "ДАТА", "ВРЕМЯ", "КАБИНЕТ", "ПРЕПОДАВАТЕЛЬ"]
     sheet.append(headers)
 
     header_font = Font(name='Arial', bold=True, color="FFFFFF")
@@ -143,14 +143,14 @@ def download_schedule(request):
     }
 
     for schedule_item in schedules:
-        teacher_name = f"{schedule_item.teacher.user.first_name} {schedule_item.teacher.user.last_name}"
+        teacher_name = f"{schedule_item.teacher.first_name} {schedule_item.teacher.surname} {schedule_item.teacher.last_name}"
         weekday = days_of_week.get(schedule_item.date.strftime('%A'), "Неизвестно")
+        group = str(schedule_item.subject.group)
 
         sheet.append([
             weekday,
             schedule_item.subject.name,
-            schedule_item.subject.group.id,
-            schedule_item.subject.group.name,
+            group,
             schedule_item.date.strftime("%d-%m-%Y"),
             schedule_item.time.strftime("%H:%M"),
             schedule_item.cabinet or "—",
