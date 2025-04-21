@@ -5,10 +5,10 @@
 <head>
     <link rel="stylesheet" href="{% static 'css/office.css' %}">
 </head>
-<h2>Добро пожаловать, {{ user.first_name }}!</h2>
+<h2>Добро пожаловать, {{ user.first_name }} {{ user.last_name }}!</h2>
 
 <div class="profile-info">
-    <p><strong>ФИО:</strong> {{ user.first_name }} {{ user.last_name }}</p>
+    <p><strong>ФИО:</strong> {{ user.first_name }} {{ user.last_name }} {{ user.surname }}</p>
     <p><strong>Login:</strong> {{ user.username }}</p>
     <p><strong>Email:</strong> {{ user.email }}</p>
     <p><strong>Роль:</strong> {{ user.role }}</p>
@@ -21,12 +21,10 @@
             {% else %}
                 <p><strong>Средний балл (GPA):</strong> Нет данных</p>
             {% endif %}
-    {% endif %}
-
-
-    
+    {% endif %}    
 </div>
-<p><a href="{% url 'password_change' %}">Сменить пароль</a></p>
+<div class="low-links">
+    <p><a href="{% url 'password_change' %}">Сменить пароль</a></p>
 {% if can_edit %}
     <p><a href="/admin/">Панель администрации</a></p>
     <p><a href="{% url 'register' %}">Регистрация пользователя</a></p>
@@ -34,5 +32,6 @@
 <form method="post" action="{% url 'logout' %}">
     {% csrf_token %}
     <button type="submit">Выйти</button>
+</div>
 </form>
 {% endblock %}

@@ -3,8 +3,9 @@ from .models import Group, CustomUser
 from django.contrib.auth.forms import PasswordChangeForm, UserCreationForm
 
 class UserRegistrationForm(UserCreationForm):
-    first_name = forms.CharField(label="Имя и Отчество", max_length=150)
-    last_name = forms.CharField(label="Фамилия", max_length=150)
+    first_name = forms.CharField(label="Имя", max_length=150)
+    surname = forms.CharField(label="Фамилия", max_length=150)
+    last_name = forms.CharField(label="Отчество (при наличии)", max_length=150)
     username = forms.CharField(
         label='Логин'
         )
@@ -15,11 +16,6 @@ class UserRegistrationForm(UserCreationForm):
         queryset=Group.objects.all(), 
         required=True, 
         label="Группа",
-        widget=forms.Select(attrs={'class': 'form-control'})
-        )
-    role = forms.ChoiceField(
-        choices=CustomUser.ROLE_CHOICES,
-        label="Роль",
         widget=forms.Select(attrs={'class': 'form-control'})
         )
 
@@ -38,7 +34,10 @@ class UserRegistrationForm(UserCreationForm):
     
     class Meta:
         model = CustomUser
-        fields = ['username', 'email', 'first_name', 'last_name', 'group', 'password1', 'password2', 'role']
+        fields = [
+                  'first_name', 'surname', 'last_name', 
+                  'username', 'email', 
+                  'password1', 'password2']
 
     def clean_email(self):
         email = self.cleaned_data.get('email')

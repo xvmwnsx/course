@@ -3,7 +3,7 @@
 <head>
     <link rel="icon" href="{% static 'css/favicon.ico' %}" type="image/x-icon">
     <title>{% block title %}{% endblock %}</title>
-    <link rel="stylesheet" href="{% static 'css/base_s.css' %}">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
     {% block extra_css %}{% endblock %}
 </head>
 <body>
@@ -13,7 +13,7 @@
             <a href="{% url 'home' %}">Главная</a>
             <a href="{% url 'office' %}">Личный кабинет</a>
             <a href="{% url 'schedule_list' %}">Расписание</a>
-            <a href="{% url 'grade_list' %}">Журнал оценок</a>
+            <a href="{% url 'grade_list' %}">Журнал</a>
         </nav>
     </header>
     <main>
@@ -22,7 +22,7 @@
         {% endblock %}
     </main>
     <footer>
-        <p>© 2025, Информационная система, Кочеткова</p>
+        <p>2025, Информационная система учета успеваемости студентов</p>
     </footer>
 </body>
 </html>

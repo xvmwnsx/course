@@ -5,13 +5,12 @@ h2 {
     margin-top: 20px;
 }
 
-
 .profile-info {
-    max-width: 500px;
+    max-width: 700px;
     background: white;
     padding: 20px;
     margin: 20px auto;
-    border-radius: 10px;
+    border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: 0.3s;
 }
@@ -27,7 +26,9 @@ h2 {
     color: #222;
 }
 
-.profile-info a {
+
+.low-links p a {
+    text-align: center;
     display: inline-block;
     text-decoration: none;
     color: #667eea;
@@ -35,26 +36,29 @@ h2 {
     transition: 0.3s;
 }
 
-.profile-info a:hover {
-    color: #5b74e3;
+.low-links p a:hover {
+    color: #764ba2;
     text-decoration: underline;
+}
+.low-links {
+    text-align: center;
 }
 
 button {
-    display: block;
-    width: 100%;
+    display: inline-block;
+    width: 70%;
     padding: 12px;
     margin: 20px auto;
     background: #667eea;
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     cursor: pointer;
     transition: 0.3s;
 }
 
 button:hover {
-    background: #d32f2f;
+    background: #ea8366;
 }
 
 @media (max-width: 600px) {

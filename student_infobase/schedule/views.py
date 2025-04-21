@@ -81,14 +81,33 @@ def schedule_edit(request, pk):
 
     return render(request, 'schedule/schedule_edit.html', {'form': form})
 
-@login_required(login_url='/') 
+from django.contrib.auth.decorators import login_required
+from django.db.models import Q
+from django.shortcuts import render
+from .models import Schedule
+
+@login_required
 def schedule_search(request):
     query = request.GET.get('q', '')
     results = None
     if query:
-        results = Schedule.objects.filter(Q(subject__name__icontains=query) | Q(subject__group__name__icontains=query)).select_related('subject')  
+        results = Schedule.objects.filter(
+            Q(subject__name__icontains=query) |
+            Q(subject__group__number__icontains=query) |
+            Q(subject__group__direction__name__icontains=query) |
+            Q(subject__group__profile__name__icontains=query) |
+            Q(subject__teacher__surname__icontains=query)
+        ).select_related(
+            'subject', 'subject__teacher', 'teacher',
+            'subject__group__direction', 'subject__group__profile'
+        )
 
-    return render(request, 'schedule/schedule_search.html', {'query': query, 'results': results})
+    return render(request, 'schedule/schedule_search.html', {
+        'query': query,
+        'results': results
+    })
+
+
 
 @login_required(login_url='/') 
 def download_schedule(request):

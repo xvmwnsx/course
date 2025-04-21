@@ -7,11 +7,11 @@
 </head>
 <div class="reg">
     <div class="reg-container">
-        <h2>Регистрация</h2>
+        <h2>Регистрация пользователя</h2>
         <form action="{% url 'register' %}" method="post">
             {% csrf_token %}
             {{ form.as_p }}
-            <p><input type="submit" value="Зарегистрироваться"></p>
+            <p><input type="submit" value="Зарегистрировать пользователя"></p>
         </form>
     </div>
 </div>

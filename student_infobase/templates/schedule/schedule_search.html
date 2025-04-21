@@ -15,15 +15,14 @@
         {% if results %}
             <ul>
                 {% for schedule in results %}
-                    <li>
-                        <strong>Предмет:</strong> {{ schedule.subject.name }} <br>
-                        <strong>Номер группы:</strong> {{ schedule.subject.group.id }} <br>
-                        <strong>Группа:</strong> {{ schedule.subject.group.name }} <br>
-                        <strong>Дата:</strong> {{ schedule.date }} <br>
-                        <strong>Время:</strong> {{ schedule.time }} <br>
-                        <strong>Кабинет:</strong> {{ schedule.cabinet }} <br>
-                        <strong>Преподаватель:</strong> {{ schedule.teacher }} <br>
-                    </li>
+                <li>
+                    <strong>Предмет:</strong> {{ schedule.subject.name }} <br>
+                    <strong>Группа:</strong> {{ schedule.subject.group}} <br>
+                    <strong>Дата:</strong> {{ schedule.date }} <br>
+                    <strong>Время:</strong> {{ schedule.time }} <br>
+                    <strong>Кабинет:</strong> {{ schedule.cabinet }} <br>
+                    <strong>Преподаватель:</strong>{{ schedule.subject.teacher.first_name }} {{ schedule.subject.teacher.last_name }} {{ schedule.subject.teacher.surname }} <br>
+                </li>                
                 {% endfor %}
             </ul>
         {% else %}

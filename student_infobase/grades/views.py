@@ -60,7 +60,7 @@ def subject_grades(request, subject_id):
     selected_month = int(request.GET.get('month', today.month))
     selected_year = int(request.GET.get('year', today.year))
 
-    if selected_month in [7, 8]:  
+    if selected_month in [6, 7, 8]:  
         selected_month = 9
 
     first_day = datetime(selected_year, selected_month, 1)
@@ -83,7 +83,7 @@ def subject_grades(request, subject_id):
         grades_by_date.setdefault(date_str, {})[grade.student.id] = grade.grade
 
     months = {
-        1: "Январь", 2: "Февраль", 3: "Март", 4: "Апрель", 5: "Май", 6: "Июнь",
+        1: "Январь", 2: "Февраль", 3: "Март", 4: "Апрель", 5: "Май",
         9: "Сентябрь", 10: "Октябрь", 11: "Ноябрь", 12: "Декабрь"
     }
 
