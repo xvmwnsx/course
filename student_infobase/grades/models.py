@@ -20,7 +20,6 @@ class Grade(models.Model):
     def __str__(self):
         return f"{self.student} - {self.subject} - {self.grade}"
 
-
     
 class Exam(models.Model):
     EXAM_CHOICES = [
