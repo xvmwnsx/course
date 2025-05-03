@@ -44,7 +44,7 @@ h2 {
     text-align: center;
 }
 
-button {
+.logout {
     display: inline-block;
     width: 70%;
     padding: 12px;
@@ -57,7 +57,7 @@ button {
     transition: 0.3s;
 }
 
-button:hover {
+.logout:hover {
     background: #ea8366;
 }
 

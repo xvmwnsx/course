@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.utils.translation import gettext as _
 from .forms import UserRegistrationForm
-from accounts.models import Student
+from accounts.models import Student, Teacher
 
 def user_login(request):
     if request.method == 'POST':
@@ -30,17 +30,29 @@ def user_login(request):
     return render(request, 'registration/login.html', {'form': form})
 
 
+@login_required(login_url='/')
 def register(request):
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
-            user = form.save() 
-            login(request, user) 
-            messages.success(request, 'Регистрация успешна!')
-            return redirect('home')  
+            user = form.save(commit=False) 
+            role = form.cleaned_data['role']
+            user.role = role
+            user.save()
+
+            
+            if role == 'student':
+                Student.objects.create(user=user)
+            elif role == 'teacher':
+                Teacher.objects.create(user=user)
+
+            messages.success(request, 'Пользователь успешно зарегистрирован!')
+            return redirect('register')
     else:
         form = UserRegistrationForm()
+
     return render(request, 'registration/register_user.html', {'form': form})
+
 
 @login_required 
 def office(request):
@@ -54,7 +66,7 @@ def office(request):
 
     return render(
         request, 
-        'account/office.html', 
+        'accounts/office.html', 
         {'user': user, 'student': student, 'can_edit': can_edit}
     )
 

@@ -194,21 +194,22 @@ def edit_exam(request, exam_id):
     return render(request, 'grades/edit_exam.html', {'exams': exams, 'subject': exam.subject})
 
 
-@login_required(login_url='/') 
+@login_required(login_url='/')
 def export_grades_xlsx(request, subject_id):
-    subject = get_object_or_404(Classes, id=subject_id)  
-    grades = Grade.objects.filter(subject=subject).order_by('student__last_name', 'date')  
+    subject = get_object_or_404(Classes, id=subject_id)
+    grades = Grade.objects.filter(subject=subject).order_by('student__surname', 'student__first_name', 'student__last_name', 'date')
 
     data = []
     for grade in grades:
         data.append([
-            grade.student.last_name,
-            grade.student.first_name,
-            grade.date.strftime('%Y-%m-%d'),
+            grade.student.surname,     
+            grade.student.first_name,   
+            grade.student.last_name,    
+            grade.date.strftime('%Y-%m-%d'), 
             grade.grade
         ])
-    
-    df = pd.DataFrame(data, columns=['Фамилия', 'Имя', 'Дата', 'Оценка'])
+
+    df = pd.DataFrame(data, columns=['Фамилия', 'Имя', 'Отчество', 'Дата', 'Оценка'])
     
     response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
 

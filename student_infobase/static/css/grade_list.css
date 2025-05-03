@@ -3,19 +3,19 @@
     margin: 20px;
     padding: 20px;
     background: #fFfFfF;
-    border-radius: 10px;
+    border-radius: 12px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
 }
 
 .filter-form {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
     width: 100%;
-    gap: 10px;
+    gap: 20px;
 }
 
 .filter-form label {
@@ -28,7 +28,7 @@
     padding: 10px;
     width: 100%;
     max-width: 500px;
-    border-radius: 5px;
+    border-radius: 8px;
     border: 1px solid #ccc;
     background: white;
     cursor: pointer;
@@ -38,7 +38,7 @@
 .filter-form button {
     padding: 10px 15px;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     background: #4A90E2;
     color: white;
     font-size: 16px;
@@ -82,18 +82,18 @@ thead {
 }
 
 thead th {
-    padding: 10px;
+    padding: 12px;
     text-align: center;
 }
 
 th {
-    padding: 10px;
+    padding: 12px;
     text-align: center;
     border: 1px solid #fff;
 }
 
 td {
-    padding: 10px;
+    padding: 12px;
     text-align: center;
     border: 1px solid #ccc;
 }

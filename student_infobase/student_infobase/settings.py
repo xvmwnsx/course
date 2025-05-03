@@ -139,13 +139,6 @@ MEDIA_URL = 'media/'
 
 MEDIA_ROOT = BASE_DIR / 'media'
 
-# Запуск
-# venv\Scripts\activate
-# cd student_infobase
-# python manage.py runserver
-# выход с сервера - CTRL+C
-
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 

@@ -14,7 +14,6 @@ class Department(models.Model):
     def __str__(self):
         return f"{self.name}"
 
-
 class Direction(models.Model):
     BACHELOR = 'bachelor'
     SPECIALIST = 'specialist'
@@ -33,7 +32,6 @@ class Direction(models.Model):
 
     def __str__(self):
         return f"{self.code} — {self.name} ({self.get_education_level_display()})"
-
 
 class Profile(models.Model):  
     name = models.CharField(max_length=100, verbose_name="Название профиля")
@@ -60,14 +58,11 @@ class Group(models.Model):
         verbose_name = "Группа"
         verbose_name_plural = "Группы"
 
-
-
 class CustomUser(AbstractUser):
     email = models.EmailField(unique=True)
     first_name = models.CharField(max_length=150, null=True, verbose_name="Имя")
     surname = models.CharField(max_length=150, null=True, verbose_name="Фамилия")
     last_name = models.CharField(max_length=150, null=True, verbose_name="Отчество")
-
     ROLE_CHOICES = [
         ('student', 'Студент'),
         ('teacher', 'Преподаватель'),
@@ -77,8 +72,6 @@ class CustomUser(AbstractUser):
 
     def full_name(self):
         return f"{self.surname} {self.first_name} {self.last_name}".strip()
-
-
 
 class Student(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, primary_key=True, verbose_name="Пользователь")
@@ -91,10 +84,8 @@ class Student(models.Model):
     birth_date = models.DateField(verbose_name="Дата рождения")
     admission_year = models.PositiveIntegerField(verbose_name="Год поступления")
     
-    
     def __str__(self):
         return f"Студент {self.user.get_full_name()}"
-
 
 
 class Teacher(models.Model):

@@ -10,10 +10,24 @@
     <header>
         <nav class="nav">
             <h1>Информационная система учета успеваемости</h1>
-            <a href="{% url 'home' %}">Главная</a>
-            <a href="{% url 'office' %}">Личный кабинет</a>
-            <a href="{% url 'schedule_list' %}">Расписание</a>
-            <a href="{% url 'grade_list' %}">Журнал</a>
+            <a href="{% url 'home' %}" class="{% if request.path == '/' %}active{% endif %}">Главная</a>
+            <a href="{% url 'office' %}" class="{% if request.path == '/accounts/office/' %}active{% endif %}">Личный кабинет</a>
+            <a href="{% url 'schedule_list' %}" class="{% if request.path == '/schedule/list/' %}active{% endif %}">Расписание</a>
+            <a href="{% url 'grade_list' %}" class="{% if request.path == '/grades/' %}active{% endif %}">Журнал</a>
+            {% if user.is_authenticated %}
+                <div class="header-user">
+                    <span>{{ user.surname }} {{ user.first_name }} {{ user.last_name }},</span>
+
+                    <form action="{% url 'logout' %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit">
+                        Выйти
+                        </button>
+                    </form>
+                </div>
+            {% else %}
+            <a href="{% url 'login' %}" class="{% if request.path == '/accounts/login/' %}active{% endif %}">Войти</a>
+            {% endif %}
         </nav>
     </header>
     <main>
