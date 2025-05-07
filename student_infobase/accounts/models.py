@@ -71,7 +71,7 @@ class CustomUser(AbstractUser):
     role = models.CharField(max_length=20, choices=ROLE_CHOICES, null=True, blank=True, verbose_name = "Роль")
 
     def full_name(self):
-        return f"{self.surname} {self.first_name} {self.last_name}".strip()
+        return f"{self.surname} {self.first_name} {self.last_name}"
 
 class Student(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, primary_key=True, verbose_name="Пользователь")

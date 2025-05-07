@@ -106,10 +106,6 @@ def subject_grades(request, subject_id):
 @login_required(login_url='/')
 def edit_grades(request, subject_id):
     
-    days_ru = {
-        'Mon': 'Пн', 'Tue': 'Вт', 'Wed': 'Ср', 'Thu': 'Чт', 'Fri': 'Пт', 'Sat': 'Сб', 'Sun': 'Вс'
-    }
-
     subject = get_object_or_404(Classes, id=subject_id)
     today = datetime.today()
 
@@ -140,10 +136,8 @@ def edit_grades(request, subject_id):
 
     grade_choices = Grade.GRADE_CHOICES  
 
-    months = {
-        1: "Январь", 2: "Февраль", 3: "Март", 4: "Апрель", 5: "Май", 6: "Июнь",
-        9: "Сентябрь", 10: "Октябрь", 11: "Ноябрь", 12: "Декабрь"
-    }
+    months = { 1: "Январь", 2: "Февраль", 3: "Март", 4: "Апрель", 5: "Май", 6: "Июнь",
+        9: "Сентябрь", 10: "Октябрь", 11: "Ноябрь", 12: "Декабрь"}
     year_range = list(range(today.year - 5, today.year + 1))
 
     if request.method == 'POST':
@@ -157,8 +151,7 @@ def edit_grades(request, subject_id):
                         student=student,
                         subject=subject,
                         date=date,
-                        defaults={'teacher': request.user, 'grade': grade_value}
-                    )
+                        defaults={'teacher': request.user, 'grade': grade_value})
                     if not created:
                         grade.grade = grade_value
                         grade.save()
@@ -192,6 +185,19 @@ def edit_exam(request, exam_id):
         return redirect('grade_list')
 
     return render(request, 'grades/edit_exam.html', {'exams': exams, 'subject': exam.subject})
+
+from django.http import Http404
+
+@login_required
+def view_exam(request, subject_id):
+    subject = get_object_or_404(Classes, id=subject_id)
+
+    exam = Exam.objects.filter(subject=subject, student=request.user).first()
+
+    exams = [exam]
+
+
+    return render(request, 'grades/view_exam.html', {'exams': exams, 'subject': subject})
 
 
 @login_required(login_url='/')

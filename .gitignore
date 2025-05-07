@@ -3,3 +3,5 @@ venv/
 __pycache__/
 .vscode/
 .env
+structure.py
+tree_output.txt

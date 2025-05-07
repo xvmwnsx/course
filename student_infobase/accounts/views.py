@@ -39,7 +39,6 @@ def register(request):
             role = form.cleaned_data['role']
             user.role = role
             user.save()
-
             
             if role == 'student':
                 Student.objects.create(user=user)

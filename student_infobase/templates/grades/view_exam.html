@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+{% load custom_filters %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'css/edit_exam.css' %}">
+
+<h2>Просмотр экзаменов по предмету: {{ subject.name }}</h2>
+
+<div class="table-wrapper">
+    <div class="table-container">
+        <table class="exam-table">
+            <thead>
+                <tr>
+                    <th>Студент</th>
+                    <th>Оценка</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for exam in exams %}
+                    <tr>
+                        <td>{{ exam.student.surname }} {{ exam.student.first_name }} {{ exam.student.last_name }}</td>
+                        <td>
+                            {% if exam.status == 'pass' %}
+                                Зачёт
+                            {% elif exam.status == 'fail' %}
+                                Незачёт
+                            {% else %}
+                                {{ exam.status }}
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="buttons">
+    <a class="btn" href="{% url 'subject_grades' subject.id %}">⬅ Назад</a>
+</div>
+{% endblock %}

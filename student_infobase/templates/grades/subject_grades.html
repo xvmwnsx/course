@@ -67,10 +67,14 @@
     
     <div class="buttons">
         <a href="{% url 'grade_list' %}" class="btn">⬅ Назад</a>
+        
+
         <a href="{% url 'export_grades_xlsx' subject.id %}" class="btn_download-btn">📄 Загрузить в XLSX</a>
         {% if can_edit %}
         <a href="{% url 'edit_exam' subject.id %}" class="btn edit-btn">✅ Поставить экзамен</a>
         <a href="{% url 'edit_grades' subject.id %}" class="btn edit-btn">✏️ Редактировать оценки</a>
+        {% else %}
+        <a href="{% url 'view_exam' subject.id %}" class="btn">📊 Просмотр экзаменов</a>
         {% endif %}
     </div>
 </div>
