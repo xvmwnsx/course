@@ -1,11 +1,12 @@
 {% extends 'base.html' %}
+{% block title %}Просмотр оценок по экзамену: {{ subject.name }}{% endblock %}
 {% block content %}
 {% load static %}
 {% load custom_filters %}
 
 <link rel="stylesheet" type="text/css" href="{% static 'css/edit_exam.css' %}">
 
-<h2>Просмотр экзаменов по предмету: {{ subject.name }}</h2>
+<h2>Просмотр оценок по экзамену: {{ subject.name }}</h2>
 
 <div class="table-wrapper">
     <div class="table-container">

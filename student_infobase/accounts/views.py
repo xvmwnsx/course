@@ -5,7 +5,6 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.utils.translation import gettext as _
-from .forms import UserRegistrationForm
 from accounts.models import Student, Teacher
 
 def user_login(request):
@@ -28,30 +27,6 @@ def user_login(request):
         form = LoginView()
 
     return render(request, 'registration/login.html', {'form': form})
-
-
-@login_required(login_url='/')
-def register(request):
-    if request.method == 'POST':
-        form = UserRegistrationForm(request.POST)
-        if form.is_valid():
-            user = form.save(commit=False) 
-            role = form.cleaned_data['role']
-            user.role = role
-            user.save()
-            
-            if role == 'student':
-                Student.objects.create(user=user)
-            elif role == 'teacher':
-                Teacher.objects.create(user=user)
-
-            messages.success(request, 'Пользователь успешно зарегистрирован!')
-            return redirect('register')
-    else:
-        form = UserRegistrationForm()
-
-    return render(request, 'registration/register_user.html', {'form': form})
-
 
 @login_required 
 def office(request):

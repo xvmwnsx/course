@@ -5,3 +5,6 @@ __pycache__/
 .env
 structure.py
 tree_output.txt
+horizontal_tree.drawio
+project_structure.drawio
+todraw.py

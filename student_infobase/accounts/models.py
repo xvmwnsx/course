@@ -44,7 +44,8 @@ class Group(models.Model):
     number = models.PositiveIntegerField(null=True, verbose_name="Номер группы")
     direction = models.ForeignKey(Direction, on_delete=models.SET_NULL, null=True, verbose_name="Направление")
     profile = models.ForeignKey(Profile, on_delete=models.SET_NULL, null=True, verbose_name="Профиль")
-
+    department = models.ForeignKey(Department, on_delete=models.SET_NULL, null=True, verbose_name="Кафедра")
+    
     @property
     def education_level(self):
         return self.direction.education_level if self.direction else None
@@ -77,15 +78,16 @@ class Student(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, primary_key=True, verbose_name="Пользователь")
     group = models.ForeignKey(Group, on_delete=models.SET_NULL, null=True, verbose_name="Группа")
     year = models.PositiveIntegerField(null=True, verbose_name="Курс")
-    faculty = models.ForeignKey(Faculty, on_delete=models.SET_NULL, null=True, verbose_name="Факультет")
-    department = models.ForeignKey(Department, on_delete=models.SET_NULL, null=True, verbose_name="Кафедра")
     record_book_number = models.CharField(max_length=50, verbose_name="Номер зачетной книжки")
     citizenship = models.CharField(max_length=100, verbose_name="Гражданство")
     birth_date = models.DateField(verbose_name="Дата рождения")
     admission_year = models.PositiveIntegerField(verbose_name="Год поступления")
+    faculty = models.ForeignKey(Faculty, on_delete=models.SET_NULL, null=True, verbose_name="Факультет")
+    department = models.ForeignKey(Department, on_delete=models.SET_NULL, null=True, verbose_name="Кафедра")
     
     def __str__(self):
         return f"Студент {self.user.get_full_name()}"
+
 
 
 class Teacher(models.Model):

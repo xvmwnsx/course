@@ -50,7 +50,7 @@
                     <td>{{ schedule.subject.group }}</td>
                     <td><a href="{% url 'schedule_edit' pk=schedule.id %}">✏️ Редактировать</a></td>
                     {% else %}
-                    <td>{{ schedule.teacher }}</td>
+                    <td>{{ schedule.teacher.first_name }} {{ schedule.teacher.surname }} {{ schedule.teacher.last_name }}</td>
                     {% endif %}
                     </tr>
                 {% endfor %}

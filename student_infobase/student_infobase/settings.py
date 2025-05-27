@@ -36,6 +36,42 @@ DATABASES = {
     }
 }
 
+# SECURITY: HTTPS и куки
+SECURE_SSL_REDIRECT = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+
+# HTTP заголовки
+SECURE_HSTS_SECONDS = 3600  # 31536000
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+X_FRAME_OPTIONS = 'DENY'
+
+# CSRF и сессии
+CSRF_TRUSTED_ORIGINS = ['https://yourdomain.com']
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+SESSION_COOKIE_AGE = 1800  
+
+# Разграничение прав
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    # 'guardian.backends.ObjectPermissionBackend',  # если используешь django-guardian
+]
+
+# Пароли (усиленный алгоритм хеширования)
+PASSWORD_HASHERS = [
+    'django.contrib.auth.hashers.Argon2PasswordHasher',
+    'django.contrib.auth.hashers.PBKDF2PasswordHasher',
+    'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
+    'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
+]
+
+# Лимит на загрузку файлов
+DATA_UPLOAD_MAX_MEMORY_SIZE = 10485760  # 10MB
+
+
 # Application definition
 
 INSTALLED_APPS = [

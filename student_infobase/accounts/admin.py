@@ -2,6 +2,19 @@ from django.contrib import admin
 from .models import CustomUser, Group, Student, Teacher, Faculty, Department, Direction, Profile
 from django.contrib.auth.admin import UserAdmin
 
+class StudentInline(admin.StackedInline):
+    model = Student
+    can_delete = False
+    verbose_name_plural = 'Данные студента'
+    fk_name = 'user'
+
+class TeacherInline(admin.StackedInline):
+    model = Teacher
+    can_delete = False
+    verbose_name_plural = 'Данные преподавателя'
+    fk_name = 'user'
+
+
 class CustomUserAdmin(UserAdmin):
     model = CustomUser
     fieldsets = (
@@ -22,12 +35,21 @@ class CustomUserAdmin(UserAdmin):
     search_fields = ('username', 'surname', 'first_name', 'last_name', 'role')
     ordering = ('username', 'email')
     exclude = ('is_staff', 'is_superuser', 'groups', 'user_permissions')
+    
+    def get_inline_instances(self, request, obj=None):
+        if not obj:
+            return []
+        if obj.role == 'student':
+            return [StudentInline(self.model, self.admin_site)]
+        elif obj.role == 'teacher':
+            return [TeacherInline(self.model, self.admin_site)]
+        return []
 
 
 class StudentAdmin(admin.ModelAdmin):
-    list_display = ('group', 'faculty', 'department', 'user__surname', 'user__first_name', 'user__last_name', 'user', 'year')
+    list_display = ('group', 'user__surname', 'user__first_name', 'user__last_name', 'user', 'year')
     search_fields = ('user__surname', 'user__first_name', 'user__last_name', 'record_book_number')
-    list_filter = ('group', 'faculty', 'department', 'year')
+    list_filter = ('group','year')
     ordering = ('group',)
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
