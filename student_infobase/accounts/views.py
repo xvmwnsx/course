@@ -44,3 +44,16 @@ def office(request):
         {'user': user, 'student': student, 'can_edit': can_edit}
     )
 
+@login_required 
+def vitrina(request):
+    user = request.user
+    try:
+        student = Student.objects.get(user=user)
+    except Student.DoesNotExist:
+        student = None
+
+    can_edit = user.role in ['teacher', 'admin']
+
+    return render(request, 
+        'accounts/vitrina.html', 
+        {'user': user, 'student': student, 'can_edit': can_edit})
