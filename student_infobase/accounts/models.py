@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.conf import settings
 
 class Faculty(models.Model):
     name = models.CharField(max_length=100, verbose_name="Название факультета")
@@ -99,3 +100,15 @@ class Teacher(models.Model):
 
     def __str__(self):
         return f"Преподаватель {self.user.get_full_name()}"
+
+
+class Vitrina(models.Model):
+    student = models.ForeignKey('accounts.Student', on_delete=models.CASCADE, related_name='projects')
+    title = models.CharField(max_length=200)
+    description = models.TextField()
+    image = models.ImageField(upload_to='project_images/', blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    cover = models.ImageField(upload_to='project_covers/', null=True, blank=True, verbose_name="Обложка проекта")
+
+    def __str__(self):
+        return f"{self.title} — {self.student.user.get_full_name()}"

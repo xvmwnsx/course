@@ -13,7 +13,7 @@
     <p><strong>Email:</strong> {{ user.email }}</p>
     <p><strong>Роль:</strong> {{ user.role }}</p>
     <p><strong>Дата регистрации:</strong> {{ user.date_joined }}</p>
-    <p><a href="{% url 'vitrina' %}"> Моя витрина </a></p>
+    <p><a href="{% url 'my_vitrina' %}"> Моя витрина </a></p>
     {% if student %}
         <p><strong>Направление / Профиль / Номер группы: </strong>{{ student.group }}</p>
     {% endif %}

@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}Редактировать проект{% endblock %}
+{% block content %}
+{% load static %}
+<head>
+    <link rel="stylesheet" href="{% static 'css/edit_project.css' %}">
+</head>
+<h2>Редактировать проект: {{ project.title }}</h2>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Сохранить изменения</button>
+</form>
+<a href="{% url 'my_vitrina' %}">← Назад</a>
+{% endblock %}

@@ -1,0 +1,31 @@
+.opisanie {
+    font-size: 26px;
+    text-align: left;
+}
+
+.project-gallery {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.project-card {
+    width: 250px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    background: #f9f9f9;
+    transition: box-shadow 0.3s ease;
+}
+
+.project-card:hover {
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}
+
+.project-card img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin-top: 10px;
+}
+
+

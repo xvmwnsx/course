@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Личный кабинет{% endblock %}
+{% block content %}
+{% load static %}
+<head>
+    <link rel="stylesheet" href="{% static 'css/project_detail.css' %}">
+</head>
+<h1>{{ project.title }}</h1>
+
+{% if project.cover %}
+    <img src="{{ project.cover.url }}" style="max-width:500px;" alt="cover">
+{% endif %}
+
+<p>{{ project.description }}</p>
+
+{% if project.image %}
+    <h4>Дополнительное изображение:</h4>
+    <img src="{{ project.image.url }}" style="max-width:500px;">
+{% endif %}
+
+<p><small>Добавлено: {{ project.created_at|date:"d.m.Y H:i" }}</small></p>
+
+<a href="{% url 'vitrina' %}">← Назад ко всем проектам</a>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}Редактировать проект{% endblock %}
+{% block content %}
+{% load static %}
+<head>
+    <link rel="stylesheet" href="{% static 'css/confirm_delete_project.css' %}">
+</head>
+<h2>Удалить проект: {{ project.title }}</h2>
+<p>Вы уверены, что хотите удалить этот проект?</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Да, удалить</button>
+    <a href="{% url 'my_vitrina' %}">Отмена</a>
+</form>
+{% endblock %}

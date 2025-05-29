@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}Добавить проект{% endblock %}
+{% block content %}
+{% load static %}
+<head>
+    <link rel="stylesheet" href="{% static 'css/vitrina_add.css' %}">
+</head>
+<h2>Добавить проект</h2>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Сохранить</button>
+</form>
+{% endblock %}

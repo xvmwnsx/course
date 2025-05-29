@@ -7,6 +7,11 @@ urlpatterns = [
     path("logout/", auth_views.LogoutView.as_view(template_name="registration/logged_out.html"), name="logout"),
     path('office/', views.office, name='office'),
     path('vitrina/', views.vitrina, name='vitrina'),
+    path('vitrina/add/', views.vitrina_add, name='vitrina_add'),
+    path('my_vitrina/', views.my_vitrina, name='my_vitrina'),
+    path('vitrina/edit/<int:project_id>/', views.edit_project, name='edit_project'),
+    path('vitrina/delete/<int:project_id>/', views.delete_project, name='delete_project'),
+    path('vitrina/project/<int:project_id>/', views.project_detail, name='project_detail'),
 
     path('password-change/', auth_views.PasswordChangeView.as_view(), name='password_change'),
     path('password-change/done/', auth_views.PasswordChangeDoneView.as_view(), name='password_change_done'),
