@@ -85,9 +85,9 @@ main {
 
 footer {
   text-align: center;
-  padding: 15px 0;
-  background: #f4f4f9;
-  color: #333;
+  margin-top: 60px;
+  padding: 20px 0;
   font-size: 14px;
-  margin-top: auto;
+  color: #999;
+  border-top: 1px solid #ddd;
 }

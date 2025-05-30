@@ -7,7 +7,6 @@
 </head>
 <div class="project-detail"> 
     <h2>{{ project.title }}</h2>
-
     {% if project.cover %}
         <img src="{{ project.cover.url }}" style="max-width:500px;" alt="cover">
     {% endif %}
@@ -19,7 +18,7 @@
         <img src="{{ project.image.url }}" style="max-width:500px;">
     {% endif %}
     
-    <p><small>Добавлено: {{ project.created_at|date:"d.m.Y H:i" }}</small></p>
+    <p><small>{{ project.created_at|date:"d.m.Y" }}</small></p>
 
     <p>
         {% for tag in project.tags.all %}

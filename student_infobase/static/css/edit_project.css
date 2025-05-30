@@ -1,101 +1,143 @@
-input[type="file"] {
-    border: none;
-    background: none;
-    padding: 0;
-    font-family: inherit;
-    font-size: 15px;
-}
-input[type="checkbox"] {
-    width: 18px;
-    height: 18px;
-    cursor: pointer;
-}
-
+/* Контейнер формы */
 .edit-container {
     max-width: 800px;
     margin: 40px auto;
-    background: #ffffff;
-    padding: 30px;
+    background: #fff;
+    padding: 30px 40px;
     border-radius: 12px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    font-family: Arial, sans-serif;
 }
 
+/* Заголовок */
 .edit-container h2 {
     font-size: 26px;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
     color: #2c3e50;
     text-align: center;
 }
 
-.edit-form p {
-    margin-bottom: 15px;
+/* Блоки с полями */
+.form-group {
+    margin-bottom: 25px;
+    display: block; /* На всякий случай */
 }
 
-.edit-form label {
-    
-    font-weight: bold;
-    margin-bottom: 10px;
-    margin-top: 10px;
+/* Метки к полям */
+.form-group > label {
+    display: block;
+    font-weight: 700;
+    margin-bottom: 8px;
     color: #34495e;
 }
 
-
-.edit-form input[type="text"],
-.edit-form select {
-    width: 780px;
-    padding: 10px;
+/* Текстовые поля и textarea */
+.form-group input[type="text"],
+.form-group textarea {
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 16px;
     border: 1px solid #ccc;
     border-radius: 6px;
-    font-size: 15px;
-    transition: border-color 0.2s;
+    box-sizing: border-box;
+    transition: border-color 0.3s;
+    font-family: inherit;
 }
 
-.edit-form input:focus,
-.edit-form textarea:focus,
-.edit-form select:focus {
+.form-group textarea {
+    resize: vertical;
+    min-height: 150px;
+    max-height: 400px;
+}
+
+/* Фокус поля */
+.form-group input[type="text"]:focus,
+.form-group textarea:focus {
     border-color: #3498db;
     outline: none;
 }
 
+/* Ссылка на текущий файл */
+.form-group a {
+    color: #2980b9;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.form-group a:hover {
+    text-decoration: underline;
+}
+
+/* Чекбокс и лейбл «Удалить файл» в одной строке */
+.form-group input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    vertical-align: middle;
+    margin-right: 6px;
+    cursor: pointer;
+}
+
+.form-group label[for="cover-clear_id"] {
+    display: inline-block;
+    vertical-align: middle;
+    font-weight: normal;
+    cursor: pointer;
+}
+
+/* Чтобы чекбокс и лейбл были в строчку */
+.form-group .checkbox-wrapper {
+    margin-top: 8px;
+    margin-bottom: 12px;
+}
+
+/* Стилизуем кнопку «Обзор» (input file) */
+input[type="file"] {
+    padding: 6px 10px;
+    font-size: 15px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background-color: #f5f5f5;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+input[type="file"]:hover {
+    background-color: #e6f0fb;
+    border-color: #3498db;
+}
+
+/* Кнопка сохранить */
 .btn-save {
+    display: block;
+    width: 100%;
+    padding: 14px 0;
     background-color: #3498db;
     color: white;
     border: none;
-    padding: 12px 24px;
+    font-size: 18px;
+    font-weight: 700;
     border-radius: 8px;
-    font-size: 16px;
-    font-weight: bold;
     cursor: pointer;
-    margin-top: 10px;
     transition: background-color 0.3s ease;
+    margin-top: 20px;
 }
 
 .btn-save:hover {
     background-color: #2980b9;
 }
 
+/* Кнопка назад */
 .btn-back {
     display: inline-block;
-    margin-top: 20px;
-    text-decoration: none;
+    margin-top: 25px;
     color: #7f8c8d;
     font-size: 15px;
-    transition: color 0.2s ease;
+    text-decoration: none;
+    transition: color 0.3s ease;
 }
 
 .btn-back:hover {
     color: #2c3e50;
 }
-textarea {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 15px;
-    transition: border-color 0.2s;
-    resize: vertical; 
-    overflow-y: auto; 
-    min-height: 100px;
-    max-height: 500px;
-    width: 100%;       
-    box-sizing: border-box; 
-}
+
+
