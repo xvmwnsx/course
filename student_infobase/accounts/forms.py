@@ -3,22 +3,32 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django import forms
 from .models import Vitrina
 from django.forms.widgets import ClearableFileInput
+from taggit.forms import TagWidget
+from taggit.models import Tag
+from taggit.forms import TagField
 
 class CustomClearableFileInput(ClearableFileInput):
     clear_checkbox_label = ('Удалить файл')  
     
 class StudentProjectForm(forms.ModelForm):
+    tags = forms.ModelMultipleChoiceField(
+        queryset=Tag.objects.all(),
+        required=False,
+        widget=forms.SelectMultiple(attrs={'class': 'tag-select'})
+    )
     class Meta:
         model = Vitrina
-        fields = ['title', 'description', 'image', 'cover']
+        fields = ['title', 'description', 'image', 'cover', 'tags']
         labels = {
             'title': 'Название проекта',
             'description': 'Описание',
             'image': 'Фото (дополнительное)',
             'cover': 'Обложка проекта',
+            'tags': 'Теги'
         }
         widgets = {
             'cover': CustomClearableFileInput(attrs={'class': 'custom-file'}),
+            'tags': TagWidget(attrs={'class': 'tag-select'}),
         }
 
 class CustomPasswordChangeForm(PasswordChangeForm):

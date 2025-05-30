@@ -1,4 +1,3 @@
-/* Контейнер формы */
 .edit-container {
     max-width: 800px;
     margin: 40px auto;
@@ -9,7 +8,6 @@
     font-family: Arial, sans-serif;
 }
 
-/* Заголовок */
 .edit-container h2 {
     font-size: 26px;
     margin-bottom: 25px;
@@ -17,13 +15,11 @@
     text-align: center;
 }
 
-/* Блоки с полями */
 .form-group {
     margin-bottom: 25px;
-    display: block; /* На всякий случай */
+    display: block; 
 }
 
-/* Метки к полям */
 .form-group > label {
     display: block;
     font-weight: 700;
@@ -31,12 +27,11 @@
     color: #34495e;
 }
 
-/* Текстовые поля и textarea */
 .form-group input[type="text"],
 .form-group textarea {
     width: 100%;
     padding: 10px 12px;
-    font-size: 16px;
+    font-size: 18px;
     border: 1px solid #ccc;
     border-radius: 6px;
     box-sizing: border-box;
@@ -50,14 +45,12 @@
     max-height: 400px;
 }
 
-/* Фокус поля */
 .form-group input[type="text"]:focus,
 .form-group textarea:focus {
     border-color: #3498db;
     outline: none;
 }
 
-/* Ссылка на текущий файл */
 .form-group a {
     color: #2980b9;
     text-decoration: none;
@@ -68,7 +61,6 @@
     text-decoration: underline;
 }
 
-/* Чекбокс и лейбл «Удалить файл» в одной строке */
 .form-group input[type="checkbox"] {
     width: 18px;
     height: 18px;
@@ -84,13 +76,11 @@
     cursor: pointer;
 }
 
-/* Чтобы чекбокс и лейбл были в строчку */
 .form-group .checkbox-wrapper {
     margin-top: 8px;
     margin-bottom: 12px;
 }
 
-/* Стилизуем кнопку «Обзор» (input file) */
 input[type="file"] {
     padding: 6px 10px;
     font-size: 15px;
@@ -106,7 +96,6 @@ input[type="file"]:hover {
     border-color: #3498db;
 }
 
-/* Кнопка сохранить */
 .btn-save {
     display: block;
     width: 100%;
@@ -126,7 +115,6 @@ input[type="file"]:hover {
     background-color: #2980b9;
 }
 
-/* Кнопка назад */
 .btn-back {
     display: inline-block;
     margin-top: 25px;

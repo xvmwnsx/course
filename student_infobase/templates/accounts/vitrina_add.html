@@ -24,19 +24,55 @@
         </div>
     
         <div class="form-group">
-            <label for="{{ form.cover.id_for_label }}">Обложка проекта</label>
-            {{ form.cover }}
-            {{ form.cover.errors }}
+            <label for="id_cover">Обложка:</label>
+            {% if project.cover %}
+                <p>На данный момент: <a href="{{ project.cover.url }}">...</a></p>
+                <div class="checkbox-wrapper">
+                    <input type="checkbox" name="cover-clear" id="cover-clear_id">
+                    <label for="cover-clear_id">Удалить файл</label>
+                </div>
+                {% else %}
+                <p>Файл обложки отсутствует</p>
+            {% endif %}
+                    
+            <p>Изменить:</p>
+            <input type="file" name="cover" class="custom-file" accept="image/*" id="id_cover">
         </div>
-    
-        <div class="form-checkbox">
-            {{ form.is_published }}
-            <label for="{{ form.is_published.id_for_label }}">Опубликовать</label>
-            {{ form.is_published.errors }}
+
+        
+        <div class="form-group">
+            <label for="{{ form.image.id_for_label }}">Фото проекта:</label>
+            {% if project.image %}
+                <p>На данный момент: <a href="{{ project.image.url }}">...</a></p>
+                <div class="checkbox-wrapper">
+                    <input type="checkbox" name="image-clear" id="image-clear_id">
+                    <label for="image-clear_id">Удалить файл</label>
+                </div>
+                {% else %}
+                <p>Файл отсутствует</p>
+            {% endif %}
+                    
+            <p>Изменить:</p>
+            <input type="file" name="image" class="custom-file" accept="image/*" id="id_image">
         </div>
+        <div class="form-group">
+            <label for="{{ form.tags.id_for_label }}">Теги</label>
+            {{ form.tags }}
+            {{ form.tags.errors }}
+        </div>        
     
-        <button type="submit" class="btn-save">Сохранить</button>
+        <button type="submit" class="btn-save">Сохранить изменения</button>
     </form>
+    <script>
+        $(document).ready(function() {
+            $('.tag-select').select2({
+                tags: true,
+                tokenSeparators: [','],
+                width: '100%',
+                placeholder: "Выберите или добавьте теги"
+            });
+        });
+    </script>
 </div>
 
 {% endblock %}

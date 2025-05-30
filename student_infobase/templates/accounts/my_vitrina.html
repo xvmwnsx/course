@@ -7,7 +7,7 @@
 </head>
 <h2>Мои проекты</h2>
 <div class="add">
-    <a href="{% url 'vitrina_add' %}">Добавить новый проект</a>
+    <a href="{% url 'vitrina_add' %}" class="btn-add-project">Добавить новый проект</a>
 </div>
 <div class="project-gallery">
     {% if projects %}
@@ -26,6 +26,7 @@
 {% else %}
     <p>Вы ещё не добавили ни одного проекта.</p>
 {% endif %}
+
 </div>
 
 {% endblock %}

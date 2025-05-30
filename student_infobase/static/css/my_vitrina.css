@@ -38,7 +38,21 @@ h2 {
     margin-top: 8px;
     text-decoration: none;
      padding: 10px 20px;
-
-    
 }
 
+.btn-add-project {
+    display: inline-block;
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 500;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.btn-add-project:hover {
+    background-color: #45a049;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
