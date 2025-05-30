@@ -1,6 +1,8 @@
 from django.contrib import admin
 from .models import CustomUser, Group, Student, Teacher, Faculty, Department, Direction, Profile
 from django.contrib.auth.admin import UserAdmin
+from taggit.models import Tag
+from taggit.admin import TagAdmin
 
 class StudentInline(admin.StackedInline):
     model = Student
@@ -105,6 +107,46 @@ class DepartmentAdmin(admin.ModelAdmin):
     list_filter = ('faculty',)
     search_fields = ('name',)
 
+from django import forms
+from django.contrib import admin
+from taggit.models import Tag
+from taggit.managers import TaggableManager
+from dal import autocomplete
+
+from .models import Vitrina
+from .autocomplete import TagAutocomplete
+
+class VitrinaForm(forms.ModelForm):
+    class Meta:
+        model = Vitrina
+        fields = '__all__'
+        widgets = {
+            'tags': autocomplete.TaggitSelect2(
+                url='tag-autocomplete'
+            ),
+        }
+
+@admin.register(Vitrina)
+class VitrinaAdmin(admin.ModelAdmin):
+    form = VitrinaForm
+    list_display = ('title', 'student_name', 'created_at', 'tag_list')
+    search_fields = ('title', 'student__user__first_name', 'student__user__surname')
+    list_filter = ('created_at',)
+    autocomplete_fields = ['student']
+
+    def student_name(self, obj):
+        return obj.student.user.get_full_name()
+    student_name.short_description = 'Студент'
+
+    def tag_list(self, obj):
+        return ", ".join(tag.name for tag in obj.tags.all())
+    tag_list.short_description = 'Теги'
+
+
+
+
+admin.site.unregister(Tag)
+admin.site.register(Tag, TagAdmin)
 admin.site.register(CustomUser, CustomUserAdmin)
 admin.site.register(Student, StudentAdmin)
 admin.site.register(Teacher, TeacherAdmin)

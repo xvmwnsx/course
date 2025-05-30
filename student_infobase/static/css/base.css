@@ -68,9 +68,16 @@ h1 {
   margin-bottom: 5px;
   color: #4960c6;
 }
+
+h2 {
+  text-align: center;
+    font-size: 30px;
+}
+
 main {
   flex: 1;
   padding: 20px;
+  width: 100%;
   max-width: 1200px;
   margin: 0 auto;
 }

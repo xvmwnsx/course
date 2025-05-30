@@ -75,3 +75,25 @@ h2 {
         font-size: 14px;
     }
 }
+.vitrina {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.btn-big {
+    display: inline-block;
+    padding: 14px 28px;
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+    background-color: #3498db;
+    border: none;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn-big:hover {
+    background-color: #2980b9;
+}

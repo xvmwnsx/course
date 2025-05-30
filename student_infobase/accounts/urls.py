@@ -1,6 +1,7 @@
 from django.urls import path
 from django.contrib.auth import views as auth_views
 from . import views
+from .autocomplete import TagAutocomplete
 
 urlpatterns = [
     path('login/', auth_views.LoginView.as_view(), name='login'),
@@ -12,7 +13,8 @@ urlpatterns = [
     path('vitrina/edit/<int:project_id>/', views.edit_project, name='edit_project'),
     path('vitrina/delete/<int:project_id>/', views.delete_project, name='delete_project'),
     path('vitrina/project/<int:project_id>/', views.project_detail, name='project_detail'),
-
+    path('tag-autocomplete/', TagAutocomplete.as_view(), name='tag-autocomplete'),
+    
     path('password-change/', auth_views.PasswordChangeView.as_view(), name='password_change'),
     path('password-change/done/', auth_views.PasswordChangeDoneView.as_view(), name='password_change_done'),
     path('password-reset/', auth_views.PasswordResetView.as_view(), name='password_reset'),

@@ -2,14 +2,44 @@
 {% block title %}Редактировать проект{% endblock %}
 {% block content %}
 {% load static %}
-<head>
-    <link rel="stylesheet" href="{% static 'css/edit_project.css' %}">
-</head>
-<h2>Редактировать проект: {{ project.title }}</h2>
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Сохранить изменения</button>
-</form>
-<a href="{% url 'my_vitrina' %}">← Назад</a>
+
+<link rel="stylesheet" href="{% static 'css/edit_project.css' %}">
+
+<div class="edit-container">
+    <h2>Редактировать проект: {{ project.title }}</h2>
+    
+    <form method="post" enctype="multipart/form-data" class="edit-form">
+        {% csrf_token %}
+    
+        <div class="form-group">
+            <label for="{{ form.title.id_for_label }}">Название</label>
+            {{ form.title }}
+            {{ form.title.errors }}
+        </div>
+    
+        <div class="form-group">
+            <label for="{{ form.description.id_for_label }}">Описание</label>
+            {{ form.description }}
+            {{ form.description.errors }}
+        </div>
+    
+        <div class="form-group">
+            <label for="{{ form.cover.id_for_label }}">Обложка</label>
+            {{ form.cover }}
+            {{ form.cover.errors }}
+        </div>        
+    
+        <div class="form-checkbox">
+            {{ form.is_published }}
+            <label for="{{ form.is_published.id_for_label }}">Опубликовать</label>
+            {{ form.is_published.errors }}
+        </div>
+    
+        <button type="submit" class="btn-save">Сохранить изменения</button>
+    </form>
+    
+
+    <a href="{% url 'my_vitrina' %}" class="btn-back">← Назад</a>
+</div>
+
 {% endblock %}

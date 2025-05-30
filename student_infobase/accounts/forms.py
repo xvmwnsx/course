@@ -2,7 +2,11 @@ from django import forms
 from django.contrib.auth.forms import PasswordChangeForm
 from django import forms
 from .models import Vitrina
+from django.forms.widgets import ClearableFileInput
 
+class CustomClearableFileInput(ClearableFileInput):
+    clear_checkbox_label = ('Удалить файл')  
+    
 class StudentProjectForm(forms.ModelForm):
     class Meta:
         model = Vitrina
@@ -12,6 +16,9 @@ class StudentProjectForm(forms.ModelForm):
             'description': 'Описание',
             'image': 'Фото (дополнительное)',
             'cover': 'Обложка проекта',
+        }
+        widgets = {
+            'cover': CustomClearableFileInput(attrs={'class': 'custom-file'}),
         }
 
 class CustomPasswordChangeForm(PasswordChangeForm):

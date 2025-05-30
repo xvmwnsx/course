@@ -5,20 +5,29 @@
 <head>
     <link rel="stylesheet" href="{% static 'css/project_detail.css' %}">
 </head>
-<h1>{{ project.title }}</h1>
+<div class="project-detail"> 
+    <h2>{{ project.title }}</h2>
 
-{% if project.cover %}
-    <img src="{{ project.cover.url }}" style="max-width:500px;" alt="cover">
-{% endif %}
+    {% if project.cover %}
+        <img src="{{ project.cover.url }}" style="max-width:500px;" alt="cover">
+    {% endif %}
+    <div class="text-block">
+        <p>{{ project.description|linebreaks }}</p>
+    </div>
+       
+    {% if project.image %}
+        <img src="{{ project.image.url }}" style="max-width:500px;">
+    {% endif %}
+    
+    <p><small>Добавлено: {{ project.created_at|date:"d.m.Y H:i" }}</small></p>
 
-<p>{{ project.description }}</p>
+    <p>
+        {% for tag in project.tags.all %}
+          <span class="tag">{{ tag.name }}</span>{% if not forloop.last %} {% endif %}
+        {% empty %}
+          <em>Нет тегов</em>
+        {% endfor %}
+      </p>
+    </div>
 
-{% if project.image %}
-    <h4>Дополнительное изображение:</h4>
-    <img src="{{ project.image.url }}" style="max-width:500px;">
-{% endif %}
-
-<p><small>Добавлено: {{ project.created_at|date:"d.m.Y H:i" }}</small></p>
-
-<a href="{% url 'vitrina' %}">← Назад ко всем проектам</a>
 {% endblock %}

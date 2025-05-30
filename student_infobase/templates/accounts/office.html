@@ -13,15 +13,24 @@
     <p><strong>Email:</strong> {{ user.email }}</p>
     <p><strong>Роль:</strong> {{ user.role }}</p>
     <p><strong>Дата регистрации:</strong> {{ user.date_joined }}</p>
-    <p><a href="{% url 'my_vitrina' %}"> Моя витрина </a></p>
+    
     {% if student %}
         <p><strong>Направление / Профиль / Номер группы: </strong>{{ student.group }}</p>
+        
+          
     {% endif %}
 </div>
+{% if student %}
+    <p class="vitrina">
+        <a href="{% url 'my_vitrina' %}" class="btn-big">Мои проекты</a>
+      </p>
+    {% endif %}
 <div class="low-links">
     <p><a href="{% url 'password_change' %}">Сменить пароль</a></p>
+    
 {% if can_edit %}
     <p><a href="/admin/">Панель администрации</a></p>
     <p><a href="/admin/accounts/customuser/add/">Регистрация пользователя</a></p>
 {% endif %}
+</div>
 {% endblock %}

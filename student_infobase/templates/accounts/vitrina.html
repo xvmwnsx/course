@@ -3,9 +3,7 @@
 {% block content %}
 {% load static %}
 <head><link rel="stylesheet" href="{% static 'css/vitrina.css' %}"></head>
-
-
-<h1>Витрина проектов</h1>
+<h2>Витрина проектов</h2>
 <div class="opisanie"> 
     <p>
     Это выставочное пространство, где представлены разнообразные научные или инженерные проекты.
@@ -15,10 +13,7 @@
     В рамках этой витрины могут быть представлены прототипы, технические решения, научные открытия и другие инновационные результаты работ.
 </p>
 </div>
-
-
-<hr>
-
+    
 <div class="project-gallery">
 {% for project in projects %}
 <div class="project-card">
@@ -28,10 +23,12 @@
             <img src="{{ project.cover.url }}" alt="cover" style="max-width:100%;">
         {% endif %}
     </a>
+
 </div>
 {% empty %}
     <p>Проекты пока не добавлены.</p>
 {% endfor %}
+ 
 </div>
 
 {% endblock %}
