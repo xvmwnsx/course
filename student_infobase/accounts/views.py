@@ -36,11 +36,15 @@ def office(request):
         student = None
 
     can_edit = user.role in ['teacher', 'admin']
+    
+    user = request.user
+    gpa = user.get_gpa()
 
     return render(
         request, 
         'accounts/office.html', 
-        {'user': user, 'student': student, 'can_edit': can_edit}
+        {'user': user, 'student': student,
+        'gpa': gpa, 'can_edit': can_edit}
     )
 
 from .models import Vitrina
@@ -120,3 +124,4 @@ def delete_project(request, project_id):
 def project_detail(request, project_id):
     project = get_object_or_404(Vitrina, id=project_id)
     return render(request, 'accounts/project_detail.html', {'project': project})
+

@@ -16,8 +16,13 @@
     
     {% if student %}
         <p><strong>Направление / Профиль / Номер группы: </strong>{{ student.group }}</p>
-        
-          
+        <p><strong>Средний балл:</strong>
+            {% if gpa %}
+                {{ gpa }}
+            {% else %}
+                Недостаточно данных
+            {% endif %}
+        </p>
     {% endif %}
 </div>
 {% if student %}

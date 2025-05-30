@@ -73,6 +73,17 @@ class CustomUser(AbstractUser):
     ]
     role = models.CharField(max_length=20, choices=ROLE_CHOICES, null=True, blank=True, verbose_name = "Роль")
 
+
+    def get_gpa(self):
+        exams = self.exam_records.filter(status__in=['3', '4', '5'])
+        if not exams.exists():
+            return None
+        numeric_values = [int(exam.status) for exam in exams]
+        return round(sum(numeric_values) / len(numeric_values), 2)
+
+
+
+
     def full_name(self):
         return f"{self.surname} {self.first_name} {self.last_name}"
 
@@ -89,6 +100,7 @@ class Student(models.Model):
     
     def __str__(self):
         return f"Студент {self.user.get_full_name()}"
+
 
 
 
