@@ -1,20 +1,16 @@
 .tag {
     display: inline-block;
-    background-color: #3b82f6; /* красивый синий */
-    color: white;
-    padding: 4px 12px;
-    border-radius: 16px;
-    font-size: 14px;
-    font-weight: 500;
-    margin-right: 8px; /* расстояние между тегами */
-    margin-bottom: 6px; /* если переносятся на следующую строку */
-    cursor: default;
-    user-select: none;
-    transition: background-color 0.3s ease;
+      margin-bottom: 10px;
+      color: #444;
+      background-color: #f0f0f0;
+      padding: 6px 10px;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: 0.2s;
 }
 
 .tag:hover {
-    background-color: #2563eb; /* темнее при наведении */
+    background-color: #d0d0ff; 
 }
 
 

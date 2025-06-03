@@ -2,9 +2,14 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.views import LoginView
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseForbidden
 from django.utils.translation import gettext as _
 from accounts.models import Student
+from django.shortcuts import get_object_or_404
+from .models import Vitrina
+from .forms import StudentProjectForm
+from taggit.models import Tag
+
 
 def user_login(request):
     if request.method == 'POST':
@@ -47,11 +52,6 @@ def office(request):
         'gpa': gpa, 'can_edit': can_edit}
     )
 
-from .models import Vitrina
-from .forms import StudentProjectForm
-from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseForbidden
-
 @login_required
 def my_vitrina(request):
     try:
@@ -59,13 +59,24 @@ def my_vitrina(request):
     except Student.DoesNotExist:
         return HttpResponseForbidden("Только студенты могут просматривать свои проекты.")
 
-    my_projects = Vitrina.objects.filter(student=student).order_by('-created_at')
+    my_projects = Vitrina.objects.filter(student=student, status='approved').order_by('-created_at')
     return render(request, 'accounts/my_vitrina.html', {'projects': my_projects})
 
-
 def vitrina(request):
-    projects = Vitrina.objects.select_related('student__user').order_by('-created_at')
-    return render(request, 'accounts/vitrina.html', {'projects': projects})
+    tag_slug = request.GET.get('tag')
+    
+    if tag_slug:
+        projects = Vitrina.objects.filter(status='approved', tags__slug=tag_slug)
+    else:
+        projects = Vitrina.objects.filter(status='approved')
+
+    all_tags = Tag.objects.all()
+
+    return render(request, 'accounts/vitrina.html', {
+        'projects': projects,
+        'all_tags': all_tags,
+        'tag_slug': tag_slug,
+    })
 
 @login_required
 def vitrina_add(request):
@@ -79,13 +90,15 @@ def vitrina_add(request):
         if form.is_valid():
             project = form.save(commit=False)
             project.student = student
+            project.status = 'pending'
             project.save()
-            return redirect('vitrina')
+            return redirect('pending')  
     else:
         form = StudentProjectForm()
     return render(request, 'accounts/vitrina_add.html', {'form': form})
 
-from django.shortcuts import get_object_or_404
+def pending(request):
+    return render(request, 'accounts/pending.html')
 
 @login_required
 def edit_project(request, project_id):
@@ -104,7 +117,6 @@ def edit_project(request, project_id):
     else:
         form = StudentProjectForm(instance=project)
     return render(request, 'accounts/edit_project.html', {'form': form, 'project': project})
-
 
 @login_required
 def delete_project(request, project_id):

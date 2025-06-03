@@ -14,6 +14,7 @@ urlpatterns = [
     path('vitrina/delete/<int:project_id>/', views.delete_project, name='delete_project'),
     path('vitrina/project/<int:project_id>/', views.project_detail, name='project_detail'),
     path('tag-autocomplete/', TagAutocomplete.as_view(), name='tag-autocomplete'),
+    path('pending/', views.pending, name='pending'),
     
     path('password-change/', auth_views.PasswordChangeView.as_view(), name='password_change'),
     path('password-change/done/', auth_views.PasswordChangeDoneView.as_view(), name='password_change_done'),

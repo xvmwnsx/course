@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Проект на модерации{% endblock %}
+{% block content %}
+{% load static %}
+
+  <div class="pending-message" style="text-align: center; padding: 50px;">
+    <h2>Ваш проект был направлен на модерацию</h2>
+    <p>После проверки модератором он появится в витрине.</p>
+    <a href="{% url 'my_vitrina' %}" class="btn">Вернуться на витрину</a>
+  </div>
+{% endblock %}

@@ -2,33 +2,50 @@
 {% block title %}Витрина проектов{% endblock %}
 {% block content %}
 {% load static %}
-<head><link rel="stylesheet" href="{% static 'css/vitrina.css' %}"></head>
-<h2>Витрина проектов</h2>
+<head>
+  <link rel="stylesheet" href="{% static 'css/vitrina.css' %}">
+</head>
+
+<h2 class="title">Витрина проектов</h2>
+
 <div class="opisanie"> 
     <p>Это выставочное пространство, где представлены разнообразные научные или инженерные проекты.</p>
-    <p>Здесь студенты имеют возможность демонстрировать свои успехи и представлять результаты своих исследований и разработок.
-        В рамках этой витрины могут быть представлены прототипы, технические решения, научные открытия и другие инновационные результаты работ.
-    </p>
-
-<hr>
-<br>
+    <p>Здесь студенты имеют возможность демонстрировать свои успехи и представлять результаты своих исследований и разработок. В рамках этой витрины могут быть представлены прототипы, технические решения, научные открытия и другие инновационные результаты работ.</p>
 </div>
-    
-<div class="project-gallery">
-{% for project in projects %}
-<div class="project-card">
-    <a href="{% url 'project_detail' project.id %}">
-        <h3>{{ project.title }}</h3>
-        {% if project.cover %}
-            <img src="{{ project.cover.url }}" alt="cover" style="max-width:100%;">
+
+<div class="vitrina-container">
+    <div class="projects">
+        <h3>Проекты{% if tag_slug %} по тегу "{{ tag_slug }}"{% endif %}</h3>
+        {% if projects %}
+            {% for project in projects %}
+                <a href="{% url 'project_detail' project.id %}" class="project-link">
+                <div class="project-card">
+                    {% if project.cover %}
+                        <img src="{{ project.cover.url }}" alt="Обложка" class="project-image">
+                    {% endif %}
+                    <h4>{{ project.title }}</h4>
+                    <p>{{ project.description|truncatewords:40 }}</p>
+                    <p class="tags">
+                        <strong>Теги:</strong>
+                        {% for tag in project.tags.all %}
+                            <span class="tag-link">{{ tag.name }}</span>{% if not forloop.last %}, {% endif %}
+                        {% endfor %}
+                    </p>
+                </div>
+                </a>
+            {% endfor %}      
+        {% else %}
+            <p>Нет проектов по выбранному тегу.</p>
         {% endif %}
-    </a>
+    </div>
 
+    <div class="sidebar">
+        <h4>Теги</h4>
+        <ul class="tag-list">
+            {% for tag in all_tags %}
+                <li><a href="?tag={{ tag.slug }}" class="tag-filter">{{ tag.name }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
 </div>
-{% empty %}
-    <p>Проекты пока не добавлены.</p>
-{% endfor %}
- 
-</div>
-
 {% endblock %}

@@ -5,11 +5,15 @@
 <head>
     <link rel="stylesheet" href="{% static 'css/schedule_edit.css' %}">
 </head>
-    <h2>Редактировать расписание</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Сохранить</button>
-    </form>
-    <a href="{% url 'schedule_list' %}">⬅ Назад</a>
+<div class="container">
+    <div class="container_2">
+        <h2>Редактировать расписание</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Сохранить</button>
+        </form>
+    </div>
+</div>
+<a href="{% url 'schedule_list' %}">⬅ Назад</a>
 {% endblock %}

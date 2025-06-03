@@ -3,6 +3,11 @@ from .models import CustomUser, Group, Student, Teacher, Faculty, Department, Di
 from django.contrib.auth.admin import UserAdmin
 from taggit.models import Tag
 from taggit.admin import TagAdmin
+from django import forms
+from taggit.managers import TaggableManager
+from dal import autocomplete
+from .models import Vitrina
+from .autocomplete import TagAutocomplete
 
 class StudentInline(admin.StackedInline):
     model = Student
@@ -107,15 +112,6 @@ class DepartmentAdmin(admin.ModelAdmin):
     list_filter = ('faculty',)
     search_fields = ('name',)
 
-from django import forms
-from django.contrib import admin
-from taggit.models import Tag
-from taggit.managers import TaggableManager
-from dal import autocomplete
-
-from .models import Vitrina
-from .autocomplete import TagAutocomplete
-
 class VitrinaForm(forms.ModelForm):
     class Meta:
         model = Vitrina
@@ -129,10 +125,19 @@ class VitrinaForm(forms.ModelForm):
 @admin.register(Vitrina)
 class VitrinaAdmin(admin.ModelAdmin):
     form = VitrinaForm
-    list_display = ('title', 'student_name', 'created_at', 'tag_list')
+    list_display = ('title', 'student_name', 'created_at', 'tag_list','status')
     search_fields = ('title', 'student__user__first_name', 'student__user__surname')
-    list_filter = ('created_at',)
+    list_filter = ('created_at', 'status')
     autocomplete_fields = ['student']
+    actions = ['approve_projects', 'reject_projects']
+    
+    def approve_projects(self, request, queryset):
+        queryset.update(status='approved')
+    approve_projects.short_description = "Одобрить выбранные проекты"
+
+    def reject_projects(self, request, queryset):
+        queryset.update(status='rejected')
+    reject_projects.short_description = "Отклонить выбранные проекты"
 
     def student_name(self, obj):
         return obj.student.user.get_full_name()
@@ -142,9 +147,7 @@ class VitrinaAdmin(admin.ModelAdmin):
         return ", ".join(tag.name for tag in obj.tags.all())
     tag_list.short_description = 'Теги'
 
-
-
-
+    
 admin.site.unregister(Tag)
 admin.site.register(Tag, TagAdmin)
 admin.site.register(CustomUser, CustomUserAdmin)

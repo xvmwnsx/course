@@ -14,8 +14,7 @@ class StudentProjectForm(forms.ModelForm):
     tags = forms.ModelMultipleChoiceField(
         queryset=Tag.objects.all(),
         required=False,
-        widget=forms.SelectMultiple(attrs={'class': 'tag-select'})
-    )
+        widget=forms.SelectMultiple(attrs={'class': 'tag-select'}))
     class Meta:
         model = Vitrina
         fields = ['title', 'description', 'image', 'cover', 'tags']
@@ -24,12 +23,10 @@ class StudentProjectForm(forms.ModelForm):
             'description': 'Описание',
             'image': 'Фото (дополнительное)',
             'cover': 'Обложка проекта',
-            'tags': 'Теги'
-        }
+            'tags': 'Теги'}
         widgets = {
             'cover': CustomClearableFileInput(attrs={'class': 'custom-file'}),
-            'tags': TagWidget(attrs={'class': 'tag-select'}),
-        }
+            'tags': TagWidget(attrs={'class': 'tag-select'}),}
 
 class CustomPasswordChangeForm(PasswordChangeForm):
     old_password = forms.CharField(
