@@ -13,27 +13,25 @@
             <h1>Cистема учета успеваемости</h1>
             
             <a href="{% url 'home' %}" class="{% if request.path == '/' %}active{% endif %}">Главная</a>
-<a href="{% url 'office' %}" class="{% if request.path == '/accounts/office/' %}active{% endif %}">Личный кабинет</a>
+            <a href="{% url 'office' %}" class="{% if request.path == '/accounts/office/' %}active{% endif %}">Личный кабинет</a>
 
-{% if user.is_authenticated %}
-    <a href="{% url 'schedule_list' %}" class="{% if request.path == '/schedule/list/' %}active{% endif %}">Расписание</a>
-    <a href="{% url 'grade_list' %}" class="{% if request.path == '/grades/' %}active{% endif %}">Журнал</a>
-{% endif %}
+            {% if user.is_authenticated %}
+                <a href="{% url 'schedule_list' %}" class="{% if request.path == '/schedule/list/' %}active{% endif %}">Расписание</a>
+                <a href="{% url 'grade_list' %}" class="{% if request.path == '/grades/' %}active{% endif %}">Журнал</a>
+            {% endif %}
 
-<a href="{% url 'vitrina' %}" class="{% if request.path == '/vitrina/' %}active{% endif %}">Витрина</a>
+            <a href="{% url 'vitrina' %}" class="{% if request.path == '/vitrina/' %}active{% endif %}">Витрина</a>
 
             {% if user.is_authenticated %}
                 <div class="header-user">
                     <span>{{ user.username }},</span>
                     <form action="{% url 'logout' %}" method="post">
                         {% csrf_token %}
-                        <button type="submit">
-                        Выйти
-                        </button>
+                        <button type="submit">Выйти</button>
                     </form>
                 </div>
             {% else %}
-            <a href="{% url 'login' %}" class="{% if request.path == '/accounts/login/' %}active{% endif %}">Войти</a>
+                <a href="{% url 'login' %}" class="{% if request.path == '/accounts/login/' %}active{% endif %}">Войти</a>
             {% endif %}
         </nav>
     </header>
@@ -43,7 +41,7 @@
         {% endblock %}
     </main>
     <footer>
-        <p>2025, Информационная система учета успеваемости студентов</p>
+        <p>2025, Система учета успеваемости студентов</p>
     </footer>
 </body>
 </html>

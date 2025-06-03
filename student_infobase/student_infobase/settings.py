@@ -122,7 +122,7 @@ USE_TZ = True
 
 DEFAULT_CHARSET = 'utf-8'
 
-LOGOUT_REDIRECT_URL = 'logout'
+LOGOUT_REDIRECT_URL = '/'
 
 LOGIN_REDIRECT_URL = 'office'
 

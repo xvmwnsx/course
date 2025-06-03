@@ -18,12 +18,12 @@
     }
     
     .opisanie {
-      max-width: 800px;
+      max-width: 900px;
       margin: 0 auto;
-      font-size: 16px;
+      font-size: 18px;
       color: #333;
       line-height: 1.6;
-      text-align: center;
+
     }
     
     .vitrina-container {
@@ -31,19 +31,23 @@
       gap: 30px;
       padding: 40px 60px;
     }
-    
+
     .projects {
-      flex: 3;
+          display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
     }
-    
     .project-card {
-      background-color: #fff;
-      border: 1px solid #ddd;
-      border-radius: 12px;
-      padding: 20px;
-      margin-bottom: 20px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-      transition: transform 0.2s ease;
+      width: 100%;
+  box-sizing: border-box;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease;
+  text-align: center;
+  font-size: 14px;
     }
     
     .project-card:hover {
@@ -51,10 +55,11 @@
     }
     
     .project-image {
-      max-width: 100%;
-      height: auto;
-      border-radius: 8px;
-      margin-bottom: 10px;
+  width: 100%;
+
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 10px;
     }
     
     .tags {
@@ -71,25 +76,28 @@
     }
     
     .sidebar {
-      flex: 1;
-      border-left: 1px solid #ccc;
-      padding-left: 20px;
+        flex: 1;
+  border-left: 1px solid #ccc;
+  padding-left: 20px;
+  max-width: 250px; 
+  min-width: 180px;
     }
     
     .tag-list {
       list-style: none;
       padding: 0;
+       margin: 0;
     }
     
     .tag-filter {
       display: inline-block;
-      margin-bottom: 10px;
-      color: #444;
-      background-color: #f0f0f0;
-      padding: 6px 10px;
-      border-radius: 6px;
-      text-decoration: none;
-      transition: 0.2s;
+  margin-bottom: 10px;
+  color: #444;
+  background-color: #f0f0f0;
+  padding: 6px 10px;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: 0.2s;
     }
     
     .tag-filter:hover {

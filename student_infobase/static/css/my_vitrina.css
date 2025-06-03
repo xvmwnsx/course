@@ -8,11 +8,12 @@ h2 {
     gap: 20px;
 }
 .project-card {
-    width: 350px;
+    text-align: center;
+    max-width: 400px;
     border: 1px solid #ccc;
     padding: 10px;
     border-radius: 12px;
-    background: #f9f9f9;
+    background: white;
     transition: box-shadow 0.3s ease;
 
 }

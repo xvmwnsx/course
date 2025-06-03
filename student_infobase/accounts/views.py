@@ -112,8 +112,11 @@ def edit_project(request, project_id):
     if request.method == 'POST':
         form = StudentProjectForm(request.POST, request.FILES, instance=project)
         if form.is_valid():
-            form.save()
-            return redirect('my_vitrina')
+            project = form.save(commit=False)
+            project.student = student
+            project.status = 'pending'
+            project.save()
+            return redirect('pending') 
     else:
         form = StudentProjectForm(instance=project)
     return render(request, 'accounts/edit_project.html', {'form': form, 'project': project})

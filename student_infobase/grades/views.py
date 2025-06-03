@@ -136,7 +136,7 @@ def edit_grades(request, subject_id):
 
     grade_choices = Grade.GRADE_CHOICES  
 
-    months = { 1: "Январь", 2: "Февраль", 3: "Март", 4: "Апрель", 5: "Май", 6: "Июнь",
+    months = { 1: "Январь", 2: "Февраль", 3: "Март", 4: "Апрель", 5: "Май",
         9: "Сентябрь", 10: "Октябрь", 11: "Ноябрь", 12: "Декабрь"}
     year_range = list(range(today.year - 5, today.year + 1))
 

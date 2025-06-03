@@ -9,8 +9,8 @@ def is_not_student(user):
     return user.role != 'student'
 
 urlpatterns = [
-    path('', home_view, name='home'),
     path('admin/', admin.site.urls),
+    path('', home_view, name='home'),
     path('accounts/', include('accounts.urls')),
     path('grades/', include('grades.urls')),    
     path('schedule/', include('schedule.urls')),

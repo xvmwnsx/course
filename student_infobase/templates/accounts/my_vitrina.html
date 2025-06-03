@@ -13,10 +13,11 @@
     {% if projects %}
     {% for project in projects %}
         <div class="project-card">
-                <h3>{{ project.title }}</h3>
+                
                 {% if project.cover %}
                     <img src="{{ project.cover.url }}" alt="cover" style="max-width:100%;">
                 {% endif %}
+                <h3>{{ project.title }}</h3>
                 <div class="links">
                     <a href="{% url 'edit_project' project.id %}">✏️ Редактировать</a>
                     <a href="{% url 'delete_project' project.id %}">🗑️ Удалить</a>
