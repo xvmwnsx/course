@@ -60,7 +60,7 @@ body {
   transition: 0.3s;
 }
 
-h1 {
+.nav h1 {
   text-align: center;
   margin-right: 65px;
   margin-left: 5px;
@@ -69,7 +69,7 @@ h1 {
   color: #4960c6;
 }
 
-h2 {
+.nav h2 {
   text-align: center;
     font-size: 30px;
 }
