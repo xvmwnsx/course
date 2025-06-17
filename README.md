@@ -7,3 +7,7 @@
 
 docker compose build --no-cache
 docker compose up -d 
+
+// Для миграций
+docker compose exec -it student_infobase-python bash
+python manage.py migrate
