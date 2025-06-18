@@ -25,10 +25,6 @@ services:
       dockerfile: docker/python/Dockerfile
     volumes:
       - ./student_infobase:/srv/www/student_infobase
-    expose:
-      - 8000
-    ports:
-      - 8000:8000
     environment:
       - EMAIL_HOST_USER=your_email@gmail.com
       - EMAIL_HOST_PASSWORD=your_app_password
