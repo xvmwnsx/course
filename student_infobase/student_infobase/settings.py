@@ -22,7 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-!@xuu^jop)p+nbi_dt(+=s#9my%0%07egbjbi#a@_iebknyh4='
 
-ALLOWED_HOSTS = ['10.0.2.2', '127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['10.0.2.2', '127.0.0.1', 'localhost', 'student_infobase-nginx']
 
 
 DEBUG = True
@@ -33,6 +33,8 @@ DATABASES = {
         'NAME': 'students_info',
         'USER': 'postgres',
         'PASSWORD': '12345',
+        'HOST': 'student_infobase-postgres',
+        'PORT': '5432',
     }
 }
 

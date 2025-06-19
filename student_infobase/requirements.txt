@@ -73,3 +73,4 @@ typing_extensions==4.13.2
 tzdata==2024.2
 urllib3==2.4.0
 XlsxWriter==3.2.2
+django-autocomplete-light==3.9.2
