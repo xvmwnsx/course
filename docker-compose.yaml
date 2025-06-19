@@ -1,4 +1,3 @@
-version: '3'
 volumes:
   pgdata:
     driver: local
@@ -30,8 +29,8 @@ services:
     ports:
       - 8000:8000
     environment:
-      - EMAIL_HOST_USER=your_email@gmail.com
-      - EMAIL_HOST_PASSWORD=your_app_password
+      - EMAIL_HOST_USER=kochetkovaksenia1@gmail.com
+      - EMAIL_HOST_PASSWORD=ilyw soon dojn vwhb
       - EMAIL_PORT=587
       - EMAIL_USE_TLS=True
     command: "python manage.py runserver 0.0.0.0:8000"
