@@ -24,8 +24,12 @@ SECRET_KEY = 'django-insecure-!@xuu^jop)p+nbi_dt(+=s#9my%0%07egbjbi#a@_iebknyh4=
 
 ALLOWED_HOSTS = ['10.0.2.2', '127.0.0.1', 'localhost', 'student_infobase-nginx']
 
+CSRF_TRUSTED_ORIGINS = [
+    "http://127.0.0.1:81",
+]
 
-DEBUG = True
+
+DEBUG = False
 
 DATABASES = {
     'default': {
