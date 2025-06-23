@@ -1,0 +1,45 @@
+volumes:
+  pgdata:
+    driver: local
+
+services:
+  student_infobase-nginx:
+    restart: always
+    image: nginx:1.27.5
+    expose:
+      - 8080
+    ports:
+      - "81:8080"
+    volumes:
+      - ./student_infobase/static:/srv/www/student_infobase/static
+      - ./student_infobase/media:/srv/www/student_infobase/media
+      - ./docker/nginx:/etc/nginx/conf.d
+    depends_on:
+      - student_infobase-python
+
+  student_infobase-python:
+    restart: always
+    build:
+      context: .
+      dockerfile: docker/python/Dockerfile
+    volumes:
+      - ./student_infobase:/srv/www/student_infobase
+    environment:
+      - EMAIL_HOST_USER= ${EMAIL_HOST_USER}
+      - EMAIL_HOST_PASSWORD= ${EMAIL_HOST_PASSWORD}
+      - EMAIL_PORT=587
+      - EMAIL_USE_TLS=True
+    command: "python manage.py runserver 0.0.0.0:8000"
+    
+
+  student_infobase-postgres:
+    image: postgres:16.9
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      PGDATA: /var/lib/postgresql/data
+    volumes:
+      - pgdata:/var/lib/postgresql/data

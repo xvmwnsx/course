@@ -4,3 +4,10 @@
 
 На этой странице история проекта разработки веб-приложения учебной успеваемости которое позволяет автоматизировать процесс составления, обновления и просмотра отчетов расписания и оценок для учебных заведений.
 
+
+docker compose build --no-cache
+docker compose up -d 
+
+// Для миграций
+docker compose exec -it student_infobase-python bash
+python manage.py migrate
