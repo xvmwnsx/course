@@ -1,0 +1,138 @@
+.login_btn {
+    margin: 20px;
+    padding-bottom: 25px;
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    gap: 20px; 
+    font-family: Arial, sans-serif;
+}
+
+.login_btn a {
+    text-decoration: none;
+    padding: 13px 50px; 
+    border-radius: 12px;
+    font-weight: bold;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.login_btn a:first-child {
+    background-color: #C21E41; 
+    color: white; 
+    border: 2px solid #C21E41; 
+}
+
+.login_btn a:first-child:hover {
+    background-color: white; 
+    color: #C21E41; 
+}
+
+.login_btn a:last-child {
+    background-color: #667EEA; 
+    color: white; 
+    border: 2px solid #667EEA;
+}
+
+.login_btn a:last-child:hover {
+    background-color: white; 
+    color: #667EEA; 
+}
+
+.search {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 12vh;
+    padding: 10px;
+}
+
+.search_form {
+    width: 100%;
+    max-width: 600px;
+    position: relative;
+}
+
+#search_input {
+    width: 100%;
+    padding: 14px 0px 14px 20px;
+    font-size: 16px;
+    border: 2px solid #ddd;
+    border-radius: 25px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: 0.3s;
+    outline: none;
+}
+
+#search_input:focus {
+    border-color: #667eea;
+    box-shadow: 0 3px 10px rgba(76, 175, 80, 0.3);
+}
+
+.search_form::after {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 20px;
+    color: #777;
+    cursor: pointer;
+}
+
+h2 {
+    margin-top: 20px;
+    font-size: 1.8rem;
+    text-align: center;
+    font-weight: bold;
+}
+
+h3 {
+    font-size: 1.3rem;
+    color: #333;
+    margin-bottom: 12px;
+    text-align: center;
+}
+
+.features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    margin: 30px auto;
+    padding: 15px;
+    max-width: 1200px;
+}
+
+.feature-item {
+    padding: 25px;
+    border-radius: 12px;
+    background: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: 0.3s ease-in-out;
+}
+
+.feature-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.feature-item p {
+    font-size: 1rem;
+    color: #555;
+    line-height: 1.5;
+    margin-top: 10px;
+}
+
+@media (max-width: 768px) {
+    .features {
+        grid-template-columns: 1fr;
+        padding: 5px;
+    }
+
+    .search_form {
+        padding: 0 15px;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+}

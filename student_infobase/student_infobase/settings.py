@@ -20,11 +20,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
+
 SECRET_KEY = 'django-insecure-!@xuu^jop)p+nbi_dt(+=s#9my%0%07egbjbi#a@_iebknyh4='
 
-ALLOWED_HOSTS = ['10.0.2.2', '127.0.0.1', 'localhost', 'student_infobase-nginx']
+ALLOWED_HOSTS = ['84.201.152.228', '84.201.152.228:81', '84.252.139.233', '84.252.139.233:81']
 
-CSRF_TRUSTED_ORIGINS = [
+
+CSRF_TRUSTED_ORIGINS = [ 
+"http://84.201.152.228:81", "http://84.252.139.233:81",
+
     "http://127.0.0.1:81",
 ]
 
@@ -151,11 +155,11 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 
-STATICFILES_DIRS = [
-    BASE_DIR / "static",
-]
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

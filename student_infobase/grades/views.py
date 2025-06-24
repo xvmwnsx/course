@@ -169,22 +169,60 @@ def edit_grades(request, subject_id):
         'selected_year': selected_year,
     })
 
-@login_required(login_url='/') 
-def edit_exam(request, exam_id):
-    exam = get_object_or_404(Exam, id=exam_id)
-    exams = Exam.objects.filter(subject=exam.subject)
+from django.utils import timezone
+from django.shortcuts import get_object_or_404, render, redirect
+from .models import Exam
+
+from django.shortcuts import render, get_object_or_404, redirect
+from django.utils import timezone
+from .models import Exam, Classes
+from accounts.models import CustomUser
+
+def edit_exam(request, subject_id):
+    subject = get_object_or_404(Classes, id=subject_id)
+
+    user = request.user
+    is_student = user.role == 'student'
+
+    if is_student:
+        students = CustomUser.objects.filter(id=user.id)
+    else:
+        students = CustomUser.objects.filter(
+            student__group=subject.group,
+            role='student'
+        ).order_by('surname', 'first_name')
 
     if request.method == 'POST':
-        for exam in exams:
-            status_key = f'status_{exam.student.id}'
-            status = request.POST.get(status_key, exam.status)
-            
-            exam.status = status
-            exam.save()
-        
-        return redirect('grade_list')
+        for student in students:
+            status = request.POST.get(f'status_{student.id}')
+            if status:
+                exam, created = Exam.objects.get_or_create(
+                    student=student,
+                    subject=subject,
+                    defaults={
+                        'teacher': request.user,
+                        'status': status,
+                        'date': timezone.now().date()
+                    }
+                )
+                if not created:
+                    exam.status = status
+                    exam.date = timezone.now().date()
+                    exam.teacher = request.user
+                    exam.save()
 
-    return render(request, 'grades/edit_exam.html', {'exams': exams, 'subject': exam.subject})
+        return redirect('subject_grades')
+
+    exams = Exam.objects.filter(subject=subject)
+    exam_dict = {exam.student_id: exam for exam in exams}
+
+    return render(request, 'grades/edit_exam.html', {
+        'subject': subject,
+        'students': students,
+        'exam_dict': exam_dict,
+        'EXAM_CHOICES': Exam.EXAM_CHOICES
+    })
+
 
 from django.http import Http404
 

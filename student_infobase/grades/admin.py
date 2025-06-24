@@ -62,5 +62,13 @@ class ExamAdmin(admin.ModelAdmin):
         if db_field.name == 'teacher':
             kwargs['queryset'] = CustomUser.objects.filter(role='teacher')
         elif db_field.name == 'student':
-            kwargs['queryset'] = CustomUser.objects.filter(role='student')
+            try:
+                subject_id = int(request.path.split('/')[-3]) 
+                subject = Classes.objects.get(id=subject_id)
+                group = subject.group
+                student_ids = Student.objects.filter(group=group).values_list('user__id', flat=True)
+                kwargs['queryset'] = CustomUser.objects.filter(id__in=student_ids, role='student')
+            except Exception as e:
+                kwargs['queryset'] = CustomUser.objects.none()
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
+

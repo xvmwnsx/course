@@ -1,0 +1,11 @@
+.reset_complete h1 {
+    text-align: center;
+    color: black;
+  }
+  .reset_complete {
+    display: block;
+    
+  }
+  .reset_complete p {
+    text-align: center;
+  }

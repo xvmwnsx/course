@@ -43,7 +43,7 @@
                     <tbody>
                         {% for student in students %}
                             <tr>
-                                <td>{{ student.last_name }} {{ student.first_name }}</td>
+                                <td>{{ student.surname  }} {{ student.first_name }}  {{ student.last_name }}</td>
                                 {% for date in date_list %}
                                     <td>
                                         <select name="grade_{{ student.id }}_{{ date }}">

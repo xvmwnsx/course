@@ -1,0 +1,47 @@
+.sbros form {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  gap: 5px;
+  max-width: 600px;
+}
+input[type="submit"]:hover {
+background: #764ba2;
+}
+
+input[type="submit"] {
+background-color: #667eea;
+color: white;
+border: none;
+cursor: pointer;
+width: 100%;
+border: none;
+padding: 12px;
+font-size: 16px;
+border-radius: 8px;
+margin-top: 10px;
+transition: 0.3s;
+}
+input[type="email"] {
+width: 95%;
+padding: 10px;
+margin: 10px 0;
+border: 1px solid #ccc;
+border-radius: 8px;
+font-size: 16px;
+outline: none;
+}
+
+input:focus {
+border-color: #667eea;
+box-shadow: 0 0 5px rgba(102, 126, 234, 0.5);
+}
+p {
+text-align: center;
+}
+h2 {
+text-align: center;
+}

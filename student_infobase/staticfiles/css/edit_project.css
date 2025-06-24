@@ -1,0 +1,131 @@
+.edit-container {
+    max-width: 800px;
+    margin: 40px auto;
+    background: #fff;
+    padding: 30px 40px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    font-family: Arial, sans-serif;
+}
+
+.edit-container h2 {
+    font-size: 26px;
+    margin-bottom: 25px;
+    color: #2c3e50;
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 25px;
+    display: block; 
+}
+
+.form-group > label {
+    display: block;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: #34495e;
+}
+
+.form-group input[type="text"],
+.form-group textarea {
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 18px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+    transition: border-color 0.3s;
+    font-family: inherit;
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 150px;
+    max-height: 400px;
+}
+
+.form-group input[type="text"]:focus,
+.form-group textarea:focus {
+    border-color: #3498db;
+    outline: none;
+}
+
+.form-group a {
+    color: #2980b9;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.form-group a:hover {
+    text-decoration: underline;
+}
+
+.form-group input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    vertical-align: middle;
+    margin-right: 6px;
+    cursor: pointer;
+}
+
+.form-group label[for="cover-clear_id"] {
+    display: inline-block;
+    vertical-align: middle;
+    font-weight: normal;
+    cursor: pointer;
+}
+
+.form-group .checkbox-wrapper {
+    margin-top: 8px;
+    margin-bottom: 12px;
+}
+
+input[type="file"] {
+    padding: 6px 10px;
+    font-size: 15px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background-color: #f5f5f5;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+input[type="file"]:hover {
+    background-color: #e6f0fb;
+    border-color: #3498db;
+}
+
+.btn-save {
+    display: block;
+    width: 100%;
+    padding: 14px 0;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    font-size: 18px;
+    font-weight: 700;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
+}
+
+.btn-save:hover {
+    background-color: #2980b9;
+}
+
+.btn-back {
+    display: inline-block;
+    margin-top: 25px;
+    color: #7f8c8d;
+    font-size: 15px;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.btn-back:hover {
+    color: #2c3e50;
+}
+
+

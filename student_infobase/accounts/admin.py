@@ -21,28 +21,33 @@ class TeacherInline(admin.StackedInline):
     verbose_name_plural = 'Данные преподавателя'
     fk_name = 'user'
 
-
 class CustomUserAdmin(UserAdmin):
     model = CustomUser
+
     fieldsets = (
         (None, {'fields': ('username', 'password', 'email')}),
         ('Персональная информация', {
             'fields': ('surname', 'first_name', 'last_name', 'role'),
         }),
         ('Даты', {'fields': ('last_login', 'date_joined')}),
+        ('Права доступа', {'fields': ('is_active', 'is_superuser')}),
     )
+
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('username', 'email', 'surname', 'first_name', 'last_name', 'role', 'password1', 'password2'),
+            'fields': (
+                'username', 'email', 'surname', 'first_name', 'last_name',
+                'role', 'password1', 'password2', 'is_active', 'is_superuser'
+            ),
         }),
     )
 
-    list_display = ('username', 'surname', 'first_name', 'last_name', 'role')
+    list_display = ('username', 'surname', 'first_name', 'last_name', 'role', 'is_superuser')
     search_fields = ('username', 'surname', 'first_name', 'last_name', 'role')
     ordering = ('username', 'email')
-    exclude = ('is_staff', 'is_superuser', 'groups', 'user_permissions')
-    
+    exclude = ('is_staff', 'groups', 'user_permissions')
+
     def get_inline_instances(self, request, obj=None):
         if not obj:
             return []
@@ -51,7 +56,6 @@ class CustomUserAdmin(UserAdmin):
         elif obj.role == 'teacher':
             return [TeacherInline(self.model, self.admin_site)]
         return []
-
 
 class StudentAdmin(admin.ModelAdmin):
     list_display = ('group', 'user__surname', 'user__first_name', 'user__last_name', 'user', 'year')
